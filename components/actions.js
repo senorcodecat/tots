@@ -10,7 +10,7 @@ module.exports = function(webserver, db) {
             post.user = req.user_profile._id;
             post.save();
             debug('NEW POST',post);
-            res.redirect('/user');
+            res.redirect('/me');
         } else {
             res.redirect('/login');
         }
