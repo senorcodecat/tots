@@ -1,0 +1,77 @@
+* {
+  box-sizing: border-box; }
+
+html, body {
+  font-size: 18px;
+  font-family: 'ibm plex sans','helvetica',sans-serif;
+  background: #f0f0f0;
+  padding: 0;
+  margin: 0; }
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0; }
+  nav ul li {
+    display: inline-block; }
+
+button {
+  font-size: 18px;
+  border: 0px;
+  border-radius: 6px;
+  padding: 0.25rem 1rem; }
+
+header {
+  padding: 0 1rem; }
+
+.wrapper {
+  max-width: 600px;
+  margin: 0px auto; }
+
+.post_form {
+  padding: 1rem;
+  background: #FFF; }
+  .post_form .composer {
+    display: flex; }
+  .post_form .avatar {
+    width: 32px;
+    height: 32px;
+    flex-grow: 0;
+    flex-shrink: 0; }
+  .post_form textarea {
+    flex-grow: 1;
+    margin-bottom: 1rem;
+    font-size: 20px;
+    height: 32px; }
+    .post_form textarea:focus {
+      min-height: 4rem; }
+  .post_form .actions {
+    text-align: right; }
+
+ul.posts {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background: #FFF; }
+  ul.posts > li {
+    margin: 1rem 0;
+    border-top: 1px solid #CCC;
+    padding: 0.5rem 1rem 0; }
+    ul.posts > li .byline {
+      margin-bottom: 0.25rem; }
+      ul.posts > li .byline .username {
+        font-weight: bold; }
+    ul.posts > li .text {
+      display: block;
+      margin-bottom: 0.5rem; }
+    ul.posts > li .date {
+      font-weight: lighter; }
+    ul.posts > li .actions {
+      list-style-type: none;
+      margin: 0;
+      padding: 0; }
+      ul.posts > li .actions li {
+        display: inline-block;
+        margin-right: 1rem; }
+
+/*# sourceMappingURL=styles.css.map */

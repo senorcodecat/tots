@@ -1,0 +1,28 @@
+<h1>{{profile.displayName}}</h1>
+
+<ul class="posts">
+{{#posts}}
+<li>
+    <div class="byline">
+        <span class="username">{{user.displayName}}</span> <span class="date">{{dateFormat date "MMM Do, h:mm a"}}</span>
+    </div>
+    <div class="text">
+        {{{text}}}
+    </div>
+
+    <ul class="actions">
+         <li>⭐️</li>
+        <li>💬</li>
+    </ul>
+
+</li>
+{{/posts}}
+</ul>
+
+{{#previous}}
+<a href="/@{{../profile.username}}/{{.}}">Previous</a>
+{{/previous}}
+
+{{#next}}
+<a href="/@{{../profile.username}}/{{.}}">Next</a>
+{{/next}}
