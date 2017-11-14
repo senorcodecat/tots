@@ -19,7 +19,8 @@ button {
   font-size: 18px;
   border: 0px;
   border-radius: 6px;
-  padding: 0.25rem 1rem; }
+  padding: 0.25rem 1rem;
+  background-color: #FFCCCC; }
 
 header {
   padding: 0 1rem; }
