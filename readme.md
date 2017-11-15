@@ -17,6 +17,8 @@ DONE:
 * view faves page
 * able to follow/unfollow
 * able to view feed
+* hashtags
+* search
 
 TODO:
 
@@ -24,10 +26,8 @@ editable usernames
 view followers
 view following
 replies
-search
 @mentions
 post permalinks
-hashtags
 blocking
 
 BORING:
