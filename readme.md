@@ -22,6 +22,10 @@ DONE:
 
 TODO:
 
+default signups OFF, enable with flag
+
+profile images
+fave counts
 editable usernames
 view followers
 view following
@@ -29,6 +33,7 @@ replies
 @mentions
 post permalinks
 blocking
+reporting
 
 BORING:
 admin mode

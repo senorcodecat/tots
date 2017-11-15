@@ -24,6 +24,13 @@ button {
     background-color: #FFCCCC;
 }
 
+a {
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
 header {
     padding: 0 1rem;
 }
