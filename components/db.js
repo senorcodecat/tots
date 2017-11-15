@@ -7,6 +7,9 @@ module.exports = function() {
     mongoose.connect(process.env.mongoURI, { useMongoClient: true });
     mongoose.Promise = global.Promise;
 
+    mongoose.set('debug', true)
+
+
     var db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', function() {
@@ -16,8 +19,14 @@ module.exports = function() {
 
 
     var userSchema = new Schema({
-        user_id: String,
-        username: String,
+        user_id: {
+            type: String,
+            index: true
+        },
+        username: {
+            type: String,
+            index: true
+        },
         displayName: String,
         bio: String,
         created: {
@@ -33,7 +42,8 @@ module.exports = function() {
     var postSchema = new Schema({
         user: {
             type: ObjectId,
-            ref: 'user'
+            ref: 'user',
+            index: true,
         },
         text: String,
         replyTo: {
@@ -47,11 +57,51 @@ module.exports = function() {
         }
     });
 
+    postSchema.index({user:1,date:1});
+
+    var followSchema = new Schema({
+        user: {
+            type: ObjectId,
+            ref: 'user',
+            index: true,
+        },
+        following: {
+            type: ObjectId,
+            ref: 'user',
+            index: true,
+        },
+        date: {
+            type: Date,
+            default: Date.now
+        }
+    });
+
+    followSchema.index({user:1,following:1});
+
+    var faveSchema = new Schema({
+        user: {
+            type: ObjectId,
+            ref: 'user',
+            index: true,
+        },
+        post: {
+            type: ObjectId,
+            ref: 'post',
+            index: true,
+        },
+        date: {
+            type: Date,
+            default: Date.now
+        }
+    });
+    faveSchema.index({user:1,post:1});
 
 
     return {
         users: mongoose.model('user', userSchema),
         posts: mongoose.model('post', postSchema),
+        faves: mongoose.model('fave', faveSchema),
+        follow: mongoose.model('follow', followSchema),
         _db: db,
     }
 }

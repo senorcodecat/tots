@@ -1,0 +1,16 @@
+<h1>{{profile.displayName}}</h1>
+
+<a href="/@{{profile.username}}/faves">Faves</a>
+<a href="/@{{profile.username}}/following">Following</a>
+<a href="/@{{profile.username}}/followers">Followers</a>
+
+{{^following}}
+    <a href="/actions/follow/{{profile._id}}">Follow</a>
+{{/following}}
+{{#following}}
+    <a href="/actions/unfollow/{{profile._id}}">Unfollow</a>
+{{/following}}
+
+{{#followback}}
+Follows you
+{{/followback}}

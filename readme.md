@@ -13,15 +13,21 @@ DONE:
 * able to post text
 * able to user view posts
 * able to view firehose
+* able to fave
+* view faves page
+* able to follow/unfollow
+
 
 TODO:
 
 editable usernames
-able to follow
 able to view feed
-able to fave
+view followers
+view following
 replies
 search
+@mentions
+post permalinks
 hashtags
 
 FAR OUT:

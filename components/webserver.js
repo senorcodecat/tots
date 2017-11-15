@@ -16,7 +16,7 @@ var debug = require('debug')('tots:webserver');
 module.exports = function(db) {
 
     hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
-
+    hbs.registerPartials(__dirname + '/../views/partials');
     // Configure Passport to use Auth0
     const strategy = new Auth0Strategy(
        process.env,

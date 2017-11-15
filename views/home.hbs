@@ -1,21 +1,4 @@
-<ul class="posts">
-{{#posts}}
-<li>
-    <div class="byline">
-        <a href="/@{{user.username}}" class="username">{{user.displayName}}</a> <span class="date">{{dateFormat date "MMM Do, h:mm a"}}</span>
-    </div>
-    <div class="text">
-        {{{text}}}
-    </div>
-
-    <ul class="actions">
-         <li>⭐️</li>
-        <li>💬</li>
-    </ul>
-
-</li>
-{{/posts}}
-</ul>
+{{> posts}}
 
 {{#previous}}
 <a href="/page/{{.}}">Previous</a>
