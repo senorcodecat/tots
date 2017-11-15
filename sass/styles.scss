@@ -60,13 +60,27 @@ header {
     }
 }
 
+.content {
+    @media all and (max-width: 600px) {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        overflow: auto;
+        background-color: #fff;
+        -webkit-backface-visibility: none;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
 ul.posts {
     list-style-type: none;
     margin: 0;
     padding: 0;
     background: #FFF;
 
-    >li {
+    li {
 
         margin: 1rem 0;
         border-top: 1px solid #CCC;
@@ -94,8 +108,11 @@ ul.posts {
             padding: 0;
             li {
                 display: inline-block;
-                margin-right: 1rem;
+                margin: 0;
+                padding: 0.25rem;
+                border: none;
             }
         }
     }
+
 }

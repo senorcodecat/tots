@@ -16,12 +16,11 @@ DONE:
 * able to fave
 * view faves page
 * able to follow/unfollow
-
+* able to view feed
 
 TODO:
 
 editable usernames
-able to view feed
 view followers
 view following
 replies

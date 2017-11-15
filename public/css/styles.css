@@ -49,30 +49,44 @@ header {
   .post_form .actions {
     text-align: right; }
 
+@media all and (max-width: 600px) {
+  .content {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+    background-color: #fff;
+    -webkit-backface-visibility: none;
+    -webkit-overflow-scrolling: touch; } }
+
 ul.posts {
   list-style-type: none;
   margin: 0;
   padding: 0;
   background: #FFF; }
-  ul.posts > li {
+  ul.posts li {
     margin: 1rem 0;
     border-top: 1px solid #CCC;
     padding: 0.5rem 1rem 0; }
-    ul.posts > li .byline {
+    ul.posts li .byline {
       margin-bottom: 0.25rem; }
-      ul.posts > li .byline .username {
+      ul.posts li .byline .username {
         font-weight: bold; }
-    ul.posts > li .text {
+    ul.posts li .text {
       display: block;
       margin-bottom: 0.5rem; }
-    ul.posts > li .date {
+    ul.posts li .date {
       font-weight: lighter; }
-    ul.posts > li .actions {
+    ul.posts li .actions {
       list-style-type: none;
       margin: 0;
       padding: 0; }
-      ul.posts > li .actions li {
+      ul.posts li .actions li {
         display: inline-block;
-        margin-right: 1rem; }
+        margin: 0;
+        padding: 0.25rem;
+        border: none; }
 
 /*# sourceMappingURL=styles.css.map */
