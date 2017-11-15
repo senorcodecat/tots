@@ -49,18 +49,6 @@ header {
   .post_form .actions {
     text-align: right; }
 
-@media all and (max-width: 600px) {
-  .content {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    overflow: auto;
-    background-color: #fff;
-    -webkit-backface-visibility: none;
-    -webkit-overflow-scrolling: touch; } }
-
 ul.posts {
   list-style-type: none;
   margin: 0;
