@@ -74,6 +74,40 @@ app.get('/page/:page', function(req, res, next) {
     publicRoute(req, res);
 });
 
+app.get('/search/:query?/:page?', function(req, res, next) {
+    if (req.query.query) {
+        res.redirect('/search/' + encodeURIComponent(req.query.query));
+    } else {
+        var query = req.params.query;
+        searchRoute(req, res, query);
+    }
+});
+
+searchRoute = function(req, res, query) {
+    var limit = 25;
+    var page = 1;
+    var skip = 0;
+    if (req.params.page) {
+        page = parseInt(req.params.page)
+        if (page < 1) {
+            page = 1;
+        }
+    }
+    skip = (page - 1) * limit;
+    // escape some chars
+    query = query.replace(/(\#)/g,'\\$1');
+    var pattern = new RegExp('\\W' + query + '\\W','im');
+    db.posts.find({text: {$regex: pattern}}).populate('user').sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
+        res.render('home', {
+          posts: posts,
+          page: page,
+          next: page+1,
+          previous: (page > 1) ? page-1 : null,
+          layout: 'layouts/default',
+        });
+    });
+}
+
 function checkFollowing(current_user, profile_user, cb) {
 
         if (!current_user) {

@@ -16,6 +16,11 @@ var debug = require('debug')('tots:webserver');
 module.exports = function(db) {
 
     hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
+
+    hbs.registerHelper('renderEntities', function(text) {
+        text = text.replace(/(\W)\#(.*)(\W)/ig,'$1<a href="/search?query=%23$2">#$2</a>$3');
+        return text;
+    })
     hbs.registerPartials(__dirname + '/../views/partials');
     // Configure Passport to use Auth0
     const strategy = new Auth0Strategy(

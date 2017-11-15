@@ -28,6 +28,10 @@ search
 @mentions
 post permalinks
 hashtags
+blocking
+
+BORING:
+admin mode
 
 FAR OUT:
 
