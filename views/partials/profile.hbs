@@ -1,16 +1,22 @@
+<div class="profile">
 <h1>{{profile.displayName}}</h1>
 
-<a href="/@{{profile.username}}/faves">Faves</a>
-<a href="/@{{profile.username}}/following">Following</a>
-<a href="/@{{profile.username}}/followers">Followers</a>
+<nav>
+  <ul>
+    <li><a href="/@{{profile.username}}/faves">Faves</a></li>
+    <li><a href="/@{{profile.username}}/following">Following</a></li>
+    <li><a href="/@{{profile.username}}/followers">Followers</a></li>
+  </ul>
+</nav>
 
 {{^following}}
-    <a href="/actions/follow/{{profile._id}}">Follow</a>
+    <a href="/actions/follow/{{profile._id}}" class="button">Follow</a>
 {{/following}}
 {{#following}}
-    <a href="/actions/unfollow/{{profile._id}}">Unfollow</a>
+    <a href="/actions/unfollow/{{profile._id}}" class="button">Unfollow</a>
 {{/following}}
 
 {{#followback}}
 Follows you
 {{/followback}}
+</div>

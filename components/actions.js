@@ -17,6 +17,25 @@ module.exports = function(webserver, db) {
 
     });
 
+    webserver.post('/actions/editprofile', function(req, res) {
+
+      if (req.user_profile) {
+        db.users.count({username: req.body.username, _id: {$ne: req.user_profile._id}}, function(err, existing) {
+          if (existing == 0) {
+             req.user_profile.username = req.body.username;
+          }
+          req.user_profile.displayName = req.body.displayName;
+          req.user_profile.bio = req.body.bio;
+          req.user_profile.save();
+          res.redirect('/me');
+        });
+      } else {
+          res.redirect('/login');
+      }
+
+
+    })
+
 
     webserver.get('/actions/follow/:uid', function(req, res) {
         console.log(req.params);

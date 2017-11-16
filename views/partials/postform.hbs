@@ -1,0 +1,11 @@
+{{#@loggedin}}
+<form method="post" action="/actions/post" class="post_form">
+    <div class="composer">
+        <img src="{{@user.picture}}" class="avatar" />
+        <textarea name="text" placeholder="Share a tot"></textarea>
+    </div>
+    <div class="actions">
+        <button type="submit" {{^@loggedin}}disabled{{/@loggedin}}>Post</button>
+    </div>
+</form>
+{{/@loggedin}}

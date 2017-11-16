@@ -11,33 +11,28 @@
 
 </head>
 <body ng-app="tots" ng-controller="app">
-    <header>
+    <header id="header">
         <div class="wrapper">
-            Tots!
             <nav>
                 <ul>
-                    <li><a href="/">Home</a></li>
+                    <li><a href="/">🏠 Home</a></li>
+                    <li><a href="/notifications">🎉 Notifications</a></li>
+                </ul>
+            </nav>
+            <nav class="right">
+                <ul>
                     <li><form method="get" action="/search"><input type="search" name="query" placeholder="Search" /></form></li>
-                    {{#@loggedin}}<li><A href="/me">{{@user.displayName}}</a></li>{{/@loggedin}}
+                    {{#@loggedin}}<li><A href="/me">{{@user_profile.displayName}}</a></li>{{/@loggedin}}
                     {{#@loggedin}}<li><a href="/logout">Logout</a></li>{{/@loggedin}}
                     {{^@loggedin}}<li><a href="/login">Login</a></li>{{/@loggedin}}
                 </ul>
             </nav>
         </div>
     </header>
-    <div class="wrapper">
-        {{#@loggedin}}
-        <form method="post" action="/actions/post" class="post_form">
-            <div class="composer">
-                <img src="{{@user.picture}}" class="avatar" />
-                <textarea name="text" placeholder="Share a tot"></textarea>
-            </div>
-            <div class="actions">
-                <button type="submit" {{^@loggedin}}disabled{{/@loggedin}}>Post</button>
-            </div>
-        </form>
-        {{/@loggedin}}
-        {{{body}}}
-    </div>
+    <div class="body">
+      <div class="wrapper">
+          {{{body}}}
+      </div>
+    </body>
 </body>
 </html>

@@ -223,3 +223,15 @@ app.get('/me', function(req, res, next) {
         });
     });
 });
+
+
+// Get the user profile
+app.get('/editprofile', function(req, res, next) {
+    if (!req.user) {
+        return res.redirect('/login');
+    }
+    res.render('editprofile', {
+      profile: req.user_profile,
+      layout: 'layouts/default',
+    });
+});

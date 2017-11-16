@@ -19,6 +19,7 @@ module.exports = function(db) {
 
     hbs.registerHelper('renderEntities', function(text) {
         text = text.replace(/(\W)\#(.*)(\W)/ig,'$1<a href="/search?query=%23$2">#$2</a>$3');
+        text = text.replace(/\n/g,'<br/>\n');
         return text;
     })
     hbs.registerPartials(__dirname + '/../views/partials');

@@ -29,6 +29,10 @@ module.exports = function() {
         },
         displayName: String,
         bio: String,
+        settings: {
+          type: Object,
+          default: {}
+        },
         created: {
             type: Date,
             default: Date.now,

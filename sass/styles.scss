@@ -7,16 +7,30 @@ html, body {
     margin: 0;
 }
 
-nav ul {
+nav {
+  ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     li {
         display: inline-block;
+        padding-right: 1rem;
     }
+  }
+
+    &.right {
+       right: 0;
+       top: 0;
+       position: absolute;
+
+       li  {
+         padding-left: 1rem;
+         padding-right: 0;
+       }
+     }
 }
 
-button {
+button, a.button {
     font-size: 18px;
     border: 0px;
     border-radius: 6px;
@@ -31,8 +45,22 @@ a {
     }
 }
 
-header {
+#header {
     padding: 0 1rem;
+    position: fixed;
+    padding: 1rem 0 0.5rem 0;
+    background-color: #FFF;
+    top: 0;
+    left: 0;
+    right: 0;
+    border-bottom: 2px solid #CCC;
+    .wrapper {
+      position: relative; /* for the nav */
+    }
+}
+
+.body {
+  margin-top: 3rem;
 }
 
 .wrapper {
@@ -56,10 +84,7 @@ header {
         flex-grow: 1;
         margin-bottom: 1rem;
         font-size: 20px;
-        height: 32px;
-        &:focus {
-            min-height: 4rem;
-        }
+        height: 3rem;
     }
 
     .actions {
@@ -121,5 +146,24 @@ ul.posts {
             }
         }
     }
+
+}
+
+.profile {
+
+  padding-top: 2rem;
+
+  h1 { margin: 0; }
+  text-align: center;
+
+  nav {
+    ul {
+      list-style-type: none;
+      li {
+        display: inline-block;
+        padding: 1rem;
+      }
+    }
+  }
 
 }

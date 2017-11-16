@@ -13,9 +13,17 @@ nav ul {
   margin: 0;
   padding: 0; }
   nav ul li {
-    display: inline-block; }
+    display: inline-block;
+    padding-right: 1rem; }
+nav.right {
+  right: 0;
+  top: 0;
+  position: absolute; }
+  nav.right li {
+    padding-left: 1rem;
+    padding-right: 0; }
 
-button {
+button, a.button {
   font-size: 18px;
   border: 0px;
   border-radius: 6px;
@@ -27,8 +35,21 @@ a {
   a:hover {
     text-decoration: underline; }
 
-header {
-  padding: 0 1rem; }
+#header {
+  padding: 0 1rem;
+  position: fixed;
+  padding: 1rem 0 0.5rem 0;
+  background-color: #FFF;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-bottom: 2px solid #CCC; }
+  #header .wrapper {
+    position: relative;
+    /* for the nav */ }
+
+.body {
+  margin-top: 3rem; }
 
 .wrapper {
   max-width: 600px;
@@ -48,9 +69,7 @@ header {
     flex-grow: 1;
     margin-bottom: 1rem;
     font-size: 20px;
-    height: 32px; }
-    .post_form textarea:focus {
-      min-height: 4rem; }
+    height: 3rem; }
   .post_form .actions {
     text-align: right; }
 
@@ -81,5 +100,16 @@ ul.posts {
         margin: 0;
         padding: 0.25rem;
         border: none; }
+
+.profile {
+  padding-top: 2rem;
+  text-align: center; }
+  .profile h1 {
+    margin: 0; }
+  .profile nav ul {
+    list-style-type: none; }
+    .profile nav ul li {
+      display: inline-block;
+      padding: 1rem; }
 
 /*# sourceMappingURL=styles.css.map */
