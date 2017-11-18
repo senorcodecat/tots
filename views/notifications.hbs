@@ -1,0 +1,24 @@
+<ul>
+{{#notifications}}
+    <li>
+        {{renderUsers text}}
+        {{#post}}
+            <div class="post">
+                <div class="byline">
+                    <a href="/@{{user.username}}" class="username">{{user.displayName}}</a> <span class="date">{{dateFormat date "MMM Do, h:mm a"}}</span>
+                </div>
+                <div class="text">
+                    {{{renderEntities text}}}
+                </div>
+            </div>
+        {{/post}}
+    </li>
+{{/notifications}}
+</ul>
+{{#previous}}
+<a href="/notifications/{{.}}">Previous</a>
+{{/previous}}
+
+{{#next}}
+<a href="/notifications/{{.}}">Next</a>
+{{/next}}

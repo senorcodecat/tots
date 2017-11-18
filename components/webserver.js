@@ -22,6 +22,23 @@ module.exports = function(db) {
         text = text.replace(/\n/g,'<br/>\n');
         return text;
     })
+
+    hbs.registerAsyncHelper('renderUsers', function(text, options, cb) {
+        var users = text.match('<@(.*)>','gm');
+        if (users) {
+            var uid = users[1];
+            db.users.findOne({_id: uid}, function(err, user) {
+                var profile_link = '<a href="/@' + user.username + '">' + user.displayName + '</a>';
+                var pattern = new RegExp('<@' + uid + '>','g');
+                text = text.replace(pattern, profile_link);
+                cb(text);
+            });
+        } else {
+            cb(text);
+        }
+    });
+
+
     hbs.registerPartials(__dirname + '/../views/partials');
     // Configure Passport to use Auth0
     const strategy = new Auth0Strategy(

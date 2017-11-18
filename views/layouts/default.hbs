@@ -22,8 +22,14 @@
             <nav class="right">
                 <ul>
                     <li><form method="get" action="/search"><input type="search" name="query" placeholder="Search" /></form></li>
-                    {{#@loggedin}}<li><A href="/me">{{@user_profile.displayName}}</a></li>{{/@loggedin}}
-                    {{#@loggedin}}<li><a href="/logout">Logout</a></li>{{/@loggedin}}
+                    {{#@loggedin}}<li class="menu">
+                        {{@user_profile.displayName}}
+                        <ul>
+                            <li><A href="/me">My Profile</a></li>
+                            <li><a href="/editprofile">Edit Profile</a></li>
+                            <li><a href="/logout">Logout</a></li>
+                        </ul>
+                    </li>{{/@loggedin}}
                     {{^@loggedin}}<li><a href="/login">Login</a></li>{{/@loggedin}}
                 </ul>
             </nav>

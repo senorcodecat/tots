@@ -52,6 +52,13 @@ module.exports = function(webserver, db) {
                                 follow.following = followee._id;
                                 follow.save();
                                 res.json({ok: true});
+
+                                var notification = new db.notifications();
+                                notification.user = followee._id;
+                                notification.actor = req.user_profile._id;
+                                notification.type = 'follow';
+                                notification.text = '<@' + req.user_profile._id + '> followed you';
+                                notification.save();
                             } else {
                                 res.json({ok: true, same_user: true});
                             }
@@ -97,6 +104,17 @@ module.exports = function(webserver, db) {
                                 fave.post = post._id;
                                 fave.save();
                                 res.json({ok: true});
+
+                                if (req.user_profile._id != post.user) {
+                                    var notification = new db.notifications();
+                                    notification.user = post.user;
+                                    notification.actor = req.user_profile._id;
+                                    notification.post = post._id;
+                                    notification.type = 'fave';
+                                    notification.text = '<@' + req.user_profile._id + '> faved your post';
+                                    notification.save();
+                                }
+
                             } else if (err) {
                                 res.json({ok: false, error: err});
                             } else {

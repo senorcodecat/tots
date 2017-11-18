@@ -74,6 +74,35 @@ app.get('/page/:page', function(req, res, next) {
     publicRoute(req, res);
 });
 
+app.get('/notifications/:page?', function(req, res, next) {
+    notificationRoute(req, res);
+});
+
+notificationRoute = function(req, res) {
+    var limit = 25;
+    var page = 1;
+    var skip = 0;
+    if (req.params.page) {
+        page = parseInt(req.params.page)
+        if (page < 1) {
+            page = 1;
+        }
+    }
+    skip = (page - 1) * limit;
+
+    db.notifications.find({}).populate('actor').populate({path: 'post', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, notifications) {
+        res.render('notifications', {
+          notifications: notifications,
+          page: page,
+          next: page+1,
+          previous: (page > 1) ? page-1 : null,
+          layout: 'layouts/default',
+        });
+    });
+}
+
+
+
 app.get('/search/:query?/:page?', function(req, res, next) {
     if (req.query.query) {
         res.redirect('/search/' + encodeURIComponent(req.query.query));

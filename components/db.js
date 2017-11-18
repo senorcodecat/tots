@@ -100,11 +100,34 @@ module.exports = function() {
     });
     faveSchema.index({user:1,post:1});
 
+    var notificationSchema = new Schema({
+        user: {
+            type: ObjectId,
+            ref: 'user',
+            index: true,
+        },
+        actor: {
+            type: ObjectId,
+            ref: 'user',
+        },
+        post: {
+            type: ObjectId,
+            ref: 'post',
+        },
+        type: String,
+        text: String,
+        date: {
+            type: Date,
+            default: Date.now
+        },
+    })
+
 
     return {
         users: mongoose.model('user', userSchema),
         posts: mongoose.model('post', postSchema),
         faves: mongoose.model('fave', faveSchema),
+        notifications: mongoose.model('notification', notificationSchema),
         follow: mongoose.model('follow', followSchema),
         _db: db,
     }
