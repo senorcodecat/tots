@@ -18,13 +18,13 @@ module.exports = function(db) {
     hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
 
     hbs.registerHelper('renderEntities', function(text) {
-        text = text.replace(/(\W)\#(.*)(\W)/ig,'$1<a href="/search?query=%23$2">#$2</a>$3');
+        text = text.replace(/(\W)\#(.*?)(\W)/ig,'$1<a href="/search?query=%23$2">#$2</a>$3');
         text = text.replace(/\n/g,'<br/>\n');
         return text;
     })
 
     hbs.registerAsyncHelper('renderUsers', function(text, options, cb) {
-        var users = text.match('<@(.*)>','gm');
+        var users = text.match('<@(.*?)>','gm');
         if (users) {
             var uid = users[1];
             db.users.findOne({_id: uid}, function(err, user) {
