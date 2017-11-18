@@ -105,7 +105,7 @@ module.exports = function(webserver, db) {
                                 fave.save();
                                 res.json({ok: true});
 
-                                if (req.user_profile._id != post.user) {
+                                if (String(req.user_profile._id) != String(post.user)) {
                                     var notification = new db.notifications();
                                     notification.user = post.user;
                                     notification.actor = req.user_profile._id;
