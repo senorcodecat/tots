@@ -1,7 +1,9 @@
 {{#@loggedin}}
 <form method="post" action="/actions/post" class="post_form">
+    <div class="avatar">
+        <img src="{{user_profile.avatar_url}}" class="avatar" />
+    </div>
     <div class="composer">
-        <img src="{{@user.picture}}" class="avatar" />
         <textarea name="text" placeholder="Share a tot"></textarea>
     </div>
     <div class="actions">

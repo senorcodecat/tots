@@ -37,6 +37,7 @@ module.exports = function() {
             type: Date,
             default: Date.now,
         },
+        avatar_url: String,
         lastAuth: {
             type: Date,
             default: null

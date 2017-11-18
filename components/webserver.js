@@ -112,6 +112,8 @@ module.exports = function(db) {
                   user.user_id = req.user._json.sub;
               }
 
+              user.avatar_url = req.user.picture || null;
+
               user.lastAuth = new Date();
               user.save(function(err) {
                   req.user_profile = user;

@@ -2,6 +2,11 @@
     <ul class="posts">
         {{#posts}}
             <li>
+                <div class="avatar">
+                    {{#if user.avatar_url}}
+                    <img src="{{user.avatar_url}}" />
+                    {{/if}}
+                </div>
                 <div class="byline">
                     <a href="/@{{user.username}}" class="username">{{user.displayName}}</a> <span class="date">{{dateFormat date "MMM Do, h:mm a"}}</span>
                 </div>

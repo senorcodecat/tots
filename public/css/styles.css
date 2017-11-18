@@ -84,7 +84,13 @@ a {
 .post_form {
   padding: 1rem;
   background: #FFF; }
+  .post_form .avatar {
+    float: left; }
+    .post_form .avatar img {
+      width: 50px;
+      height: 50px; }
   .post_form .composer {
+    margin-left: 70px;
     display: flex; }
   .post_form .avatar {
     width: 32px;
@@ -122,11 +128,23 @@ ul.posts {
     margin: 1rem 0;
     border-top: 1px solid #CCC;
     padding: 0.5rem 1rem 0; }
+    ul.posts li:after {
+      content: "";
+      display: table;
+      clear: both; }
+    ul.posts li .avatar {
+      float: left;
+      padding-top: 3px; }
+      ul.posts li .avatar img {
+        width: 50px;
+        height: 50px; }
     ul.posts li .byline {
+      margin-left: 70px;
       margin-bottom: 0.25rem; }
       ul.posts li .byline .username {
         font-weight: bold; }
     ul.posts li .text {
+      margin-left: 70px;
       display: block;
       margin-bottom: 0.5rem; }
     ul.posts li .date {
@@ -134,7 +152,8 @@ ul.posts {
     ul.posts li .actions {
       list-style-type: none;
       margin: 0;
-      padding: 0; }
+      padding: 0;
+      margin-left: 70px; }
       ul.posts li .actions li {
         display: inline-block;
         margin: 0;

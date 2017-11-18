@@ -1,3 +1,12 @@
+
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
 * { box-sizing: border-box; }
 html, body {
     font-size: 18px;
@@ -114,7 +123,17 @@ a {
 .post_form {
     padding: 1rem;
     background: #FFF;
+
+    .avatar {
+        float: left;
+        img {
+            width: 50px;
+            height: 50px;
+        }
+    }
+
     .composer {
+        margin-left: 70px;
         display: flex;
     }
     .avatar {
@@ -178,17 +197,30 @@ ul.posts {
 
     li {
 
+        @include clearfix;
+
+        .avatar {
+            float: left;
+            padding-top: 3px;
+            img {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
         margin: 1rem 0;
         border-top: 1px solid #CCC;
         padding: 0.5rem 1rem 0;
 
         .byline {
+            margin-left: 70px;
             .username {
                 font-weight: bold;
             }
             margin-bottom: 0.25rem;
         }
         .text {
+            margin-left: 70px;
             display: block;
             margin-bottom: 0.5rem;
         }
@@ -202,6 +234,8 @@ ul.posts {
             list-style-type: none;
             margin: 0;
             padding: 0;
+            margin-left: 70px;
+
             li {
                 display: inline-block;
                 margin: 0;
