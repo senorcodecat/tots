@@ -90,7 +90,7 @@ notificationRoute = function(req, res) {
     }
     skip = (page - 1) * limit;
 
-    db.notifications.find({}).populate('actor').populate({path: 'post', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, notifications) {
+    db.notifications.find({user: req.user_profile._id}).populate('actor').populate({path: 'post', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, notifications) {
         res.render('notifications', {
           notifications: notifications,
           page: page,
