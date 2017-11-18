@@ -125,7 +125,7 @@ searchRoute = function(req, res, query) {
     skip = (page - 1) * limit;
     // escape some chars
     query = query.replace(/(\#)/g,'\\$1');
-    var pattern = new RegExp('\\W' + query + '\\W','im');
+    var pattern = new RegExp(query,'im');
     db.posts.find({text: {$regex: pattern}}).populate('user').sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
         res.render('home', {
           posts: posts,
