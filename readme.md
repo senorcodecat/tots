@@ -19,14 +19,13 @@ DONE:
 * able to view feed
 * hashtags
 * search
+* editable usernames
 
 TODO:
 
-default signups OFF, enable with flag
 
 profile images
 fave counts
-editable usernames
 view followers
 view following
 replies
@@ -39,7 +38,7 @@ BORING:
 admin mode
 
 FAR OUT:
-
+default signups OFF, enable with flag
 files
 chat-style replies
 notifications
