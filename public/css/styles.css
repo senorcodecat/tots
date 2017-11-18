@@ -99,6 +99,20 @@ a {
   .post_form .actions {
     text-align: right; }
 
+ul.notifications {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background: #FFF; }
+  ul.notifications li {
+    margin: 1rem 0;
+    border-top: 1px solid #CCC;
+    padding: 0.5rem 1rem; }
+    ul.notifications li .post {
+      margin-top: 0.5rem;
+      border: 1px solid #CCC;
+      padding: 0.5rem; }
+
 ul.posts {
   list-style-type: none;
   margin: 0;
