@@ -14,16 +14,23 @@ a {
   a:hover {
     text-decoration: underline; }
 
+nav a:hover {
+  text-decoration: none; }
 nav ul {
   list-style-type: none;
   margin: 0;
   padding: 0; }
   nav ul li {
     display: inline-block;
-    padding-right: 1rem;
+    padding-left: 1rem;
     position: relative; }
     nav ul li.menu {
       cursor: pointer; }
+    nav ul li .label {
+      display: none; }
+    @media all and (min-width: 600px) {
+      nav ul li .label {
+        display: inline; } }
     nav ul li ul {
       display: none;
       position: absolute;
@@ -46,8 +53,8 @@ nav.right {
   top: 0;
   position: absolute; }
   nav.right li {
-    padding-left: 1rem;
-    padding-right: 0; }
+    padding-left: 0rem;
+    padding-right: 1rem; }
 
 button, a.button {
   font-size: 18px;

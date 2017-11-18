@@ -26,17 +26,33 @@ a {
 }
 
 nav {
+
+    a:hover {
+        text-decoration: none;
+    }
+    
   ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     li {
         display: inline-block;
-        padding-right: 1rem;
+        padding-left: 1rem;
         position: relative;
 
         &.menu {
             cursor: pointer;
+        }
+
+        .label {
+            display: none;
+        }
+
+        @media all and (min-width: 600px) {
+
+            .label {
+                display: inline;
+            }
         }
 
         ul {
@@ -76,8 +92,8 @@ nav {
        position: absolute;
 
        li  {
-         padding-left: 1rem;
-         padding-right: 0;
+         padding-left: 0rem;
+         padding-right: 1rem;
        }
      }
 }
