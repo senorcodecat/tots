@@ -107,9 +107,9 @@ a {
       padding: 0.5rem;
       height: 3.5rem; }
   .post_form .img_preview {
-    width: 132px;
-    max-height: 132px;
-    padding: 0.5rem;
+    width: 100px;
+    max-height: 100px;
+    margin: 0.5rem;
     position: relative;
     display: inline-block;
     overflow: hidden; }
