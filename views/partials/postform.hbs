@@ -10,9 +10,9 @@
         </div>
     </div>
     <div class="actions" ng-if="ui.focused">
-        <div class="upload-btn-wrapper" ng-if="!ui.file">
+        <div class="upload-btn-wrapper" ng-show="!ui.file">
           <label for="file" class="attachment">📷</label>
-          <input id="file" style="display:none;" ng-model="ui.file" ng-change="fileChange()" type="file" accept="image/*" name="image" />
+          <input id="file" style="display: none;" ng-model="ui.file" ng-change="fileChange()" type="file" accept="image/*" name="image" />
         </div>
         <button type="submit" ng-disabled="!tot.text.length">Post</button>
     </div>
