@@ -7,18 +7,23 @@
                     <img src="{{user.avatar_url}}" />
                     {{/if}}
                 </div>
-                <div class="byline">
-                    <a href="/@{{user.username}}" class="username">{{user.displayName}}</a> <span class="date">{{dateFormat date "MMM Do, h:mm a"}}</span>
+                <div class="content">
+                    <div class="byline">
+                        <a href="/@{{user.username}}" class="username">{{user.displayName}}</a> <span class="date">{{dateFormat date "MMM Do, h:mm a"}}</span>
+                    </div>
+                    <div class="text">
+                        {{{renderEntities text}}}
+                    </div>
+                    {{#images}}
+                        <div class="image">
+                            <img src="{{url}}" alt="{{name}}" />
+                        </div>
+                    {{/images}}
+                    <ul class="actions">
+                        <li><a href="/actions/fave/{{_id}}">⭐️</a></li>
+                        <li>💬</li>
+                    </ul>
                 </div>
-                <div class="text">
-                    {{{renderEntities text}}}
-                </div>
-
-                <ul class="actions">
-                    <li><a href="/actions/fave/{{_id}}">⭐️</a></li>
-                    <li>💬</li>
-                </ul>
-
             </li>
         {{/posts}}
     </ul>

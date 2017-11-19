@@ -30,7 +30,7 @@ nav {
     a:hover {
         text-decoration: none;
     }
-    
+
   ul {
     list-style-type: none;
     margin: 0;
@@ -228,15 +228,17 @@ ul.posts {
         border-top: 1px solid #CCC;
         padding: 0.5rem 1rem 0;
 
-        .byline {
+        .content {
             margin-left: 70px;
+        }
+
+        .byline {
             .username {
                 font-weight: bold;
             }
             margin-bottom: 0.25rem;
         }
         .text {
-            margin-left: 70px;
             display: block;
             margin-bottom: 0.5rem;
         }
@@ -250,7 +252,6 @@ ul.posts {
             list-style-type: none;
             margin: 0;
             padding: 0;
-            margin-left: 70px;
 
             li {
                 display: inline-block;
@@ -259,6 +260,13 @@ ul.posts {
                 border: none;
             }
         }
+
+        .image {
+            border: 1px solid #CCC;
+            max-width: 100%;
+            display: inline-block;
+        }
+
     }
 
 }
@@ -280,4 +288,24 @@ ul.posts {
     }
   }
 
+}
+
+
+.upload-btn-wrapper {
+  position: relative;
+  // overflow: hidden;
+  display: inline-block;
+}
+
+.upload-btn-wrapper input[type=file] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+}
+
+button.attachment {
+    background: transparent;
 }

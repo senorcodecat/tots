@@ -75,7 +75,11 @@ app.get('/page/:page', function(req, res, next) {
 });
 
 app.get('/notifications/:page?', function(req, res, next) {
-    notificationRoute(req, res);
+    if (req.user) {
+        notificationRoute(req, res);
+    }else {
+        res.direct('/login');
+    }
 });
 
 notificationRoute = function(req, res) {

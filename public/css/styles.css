@@ -145,13 +145,13 @@ ul.posts {
       ul.posts li .avatar img {
         width: 50px;
         height: 50px; }
+    ul.posts li .content {
+      margin-left: 70px; }
     ul.posts li .byline {
-      margin-left: 70px;
       margin-bottom: 0.25rem; }
       ul.posts li .byline .username {
         font-weight: bold; }
     ul.posts li .text {
-      margin-left: 70px;
       display: block;
       margin-bottom: 0.5rem; }
     ul.posts li .date {
@@ -159,13 +159,16 @@ ul.posts {
     ul.posts li .actions {
       list-style-type: none;
       margin: 0;
-      padding: 0;
-      margin-left: 70px; }
+      padding: 0; }
       ul.posts li .actions li {
         display: inline-block;
         margin: 0;
         padding: 0.25rem;
         border: none; }
+    ul.posts li .image {
+      border: 1px solid #CCC;
+      max-width: 100%;
+      display: inline-block; }
 
 .profile {
   padding-top: 2rem;
@@ -177,5 +180,20 @@ ul.posts {
     .profile nav ul li {
       display: inline-block;
       padding: 1rem; }
+
+.upload-btn-wrapper {
+  position: relative;
+  display: inline-block; }
+
+.upload-btn-wrapper input[type=file] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0; }
+
+button.attachment {
+  background: transparent; }
 
 /*# sourceMappingURL=styles.css.map */

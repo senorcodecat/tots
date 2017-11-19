@@ -16,10 +16,36 @@ app.config(function($interpolateProvider) {
 
 app.controller('app', ['$scope', function($scope) {
 
+    $scope.ui = {
+    }
+
+
+    
         $scope.reload = function() {
             console.log('RELOAD!');
             alert('RELOAD!');
         }
 
         console.log('TOTS ONLINE');
+}]);
+
+app.controller('postForm', ['$scope', function($scope) {
+
+    $scope.tot = {
+        text: '',
+    }
+    $scope.submit = function() {
+
+        if (!$scope.tot.text) {
+            return false;
+        }
+    }
+
+    $scope.focus = function() {
+        $scope.ui.focused = true;
+    }
+    $scope.blur = function() {
+        $scope.ui.focused = false;
+    }
+
 }]);

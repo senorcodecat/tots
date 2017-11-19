@@ -23,11 +23,10 @@ DONE:
 
 TODO:
 
-
-profile images
-fave counts
 view followers
 view following
+profile images
+fave counts
 replies
 @mentions
 post permalinks

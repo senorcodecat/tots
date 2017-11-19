@@ -1,13 +1,17 @@
 {{#@loggedin}}
-<form method="post" action="/actions/post" class="post_form">
+<form method="post" encType="multipart/form-data" action="/actions/post" class="post_form" ng-controller="postForm" ng-submit="submit">
     <div class="avatar">
         <img src="{{user_profile.avatar_url}}" class="avatar" />
     </div>
     <div class="composer">
-        <textarea name="text" placeholder="Share a tot"></textarea>
+        <textarea name="text" ng-focus="focus()" ng-model="tot.text" placeholder="Share a tot"></textarea>
     </div>
-    <div class="actions">
-        <button type="submit" {{^@loggedin}}disabled{{/@loggedin}}>Post</button>
+    <div class="actions" ng-if="ui.focused">
+        <div class="upload-btn-wrapper">
+          <button class="attachment">📷</button>
+          <input type="file" accept="image/*" name="image" />
+        </div>
+        <button type="submit" ng-disabled="!tot.text.length">Post</button>
     </div>
 </form>
 {{/@loggedin}}

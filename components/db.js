@@ -56,6 +56,7 @@ module.exports = function() {
             ref: 'post',
             default: null,
         },
+        images: [{}],
         date: {
             type: Date,
             default: Date.now

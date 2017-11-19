@@ -12,6 +12,7 @@ var cookieParser = require('cookie-parser');
 var passport = require('passport');
 var Auth0Strategy = require('passport-auth0');
 var debug = require('debug')('tots:webserver');
+var fileUpload = require('express-fileupload');
 
 module.exports = function(db) {
 
@@ -62,6 +63,8 @@ module.exports = function(db) {
     var app = express()
     hbs.localsAsTemplateData(app);
     app.use(express.static('public'))
+
+    app.use(fileUpload());
 
     if (process.env.username && process.env.password) {
         var users = {};

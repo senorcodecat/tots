@@ -1,4 +1,15 @@
 var debug = require('debug')('tots:actions');
+
+var s3 = require('s3');
+
+var client = s3.createClient({
+    s3Options: {
+        accessKeyId: process.env.aws_key,
+        secretAccessKey: process.env.aws_secret,
+        region: 'us-east-1'
+    }
+});
+
 module.exports = function(webserver, db) {
 
 
@@ -9,8 +20,54 @@ module.exports = function(webserver, db) {
             post.text = req.body.text;
             post.user = req.user_profile._id;
             post.save();
-            debug('NEW POST',post);
-            res.redirect('/me');
+
+            if (req.files) {
+                if (req.files.image) {
+                    debug('Got a file upload', req.files.image);
+                    req.files.image.mv('/tmp/' + req.user_profile._id + '_' + req.files.image.name, function(err) {
+                        if (err) {
+                            console.error(err);
+
+                            debug('NEW POST',post);
+                            res.redirect('/me');
+
+                        } else {
+                            debug('File ready to upload');
+                            var uploader = client.uploadFile({
+                                localFile: '/tmp/' + req.user_profile._id + '_' + req.files.image.name,
+                                s3Params: {
+                                    Bucket: 'tots',
+                                    Key: 'images/' + req.user_profile._id + '_' + req.files.image.name,
+                                }
+                            });
+                            uploader.on('error', function(err) {
+                              console.error("unable to upload:", err.stack);
+                            });
+                            uploader.on('progress', function() {
+                              console.log("progress", uploader.progressMd5Amount,
+                                        uploader.progressAmount, uploader.progressTotal);
+                            });
+                            uploader.on('end', function() {
+                              console.log("done uploading");
+
+                              post.images.push({
+                                  name: req.files.image.name,
+                                  s3_key: 'images/' + req.user_profile._id + '_' + req.files.image.name,
+                                  url: 'https://s3.amazonaws.com/tots/images/'+ req.user_profile._id + '_' + req.files.image.name
+                              })
+                              post.save();
+
+                              debug('NEW POST',post);
+                              res.redirect('/me');
+
+                            });
+                        }
+                    });
+                }
+            } else {
+                debug('NEW POST',post);
+                res.redirect('/me');
+            }
         } else {
             res.redirect('/login');
         }
