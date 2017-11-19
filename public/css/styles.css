@@ -98,7 +98,24 @@ a {
       height: 50px; }
   .post_form .composer {
     margin-left: 70px;
-    display: flex; }
+    border: 2px solid #CCC;
+    margin-bottom: 1rem; }
+    .post_form .composer textarea {
+      width: 100%;
+      border: 0;
+      margin: 0;
+      padding: 0.5rem;
+      height: 3.5rem; }
+  .post_form .img_preview {
+    width: 132px;
+    max-height: 132px;
+    padding: 0.5rem;
+    position: relative;
+    display: inline-block; }
+    .post_form .img_preview img {
+      max-width: 100%;
+      border: 1px solid #CCC;
+      display: block; }
   .post_form .avatar {
     width: 32px;
     height: 32px;
@@ -167,8 +184,10 @@ ul.posts {
         border: none; }
     ul.posts li .image {
       border: 1px solid #CCC;
-      max-width: 100%;
+      max-width: 100% !important;
       display: inline-block; }
+      ul.posts li .image img {
+        max-width: 100%; }
 
 .profile {
   padding-top: 2rem;
@@ -185,15 +204,14 @@ ul.posts {
   position: relative;
   display: inline-block; }
 
-.upload-btn-wrapper input[type=file] {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0; }
-
-button.attachment {
-  background: transparent; }
+.attachment,
+.attachment {
+  background: transparent;
+  font-size: 18px;
+  border: 0px;
+  border-radius: 6px;
+  padding: 0.25rem 1rem;
+  display: inline-block;
+  cursor: pointer; }
 
 /*# sourceMappingURL=styles.css.map */

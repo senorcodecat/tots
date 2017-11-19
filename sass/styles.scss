@@ -150,7 +150,38 @@ a {
 
     .composer {
         margin-left: 70px;
-        display: flex;
+        border: 2px solid #CCC;
+        margin-bottom: 1rem;
+        // display: grid;
+        textarea {
+            width: 100%;
+            border: 0;
+            margin:0;
+            padding:0.5rem;
+            height: 3.5rem;
+        }
+    }
+
+    .img_preview {
+        width: 132px;
+        max-height: 132px;
+        padding: 0.5rem;
+        position:relative;
+        display: inline-block;
+
+        // &:after {
+        //     content: '❎';
+        //     display: block;
+        //     position: absolute;
+        //     top: 0.5rem;
+        //     right: 0.75rem;
+        // }
+
+        img {
+            max-width: 100%;
+            border: 1px solid #CCC;
+            display: block;
+        }
     }
     .avatar {
         width: 32px;
@@ -263,9 +294,14 @@ ul.posts {
 
         .image {
             border: 1px solid #CCC;
-            max-width: 100%;
+            max-width: 100% !important;
             display: inline-block;
+
+            img {
+                max-width: 100%;
+            }
         }
+
 
     }
 
@@ -297,15 +333,13 @@ ul.posts {
   display: inline-block;
 }
 
-.upload-btn-wrapper input[type=file] {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0;
-}
-
-button.attachment {
+.attachment,
+.attachment {
     background: transparent;
+    font-size: 18px;
+    border: 0px;
+    border-radius: 6px;
+    padding: 0.25rem 1rem;
+    display: inline-block;
+    cursor: pointer;
 }

@@ -1,0 +1,94 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "angular-file-input",
+        "scope": null,
+        "escapedName": "angular-file-input",
+        "name": "angular-file-input",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "/Users/ben/Dropbox/tots"
+    ]
+  ],
+  "_from": "angular-file-input@latest",
+  "_id": "angular-file-input@1.0.2",
+  "_inCache": true,
+  "_location": "/angular-file-input",
+  "_nodeVersion": "8.3.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/angular-file-input-1.0.2.tgz_1507747622008_0.16415773378685117"
+  },
+  "_npmUser": {
+    "name": "greenygh0st",
+    "email": "dale.myszewski@gmail.com"
+  },
+  "_npmVersion": "5.4.2",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "angular-file-input",
+    "scope": null,
+    "escapedName": "angular-file-input",
+    "name": "angular-file-input",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/angular-file-input/-/angular-file-input-1.0.2.tgz",
+  "_shasum": "6d40523c7ed3417b5b70af60a8e9048ef6c7c0f7",
+  "_shrinkwrap": null,
+  "_spec": "angular-file-input",
+  "_where": "/Users/ben/Dropbox/tots",
+  "author": {
+    "name": "Dale Myszewski",
+    "email": "dale@daleslab.com"
+  },
+  "bugs": {
+    "url": "https://github.com/greenygh0st/angular-file-input/issues"
+  },
+  "dependencies": {
+    "angular": "^1.6.4"
+  },
+  "description": "A simple module for Angular 1 which allows ng-model to be used with file inputs.",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-minify": "^1.0.0"
+  },
+  "directories": {},
+  "dist": {
+    "integrity": "sha512-u7UGtdHXrTJKtpwfRM/zSA08kjXhFNMNYpzwxI2X3qF/CCvdnR2CfJspaSOV+8UR+32Vv7MDxGInnQr8hptzWA==",
+    "shasum": "6d40523c7ed3417b5b70af60a8e9048ef6c7c0f7",
+    "tarball": "https://registry.npmjs.org/angular-file-input/-/angular-file-input-1.0.2.tgz"
+  },
+  "gitHead": "8e6555234758091fa42f92317fb3b0cc1465c9ac",
+  "homepage": "https://github.com/greenygh0st/angular-file-input#readme",
+  "keywords": [
+    "angular",
+    "files"
+  ],
+  "license": "MIT",
+  "main": "dist/angular-file-input.js",
+  "maintainers": [
+    {
+      "name": "greenygh0st",
+      "email": "dale.myszewski@gmail.com"
+    }
+  ],
+  "name": "angular-file-input",
+  "optionalDependencies": {},
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greenygh0st/angular-file-input.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.2"
+}

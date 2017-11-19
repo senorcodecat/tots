@@ -5,11 +5,14 @@
     </div>
     <div class="composer">
         <textarea name="text" ng-focus="focus()" ng-model="tot.text" placeholder="Share a tot"></textarea>
+        <div class="img_preview" ng-if="ui.file && ui.img_preview">
+            <img ng-src='{% ui.img_preview %}' ng-click="removeFile()"/>
+        </div>
     </div>
     <div class="actions" ng-if="ui.focused">
-        <div class="upload-btn-wrapper">
-          <button class="attachment">📷</button>
-          <input type="file" accept="image/*" name="image" />
+        <div class="upload-btn-wrapper" ng-if="!ui.file">
+          <label for="file" class="attachment">📷</label>
+          <input id="file" style="display:none;" ng-model="ui.file" ng-change="fileChange()" type="file" accept="image/*" name="image" />
         </div>
         <button type="submit" ng-disabled="!tot.text.length">Post</button>
     </div>

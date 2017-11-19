@@ -21,8 +21,7 @@ module.exports = function(webserver, db) {
             post.user = req.user_profile._id;
             post.save();
 
-            if (req.files) {
-                if (req.files.image) {
+            if (req.files && req.files.image) {
                     debug('Got a file upload', req.files.image);
                     req.files.image.mv('/tmp/' + req.user_profile._id + '_' + req.files.image.name, function(err) {
                         if (err) {
@@ -63,7 +62,6 @@ module.exports = function(webserver, db) {
                             });
                         }
                     });
-                }
             } else {
                 debug('NEW POST',post);
                 res.redirect('/me');
