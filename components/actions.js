@@ -35,7 +35,7 @@ module.exports = function(webserver, db) {
                             debug('File ready to upload');
                             var ts = new Date().getTime();
                             var uploader = client.uploadFile({
-                                localFile: '/tmp/' + req.user_profile._id + '_' + ts + '_' + req.files.image.name,
+                                localFile: '/tmp/' + req.user_profile._id + '_' + req.files.image.name,
                                 s3Params: {
                                     Bucket: 'tots',
                                     Key: 'images/' + req.user_profile._id + '_' + ts + '_'+ req.files.image.name,
