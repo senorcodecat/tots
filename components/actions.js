@@ -53,8 +53,8 @@ module.exports = function(webserver, db) {
 
                               post.images.push({
                                   name: req.files.image.name,
-                                  s3_key: 'images/' + req.user_profile._id + '_' + ts + '_' req.files.image.name,
-                                  url: 'https://s3.amazonaws.com/tots/images/'+ req.user_profile._id + '_' + ts + '_' req.files.image.name
+                                  s3_key: 'images/' + req.user_profile._id + '_' + ts + '_' + req.files.image.name,
+                                  url: 'https://s3.amazonaws.com/tots/images/'+ req.user_profile._id + '_' + ts + '_' + req.files.image.name
                               })
                               post.save();
 
