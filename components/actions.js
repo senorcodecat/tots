@@ -33,11 +33,12 @@ module.exports = function(webserver, db) {
 
                         } else {
                             debug('File ready to upload');
+                            var ts = Date().getTime();
                             var uploader = client.uploadFile({
-                                localFile: '/tmp/' + req.user_profile._id + '_' + req.files.image.name,
+                                localFile: '/tmp/' + req.user_profile._id + '_' + ts + '_' + req.files.image.name,
                                 s3Params: {
                                     Bucket: 'tots',
-                                    Key: 'images/' + req.user_profile._id + '_' + req.files.image.name,
+                                    Key: 'images/' + req.user_profile._id + '_' + ts + '_'+ req.files.image.name,
                                 }
                             });
                             uploader.on('error', function(err) {
@@ -52,8 +53,8 @@ module.exports = function(webserver, db) {
 
                               post.images.push({
                                   name: req.files.image.name,
-                                  s3_key: 'images/' + req.user_profile._id + '_' + req.files.image.name,
-                                  url: 'https://s3.amazonaws.com/tots/images/'+ req.user_profile._id + '_' + req.files.image.name
+                                  s3_key: 'images/' + req.user_profile._id + '_' + ts + '_' req.files.image.name,
+                                  url: 'https://s3.amazonaws.com/tots/images/'+ req.user_profile._id + '_' + ts + '_' req.files.image.name
                               })
                               post.save();
 
