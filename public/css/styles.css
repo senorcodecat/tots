@@ -111,7 +111,8 @@ a {
     max-height: 132px;
     padding: 0.5rem;
     position: relative;
-    display: inline-block; }
+    display: inline-block;
+    overflow: hidden; }
     .post_form .img_preview img {
       max-width: 100%;
       border: 1px solid #CCC;
