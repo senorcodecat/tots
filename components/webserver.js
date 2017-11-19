@@ -77,6 +77,9 @@ module.exports = function(db) {
 
     app.use(session({
         secret: 'ilovetots',
+        "cookie": {
+          "maxAge": 2592000000,
+        },
         store: new MongoStore({ mongooseConnection: db._db })
     }));
 
