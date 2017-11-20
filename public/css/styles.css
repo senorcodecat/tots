@@ -19,11 +19,16 @@ nav a:hover {
 nav ul {
   list-style-type: none;
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  padding-top: 1rem; }
   nav ul li {
     display: inline-block;
     padding-left: 1rem;
-    position: relative; }
+    padding-bottom: 0.5rem;
+    position: relative;
+    margin-bottom: -2px; }
+    nav ul li.active {
+      border-bottom: 2px solid brown; }
     nav ul li.menu {
       cursor: pointer; }
     nav ul li .label {
@@ -71,7 +76,7 @@ a {
 #header {
   padding: 0 1rem;
   position: fixed;
-  padding: 1rem 0 0.5rem 0;
+  padding: 0;
   background-color: #FFF;
   top: 0;
   left: 0;

@@ -1,0 +1,19 @@
+<form method="post" action="/actions/editprofile">
+
+<p>
+  <label>Username:</label>
+  <input name="username" ng-model="ui.user.username" />
+</p>
+
+<p>
+  <label>Display Name:</label>
+  <input name="displayName" ng-model="ui.user.displayName" />
+</p>
+
+<p>
+  <label>Bio:</label>
+  <textarea name="bio" ng-model="ui.user.bio"></textarea>
+</p>
+
+<button type="submit">Save</button>
+</form>

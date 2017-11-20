@@ -124,6 +124,11 @@ module.exports = function(db) {
               user.save(function(err) {
                   req.user_profile = user;
                   res.locals.user_profile = user;
+
+                  res.locals.payload = JSON.stringify({
+                    user_profile: res.locals.user_profile,
+                  });
+
                   next();
               });
           });

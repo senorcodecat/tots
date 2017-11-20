@@ -1,0 +1,10 @@
+<div ng-controller="feed">
+
+<div ng-include="'/partials/postForm.html'"></div>
+
+<div  ng-include="'/partials/posts.html'"></div>
+
+<a ng-if="ui.previous" ng-href="/public/{% ui.previous %}">PREVIOUS PAGE</a>
+<a ng-if="ui.next" ng-href="/public/{% ui.next %}">NEXT PAGE</a>
+
+</div>
