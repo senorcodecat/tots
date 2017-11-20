@@ -142,7 +142,6 @@ module.exports = function(webserver, db) {
           } else {
               db.follow.findOne({user: current_user._id, following: profile_user._id}, function(err, following) {
                   db.follow.findOne({user: profile_user._id, following: current_user._id}, function(err, followback) {
-                      console.log(following,followback);
                       if (following) {
                           following = true;
                       } else {
@@ -153,7 +152,6 @@ module.exports = function(webserver, db) {
                       } else {
                           followback = false;
                       }
-                      console.log(following,followback);
 
                       cb(following,followback);
                   });

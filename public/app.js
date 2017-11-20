@@ -221,7 +221,6 @@ app.controller('feed', ['$scope','$routeParams', function($scope, $routeParams) 
 
     $scope.getLiked($scope.ui.posts);
 
-
     $scope.$apply();
   })
 
@@ -242,6 +241,9 @@ app.controller('public', ['$scope','$routeParams', function($scope, $routeParams
 
   $scope.getPosts('/posts/public',[],$scope.ui.page).then(function(posts) {
     $scope.ui.posts = posts;
+
+    $scope.getLiked($scope.ui.posts);
+
     $scope.$apply();
 
   })
@@ -265,6 +267,9 @@ app.controller('search', ['$scope','$routeParams', function($scope, $routeParams
 
   $scope.getPosts('/posts/search',['query=' + encodeURIComponent(query)],$scope.ui.page).then(function(posts) {
     $scope.ui.posts = posts;
+
+    $scope.getLiked($scope.ui.posts);
+
     $scope.$apply();
 
   })
@@ -293,6 +298,8 @@ app.controller('profile', ['$scope','$routeParams', function($scope, $routeParam
     $scope.ui.following = payload.following;
     $scope.ui.followback = payload.followback;
 
+    $scope.getLiked($scope.ui.posts);
+
     $scope.$apply();
   })
 
@@ -320,6 +327,9 @@ app.controller('faves', ['$scope','$routeParams', function($scope, $routeParams)
     $scope.ui.profile = payload.profile;
     $scope.ui.following = payload.following;
     $scope.ui.followback = payload.followback;
+
+    $scope.getLiked($scope.ui.posts);
+
 
     $scope.$apply();
   })
