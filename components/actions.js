@@ -12,6 +12,20 @@ var client = s3.createClient({
 
 module.exports = function(webserver, db) {
 
+    function updateFaveCount(post) {
+        db.faves.count({post: post._id}, function(err, count) {
+            if (!err) {
+                post.faveCount = count;
+                console.log('UPDATE FAVES', count);
+                db.posts.update({_id: post._id},{$set: {faveCount: count}}, function(err,res) {
+
+                    console.log(err, res);
+                });
+            } else {
+                console.error('error loading faves', err);
+            }
+        });
+    }
 
     webserver.post('/actions/post', function(req, res) {
 
@@ -159,7 +173,10 @@ module.exports = function(webserver, db) {
                                 fave = new db.faves();
                                 fave.user = req.user_profile._id;
                                 fave.post = post._id;
-                                fave.save();
+                                fave.save(function() {
+                                    updateFaveCount(post);
+                                });
+
                                 res.json({ok: true});
 
                                 if (String(req.user_profile._id) != String(post.user)) {
@@ -179,6 +196,7 @@ module.exports = function(webserver, db) {
                             }
                         });
                     } else {
+
                         res.json({ok: true, exists: true});
                     }
                 });
@@ -191,7 +209,10 @@ module.exports = function(webserver, db) {
         webserver.get('/actions/unfave/:pid', function(req, res) {
             console.log(req.params);
             if (req.user) {
-                db.follow.remove({user: req.user_profile._id, following: req.params.uid}, function(err, follow) {
+                db.fave.remove({user: req.user_profile._id, post: req.params.pid}, function(err, follow) {
+                    updateFaveCount(post);
+//                    updateFaveCount(post);
+
                     res.json({ok: true});
                 });
             } else {

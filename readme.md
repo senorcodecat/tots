@@ -20,25 +20,28 @@ DONE:
 * hashtags
 * search
 * editable usernames
+* files
 
 TODO:
 
-view followers
-view following
-profile images
-fave counts
-replies
-@mentions
-post permalinks
-blocking
-reporting
+* view followers
+* view following
+* capture / upload profile images
+* edit profile images
+* fave counts
+* replies
+* @mentions
+* post permalinks
+* blocking
+* reporting
 
 BORING:
 admin mode
 
 FAR OUT:
+sms?
+personalized notification webhooks
 default signups OFF, enable with flag
-files
 chat-style replies
 notifications
 ability to federate / follow someone on a different instance

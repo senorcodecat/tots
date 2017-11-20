@@ -56,6 +56,10 @@ module.exports = function() {
             ref: 'post',
             default: null,
         },
+        faveCount: {
+            type: Number,
+            default: 0,
+        },
         images: [{}],
         date: {
             type: Date,
