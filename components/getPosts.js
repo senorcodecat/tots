@@ -3,12 +3,26 @@ var debug = require('debug')('tots:getPosts');
 module.exports = function(webserver, db) {
 
 
-  webserver.get('/posts/public', function(req, res) {
-      publicRoute(req, res);
+  webserver.post('/get/liked', function(req, res) {
+    if (req.user) {
+      db.faves.find({user: req.user_profile._id, post: {$in: req.body.posts}}, function(err, faves) {
+        res.json({
+          ok: true,
+          data: faves,
+        });
+      });
+    } else {
+      res.json({
+        ok:true,
+        data: []
+      })
+    }
   });
 
 
-
+  webserver.get('/posts/public', function(req, res) {
+      publicRoute(req, res);
+  });
 
   webserver.get('/posts/feed', function(req, res) {
     if (req.user) {
@@ -19,8 +33,6 @@ module.exports = function(webserver, db) {
   });
 
   webserver.get('/posts/search', function(req, res) {
-
-    console.log('req.query', req.query);
         var query = req.query.query;
         var limit = 25;
         var page = 1;

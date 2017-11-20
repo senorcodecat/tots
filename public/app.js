@@ -126,6 +126,7 @@ app.controller('app', ['$scope','$http', function($scope, $http) {
             });
             if (updated_post.length) {
               updated_post[0].faveCount = res.data.post.faveCount;
+              updated_post[0].faved = true;
             }
           }
         } else {
@@ -144,6 +145,7 @@ app.controller('app', ['$scope','$http', function($scope, $http) {
             });
             if (updated_post.length) {
               updated_post[0].faveCount = res.data.post.faveCount;
+              updated_post[0].faved = false;
             }
           }
         } else {
@@ -175,6 +177,24 @@ app.controller('app', ['$scope','$http', function($scope, $http) {
       })
     }
 
+    $scope.getLiked = function(posts) {
+
+      var ids = posts.map(function(p) { return p._id; });
+      $http.post('/get/liked',{posts: ids}).then(function(res) {
+        if (res.data.ok) {
+          for (var f = 0; f < res.data.data.length;f++) {
+            fave = res.data.data[f];
+            for (var p = 0; p < $scope.ui.posts.length; p++) {
+              if ($scope.ui.posts[p]._id == fave.post) {
+                $scope.ui.posts[p].faved = true;
+              }
+            }
+          }
+        }
+      });
+
+    }
+
 
     $scope.reload = function() {
         console.log('RELOAD!');
@@ -198,6 +218,10 @@ app.controller('feed', ['$scope','$routeParams', function($scope, $routeParams) 
 
   $scope.getPosts('/posts/feed',[],$scope.ui.page).then(function(posts) {
     $scope.ui.posts = posts;
+
+    $scope.getLiked($scope.ui.posts);
+
+
     $scope.$apply();
   })
 

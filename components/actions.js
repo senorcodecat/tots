@@ -19,7 +19,6 @@ module.exports = function(webserver, db) {
             }, function(err, count) {
                 if (!err) {
                     post.faveCount = count;
-                    console.log('UPDATE FAVES', count);
                     db.posts.update({
                         _id: post._id
                     }, {
@@ -28,7 +27,6 @@ module.exports = function(webserver, db) {
                         }
                     }, function(err, res) {
                         resolve(count);
-                        console.log(err, res);
                     });
                 } else {
                     reject(err);
@@ -46,7 +44,6 @@ module.exports = function(webserver, db) {
             post.user = req.user_profile._id;
             post.save();
 
-            console.log('POST FILES', req.files);
             if (req.files && req.files.image) {
                 debug('Got a file upload', req.files.image);
                 req.files.image.mv('/tmp/' + req.user_profile._id + '_' + req.files.image.name, function(err) {
@@ -69,12 +66,7 @@ module.exports = function(webserver, db) {
                         uploader.on('error', function(err) {
                             console.error("unable to upload:", err.stack);
                         });
-                        uploader.on('progress', function() {
-                            console.log("progress", uploader.progressMd5Amount,
-                                uploader.progressAmount, uploader.progressTotal);
-                        });
                         uploader.on('end', function() {
-                            console.log("done uploading");
 
                             post.images.push({
                                 name: req.files.image.name,
@@ -125,23 +117,18 @@ module.exports = function(webserver, db) {
 
 
     webserver.get('/actions/follow/:uid', function(req, res) {
-        console.log(req.params);
         if (req.user) {
             db.follow.findOne({
                 user: req.user_profile._id,
                 following: req.params.uid
             }, function(err, follow) {
                 if (!follow) {
-                    console.log('q', {
-                        _id: req.params.uid
-                    });
                     db.users.findOne({
                         _id: req.params.uid
                     }, function(err, followee) {
                         if (followee) {
                             if (String(followee._id) != String(req.user_profile._id)) {
                                 follow = new db.follow();
-                                console.log('CREATING NEW REC');
                                 follow.user = req.user_profile._id;
                                 follow.following = followee._id;
                                 follow.save();
@@ -192,7 +179,6 @@ module.exports = function(webserver, db) {
 
 
     webserver.get('/actions/unfollow/:uid', function(req, res) {
-        console.log(req.params);
         if (req.user) {
             db.follow.remove({
                 user: req.user_profile._id,
@@ -265,7 +251,10 @@ module.exports = function(webserver, db) {
 
                     res.json({
                         ok: true,
-                        exists: true
+                        exists: true,
+                        post: {
+                          _id: req.params.pid,
+                        }
                     });
                 }
             });

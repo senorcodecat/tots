@@ -13,7 +13,9 @@
                             <img ng-src="{% image.url %}" alt="{% image.name %}" />
                         </div>
                     <ul class="actions">
-                        <li><a ng-click="fave(post._id);">⭐️</a><span class="faveCount" ng-if="post.faveCount"> {% post.faveCount %}</span></li>
+                        <li ng-if="post.faved"><a ng-click="unfave(post._id);">🌟</a><span class="faveCount" ng-if="post.faveCount"> {% post.faveCount %}</span></li>
+                        <li ng-if="!post.faved"><a ng-click="fave(post._id);">⭐️</a><span class="faveCount" ng-if="post.faveCount"> {% post.faveCount %}</span></li>
+
                         <li>💬</li>
                     </ul>
                 </div>
