@@ -34,17 +34,20 @@ DONE:
 * fave counts
 * post permalinks
 * replies
+* edit posts
+* edit profile images
 
 TODO:
 
-* edit posts
+* square crop images
+* remove pics from post
+* change pics on post
 * link unfurling header things
 * @mentions
 * last read marker
 * view followers
 * view following
 * capture / upload profile images
-* edit profile images
 * blocking
 * reporting
 

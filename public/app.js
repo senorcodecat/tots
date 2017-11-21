@@ -479,11 +479,34 @@ app.controller('editpost', ['$scope','$routeParams','$http', function($scope, $r
   $scope.getPosts('/posts/post',['post=' + $scope.params.post_id,'username=' + encodeURIComponent($scope.params.username)],1).then(function(post) {
     if (post.user._id == $scope.ui.user._id) {
       $scope.ui.post = post;
+      if (post.images.length) {
+        $scope.ui.img_preview = post.images[0].url;
+      }
       $scope.$apply();
     } else {
       window.location = '/';
     }
  });
+
+ $scope.removeFile = function() {
+     if (confirm('Remove the file from this post?')) {
+         $scope.ui.file = null;
+         $scope.ui.img_preview = null;
+     }
+ }
+
+ $scope.fileChange = function() {
+     var img = document.createElement("img");
+     img.classList.add("obj");
+
+     var reader = new FileReader();
+     reader.onload = (function(aImg) { return function(e) {
+         $scope.ui.img_preview = e.target.result;
+         $scope.$apply();
+     }; })(img);
+     var url = reader.readAsDataURL($scope.ui.file);
+ }
+
 
 
  $scope.saveEdit = function() {

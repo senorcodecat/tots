@@ -116,9 +116,10 @@ module.exports = function(db) {
                   user.username = req.user.displayName;
                   user.displayName = req.user.displayName;
                   user.user_id = req.user._json.sub;
+                  user.avatar_url = req.user.picture || null;
+
               }
 
-              user.avatar_url = req.user.picture || null;
 
               user.lastAuth = new Date();
               user.save(function(err) {

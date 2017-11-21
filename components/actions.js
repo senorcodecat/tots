@@ -220,7 +220,42 @@ module.exports = function(webserver, db) {
                 req.user_profile.displayName = req.body.displayName;
                 req.user_profile.bio = req.body.bio;
                 req.user_profile.save();
-                res.redirect('/me');
+
+                if (req.files && req.files.image) {
+                    debug('Got a file upload', req.files.image);
+                    req.files.image.mv('/tmp/' + req.user_profile._id + '_' + req.files.image.name, function(err) {
+                        if (err) {
+                            console.error(err);
+
+                            debug('NEW POST', post);
+                            res.redirect('/me');
+
+                        } else {
+                            debug('File ready to upload');
+                            var ts = new Date().getTime();
+                            var uploader = client.uploadFile({
+                                localFile: '/tmp/' + req.user_profile._id + '_' + req.files.image.name,
+                                s3Params: {
+                                    Bucket: 'tots',
+                                    Key: 'images/' + req.user_profile._id + '_' + ts + '_' + req.files.image.name,
+                                }
+                            });
+                            uploader.on('error', function(err) {
+                                console.error("unable to upload:", err.stack);
+                            });
+                            uploader.on('end', function() {
+
+                                req.user_profile.avatar_url = 'https://s3.amazonaws.com/tots/images/' + req.user_profile._id + '_' + ts + '_' + req.files.image.name;
+                                req.user_profile.save();
+
+                                res.redirect('/me');
+
+                            });
+                        }
+                    });
+                } else {
+                  res.redirect('/me');
+                }
             });
         } else {
             res.redirect('/login');

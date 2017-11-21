@@ -1,5 +1,5 @@
 <form ng-if="ui.auth" method="post" encType="multipart/form-data" action="/actions/post" class="post_form" ng-controller="postForm" ng-submit="submit">
-    <div class="avatar">
+    <div class="avatar" ng-if="post.user.avatar_url">
         <img ng-src="{% ui.user.avatar_url %}" class="avatar" />
     </div>
     <div class="composer">
