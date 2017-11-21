@@ -239,15 +239,15 @@ ul.posts {
   display: inline-block;
   cursor: pointer; }
 
-ul.comments {
+ul.replies {
   list-style-type: none;
   background: #FFF;
   margin: 0;
   padding: 0; }
-  ul.comments li {
+  ul.replies li {
     padding: 1rem;
     border-bottom: 1px solid #CCC; }
-    ul.comments li .content {
+    ul.replies li .content {
       margin-left: 70px; }
 
 /*# sourceMappingURL=styles.css.map */

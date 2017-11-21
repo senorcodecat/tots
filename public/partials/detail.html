@@ -19,8 +19,8 @@
         </div>
     </div>
     <div ng-if="!ui.post.comments_disabled">
-        <ul class="comments">
-            <li ng-repeat="comment in ui.comments" class="comment" id="comment-{% comment._id %}">
+        <ul class="replies">
+            <li ng-repeat="comment in ui.comments" class="reply" id="comment-{% comment._id %}">
                 <div class="content">
                     <div class="byline">
                         <a ng-href="/@{% comment.user.username %}" class="username">{% comment.user.displayName %}</a> <a ng-href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}#comment-{% comment._id %}" class="date">{% comment.date | date : "MMM d, h:mm a" %}</a>
