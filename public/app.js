@@ -26,6 +26,12 @@ app.config(function($interpolateProvider) {
 .when('/@:username/tots/:post_id', {
  templateUrl: 'partials/detail.html',
 })
+.when('/@:username/tots/:post_id/edit', {
+ templateUrl: 'partials/edit.html',
+})
+.when('/@:username/tots/:post_id/revisions', {
+ templateUrl: 'partials/revisions.html',
+})
 .when('/@:username/faves', {
  templateUrl: 'partials/faves.html',
 })
@@ -404,6 +410,9 @@ app.controller('detail', ['$scope','$routeParams','$http', function($scope, $rou
   delete($scope.ui.post);
   $scope.getPosts('/posts/post',['post=' + $scope.params.post_id,'username=' + encodeURIComponent($scope.params.username)],1).then(function(payload) {
     $scope.ui.post = payload;
+    if ($scope.ui.post.user._id == $scope.ui.user._id) {
+      $scope.ui.post.mine = true;
+    }
     $scope.getLiked([$scope.ui.post]);
     $scope.getComments();
 
@@ -425,6 +434,69 @@ app.controller('detail', ['$scope','$routeParams','$http', function($scope, $rou
          document.getElementById('comment_composer').focus();
          $scope.getComments();
      });
+ }
+
+}])
+
+
+
+app.controller('revisions', ['$scope','$routeParams','$http', function($scope, $routeParams, $http) {
+
+  $scope.params = $routeParams;
+  var pid = $scope.params.post_id;
+
+  $scope.ui.nav = 'revisions';
+
+  delete($scope.ui.post);
+  $scope.getPosts('/posts/post',['post=' + $scope.params.post_id,'username=' + encodeURIComponent($scope.params.username)],1).then(function(payload) {
+    $scope.ui.post = payload;
+    if ($scope.ui.post.user._id == $scope.ui.user._id) {
+      $scope.ui.post.mine = true;
+    }
+    $scope.getRevisions();
+
+    $scope.$apply();
+ });
+
+ $scope.getRevisions = function() {
+     $scope.getPosts('/posts/revisions',['post=' + $scope.params.post_id],1).then(function(payload) {
+         $scope.ui.revisions = payload;
+         console.log('SET REVISIONS TO',payload);
+         $scope.$apply();
+     });
+ }
+
+}])
+
+
+
+app.controller('editpost', ['$scope','$routeParams','$http', function($scope, $routeParams, $http) {
+
+  $scope.params = $routeParams;
+  var pid = $scope.params.post_id;
+
+  delete($scope.ui.post);
+  $scope.getPosts('/posts/post',['post=' + $scope.params.post_id,'username=' + encodeURIComponent($scope.params.username)],1).then(function(post) {
+    if (post.user._id == $scope.ui.user._id) {
+      $scope.ui.post = post;
+      $scope.$apply();
+    } else {
+      window.location = '/';
+    }
+ });
+
+
+ $scope.saveEdit = function() {
+   if ($scope.ui.post.user._id == $scope.ui.user._id) {
+     $http.post('/actions/edit', $scope.ui.post).then(function(res) {
+       if (res.data.ok) {
+         window.location = '/@' + $scope.ui.post.user.username + '/tots/' + $scope.ui.post._id;
+       } else {
+         alert('SOFTWARE FAIL!');
+       }
+     })
+
+   }
  }
 
 }])

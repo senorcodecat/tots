@@ -180,6 +180,8 @@ ul.posts {
     .post .avatar img {
       width: 50px;
       height: 50px; }
+  .post.revised {
+    padding-bottom: 0.5rem; }
   .post .content {
     margin-left: 70px; }
   .post .text {
@@ -213,6 +215,11 @@ ul.posts {
     font-weight: bold; }
 
 .replyline {
+  font-weight: lighter;
+  margin-bottom: 0.25rem;
+  font-size: 0.8rem; }
+
+.revisionline {
   font-weight: lighter;
   margin-bottom: 0.25rem;
   font-size: 0.8rem; }
@@ -255,5 +262,12 @@ ul.replies {
     border-bottom: 1px solid #CCC; }
     ul.replies li .content {
       margin-left: 70px; }
+
+h1 {
+  /* used at top of profile page */ }
+
+h2 {
+  /* title of "Revisions" page */
+  text-align: center; }
 
 /*# sourceMappingURL=styles.css.map */

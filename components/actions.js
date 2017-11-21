@@ -60,6 +60,43 @@ module.exports = function(webserver, db) {
             });
         });
     }
+
+    webserver.post('/actions/edit', function(req, res) {
+
+      if (req.user && req.body._id) {
+        db.posts.findOne({user: req.user_profile._id, _id: req.body._id}, function(err, original_post) {
+
+          if (!original_post) {
+            return res.json({ok:false});
+          } else {
+
+            var revision = new db.revisions();
+            revision.post = original_post._id;
+            revision.text = original_post.text;
+            revision.images = original_post.images;
+            revision.save();
+
+            original_post.text = req.body.text;
+            original_post.updated = new Date();
+            original_post.save();
+
+            return res.json({
+              ok: true
+            });
+
+          }
+        });
+      } else {
+
+        res.json({
+          ok: false
+        })
+
+      }
+
+
+    })
+
     webserver.post('/actions/post', function(req, res) {
 
         if (req.user && req.body.text && req.body.text != '') {

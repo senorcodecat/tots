@@ -1,0 +1,15 @@
+<div ng-controller="editpost">
+      <h1>OH YOU THINK YOU SHOULD BE ABLE TO EDIT YOUR POSTS DO YOU?</h1>
+
+      <h2>Yeah that's fine. We'll even track revision history for you.</h2>
+
+      <h2>Edit Post</h2>
+      <form ng-submit="saveEdit()" class="post_form">
+        <div class="composer">
+          <textarea ng-model="ui.post.text"></textarea>
+        </div>
+        <div class="actions">
+          <button type="submit" ng-disabled="!ui.post.text">Update Post</button>
+        </div>
+      </form>
+</div>

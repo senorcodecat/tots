@@ -51,6 +51,17 @@ app.get('/@:username/tots/:post?', function(req, res, next) {
     layout: 'layouts/default',
   });
 });
+app.get('/@:username/tots/:post/edit', function(req, res, next) {
+  res.render('home', {
+    layout: 'layouts/default',
+  });
+});
+app.get('/@:username/tots/:post/revisions', function(req, res, next) {
+  res.render('home', {
+    layout: 'layouts/default',
+  });
+});
+
 
 // Get the user profile
 app.get('/me', function(req, res, next) {

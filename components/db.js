@@ -68,10 +68,29 @@ module.exports = function() {
         date: {
             type: Date,
             default: Date.now
+        },
+        updated: {
+          type: Date,
+          default: null,
         }
     });
 
     postSchema.index({user:1,date:1});
+
+
+    var revisionSchema = new Schema({
+        post: {
+          type: ObjectId,
+          ref: 'post',
+          index: true,
+        },
+        text: String,
+        images: [{}],
+        date: {
+            type: Date,
+            default: Date.now
+        }
+    });
 
 
     var commentSchema = new Schema({
@@ -169,6 +188,7 @@ module.exports = function() {
     return {
         users: mongoose.model('user', userSchema),
         posts: mongoose.model('post', postSchema),
+        revisions: mongoose.model('revision', revisionSchema),
         comments: mongoose.model('comment', commentSchema),
         faves: mongoose.model('fave', faveSchema),
         notifications: mongoose.model('notification', notificationSchema),

@@ -5,7 +5,8 @@ a cute little social network
 * follow friends
 * fave stuff
 * get fun notifications
-* chat?
+* chat (sorta)
+* edit your own posts!
 * no nazis
 * no algorithmic feeds
 * not a customer support and marketing platform for big brands
@@ -37,6 +38,7 @@ DONE:
 TODO:
 
 * edit posts
+* link unfurling header things
 * @mentions
 * last read marker
 * view followers

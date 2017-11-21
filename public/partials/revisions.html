@@ -1,0 +1,43 @@
+<div ng-controller="revisions">
+    <div class="post detail_view">
+        <div class="avatar">
+            <img ng-src="{% ui.post.user.avatar_url %}" ng-if="ui.post.user.avatar_url"/>
+        </div>
+        <div class="content">
+            <div class="byline">
+                <a ng-href="/@{% ui.post.user.username %}" class="username">{% ui.post.user.displayName %}</a> <a ng-href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}" class="date">{% ui.post.date | date : "MMM d, h:mm a" %}</a>
+            </div>
+            <div class="replyline" ng-if="ui.post.replyTo">
+                reply to <a ng-href="/@{% ui.post.replyTo.user.username %}/tots/{% ui.post.replyTo._id %}">{% ui.post.replyTo.user.displayName %}</a>
+            </div>
+            <div class="text" ng-bind-html="ui.post.text | renderPostText"></div>
+            <div class="revisionLine" ng-if="ui.post.updated">
+                updated <a ng-href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}/revisions" class="date">{% ui.post.updated | date : "MMM d, h:mm a" %}</a>
+            </div>
+            <div class="image" ng-repeat="image in ui.post.images">
+                <img ng-src="{% image.url %}" alt="{% image.name %}" />
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="ui.revisions && ui.revisions.length">
+      <h2>Previous Versions:</h2>
+      <ul class="posts">
+        <li ng-repeat="post in ui.revisions" class="revised post">
+          <div class="avatar">
+              <img ng-src="{% ui.post.user.avatar_url %}" ng-if="ui.post.user.avatar_url"/>
+          </div>
+          <div class="content">
+              <div class="byline">
+                <span class="date">{% post.date | date : "MMM d, h:mm a" %}</span>
+              </div>
+              <div class="text" ng-bind-html=" post.text | renderPostText"></div>
+              <div class="image" ng-repeat="image in post.images">
+                  <img ng-src="{% image.url %}" alt="{% image.name %}" />
+              </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+</div>

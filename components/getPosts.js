@@ -61,7 +61,7 @@ module.exports = function(webserver, db) {
   webserver.get('/posts/post', function(req, res) {
       db.users.findOne({username: req.query.username}, function(err, user) {
           if (user) {
-              db.posts.findOne({user: user._id, _id: req.query.post}).populate('user').populate({path: 'post', populate: { path: 'user'}}).exec(function(err, post) {
+              db.posts.findOne({user: user._id, _id: req.query.post}).populate('user').populate({path: 'replyTo', populate: { path: 'user'}}).exec(function(err, post) {
                 if (post) {
                     res.json({
                         ok: true,
@@ -79,11 +79,27 @@ module.exports = function(webserver, db) {
               });
           }
       });
-      console.log(req.query);
+  });
+
+  webserver.get('/posts/revisions', function(req, res) {
+      db.posts.findOne({_id: req.query.post}).exec(function(err, post) {
+        if (post) {
+            db.revisions.find({post: post._id}).exec(function(err, revisions) {
+                res.json({
+                    ok: true,
+                    data: revisions,
+                })
+            });
+        } else {
+            res.json({
+                ok: false
+            })
+        }
+      });
   });
 
   webserver.get('/posts/comments', function(req, res) {
-      db.posts.findOne({_id: req.query.post}).populate('user').exec(function(err, post) {
+      db.posts.findOne({_id: req.query.post}).exec(function(err, post) {
         if (post) {
             db.comments.find({replyTo: post._id}).populate('user').exec(function(err, comments) {
                 res.json({
@@ -97,7 +113,6 @@ module.exports = function(webserver, db) {
             })
         }
       });
-      console.log(req.query);
   });
   webserver.get('/posts/user', function(req, res) {
 

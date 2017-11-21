@@ -284,6 +284,10 @@ ul.posts {
     border-top: 1px solid #CCC;
     padding: 0.5rem 1rem 0;
 
+    &.revised {
+      padding-bottom: 0.5rem;
+    }
+
     .content {
         margin-left: 70px;
     }
@@ -338,6 +342,12 @@ ul.posts {
 }
 
 .replyline {
+    font-weight: lighter;
+    margin-bottom: 0.25rem;
+    font-size: 0.8rem;
+}
+
+.revisionline {
     font-weight: lighter;
     margin-bottom: 0.25rem;
     font-size: 0.8rem;
@@ -399,4 +409,14 @@ ul.replies {
             margin-left: 70px;
         }
     }
+}
+
+h1 {
+  /* used at top of profile page */
+}
+
+h2 {
+  /* title of "Revisions" page */
+  text-align: center;
+
 }
