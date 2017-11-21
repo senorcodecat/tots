@@ -410,7 +410,7 @@ app.controller('detail', ['$scope','$routeParams','$http', function($scope, $rou
   delete($scope.ui.post);
   $scope.getPosts('/posts/post',['post=' + $scope.params.post_id,'username=' + encodeURIComponent($scope.params.username)],1).then(function(payload) {
     $scope.ui.post = payload;
-    if ($scope.ui.post.user._id == $scope.ui.user._id) {
+    if ($scope.ui.user && ($scope.ui.post.user._id == $scope.ui.user._id)) {
       $scope.ui.post.mine = true;
     }
     $scope.getLiked([$scope.ui.post]);
@@ -450,7 +450,7 @@ app.controller('revisions', ['$scope','$routeParams','$http', function($scope, $
   delete($scope.ui.post);
   $scope.getPosts('/posts/post',['post=' + $scope.params.post_id,'username=' + encodeURIComponent($scope.params.username)],1).then(function(payload) {
     $scope.ui.post = payload;
-    if ($scope.ui.post.user._id == $scope.ui.user._id) {
+    if ($scope.ui.user && ($scope.ui.post.user._id == $scope.ui.user._id)) {
       $scope.ui.post.mine = true;
     }
     $scope.getRevisions();
