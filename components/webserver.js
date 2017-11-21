@@ -102,6 +102,8 @@ module.exports = function(db) {
     // Check logged in
     app.use(function(req, res, next) {
       res.locals.loggedin = false;
+      res.locals.thisurl = req.protocol + '://' + req.get('host') + req.originalUrl;
+
       if (req.session.passport && typeof req.session.passport.user != 'undefined') {
         res.locals.loggedin = true;
         res.locals.user = req.user;

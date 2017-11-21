@@ -47,8 +47,11 @@ app.get('/@:username/faves/:page?', function(req, res, next) {
   });
 });
 app.get('/@:username/tots/:post?', function(req, res, next) {
-  res.render('home', {
-    layout: 'layouts/default',
+    db.posts.findOne({_id: req.params.post}).populate('user').populate({path: 'replyTo', populate: { path: 'user'}}).exec(function(err, post) {
+      res.render('home', {
+        post: post,
+        layout: 'layouts/default',
+      });
   });
 });
 app.get('/@:username/tots/:post/edit', function(req, res, next) {

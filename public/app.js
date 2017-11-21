@@ -79,13 +79,25 @@ app.filter('renderPostText', ['$sce', function($sce) {
         text = text.replace(/(^|\W)\#(\w+)(\W|$)/ig,'$1<a href="/search?query=%23$2">#$2</a>$3');
 
         // ban some words from appearing
-        text = text.replace(/(fuck|bitch|nigger)/ig,'███████');
+        text = text.replace(/(fuck|bitch|nigger)/ig,'████');
+
         text = text.replace(/\n/g,'<br/>\n');
         return $sce.trustAsHtml(text);
     }
   };
 }])
 
+app.filter('curseFilter', ['$sce', function($sce) {
+  return function(text) {
+      if (text) {
+
+
+        // ban some words from appearing
+        text = text.replace(/(fuck|bitch|nigger)/ig,'████');
+        return $sce.trustAsHtml(text);
+    }
+  };
+}])
 
 app.controller('app', ['$scope','$http', function($scope, $http) {
 

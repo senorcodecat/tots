@@ -9,6 +9,26 @@
       var auth = false;
       {{/if}}
     </script>
+    {{#if post}}
+    <!-— facebook open graph tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{@thisurl}}" />
+    <meta property="og:title" content="Tot from {{post.user.displayName}}" />
+    <meta property="og:description" content="{{post.text}}" />
+    {{#post.images}}
+        <meta property="og:image" content="{{url}}" />
+    {{/post.images}}
+
+    <!-— twitter card tags additive with the og: tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:domain" value="tots.glitch.me" />
+    <meta name="twitter:title" value="Tot from {{post.user.displayName}}" />
+    <meta name="twitter:description" value="{{post.text}}" />
+    {{#post.images}}
+        <meta name="twitter:image" content="{{url}}" />
+    {{/post.images}}
+    <meta name="twitter:url" value="{{@thisurl}}" />
+    {{/if}}
 
 
     <script src="https://cdn.auth0.com/js/auth0/8.10.1/auth0.min.js"></script>
