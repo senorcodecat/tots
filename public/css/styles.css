@@ -154,46 +154,55 @@ ul.posts {
   margin: 0;
   padding: 0;
   background: #FFF; }
-  ul.posts li {
-    margin: 1rem 0;
-    border-top: 1px solid #CCC;
-    padding: 0.5rem 1rem 0; }
-    ul.posts li:after {
-      content: "";
-      display: table;
-      clear: both; }
-    ul.posts li .avatar {
-      float: left;
-      padding-top: 3px; }
-      ul.posts li .avatar img {
-        width: 50px;
-        height: 50px; }
-    ul.posts li .content {
-      margin-left: 70px; }
-    ul.posts li .byline {
-      margin-bottom: 0.25rem; }
-      ul.posts li .byline .username {
-        font-weight: bold; }
-    ul.posts li .text {
-      display: block;
-      margin-bottom: 0.5rem; }
-    ul.posts li .date {
-      font-weight: lighter; }
-    ul.posts li .actions {
-      list-style-type: none;
+  ul.posts li:after {
+    content: "";
+    display: table;
+    clear: both; }
+
+.post {
+  margin: 1rem 0;
+  border-top: 1px solid #CCC;
+  padding: 0.5rem 1rem 0; }
+  .post:after {
+    content: "";
+    display: table;
+    clear: both; }
+  .post .avatar {
+    float: left;
+    padding-top: 3px; }
+    .post .avatar img {
+      width: 50px;
+      height: 50px; }
+  .post .content {
+    margin-left: 70px; }
+  .post .byline {
+    margin-bottom: 0.25rem; }
+    .post .byline .username {
+      font-weight: bold; }
+  .post .text {
+    display: block;
+    margin-bottom: 0.5rem; }
+  .post .date {
+    font-weight: lighter; }
+  .post .actions {
+    list-style-type: none;
+    margin: 0;
+    padding: 0; }
+    .post .actions li {
+      display: inline-block;
       margin: 0;
-      padding: 0; }
-      ul.posts li .actions li {
-        display: inline-block;
-        margin: 0;
-        padding: 0.25rem;
-        border: none; }
-    ul.posts li .image {
-      border: 1px solid #CCC;
-      max-width: 100% !important;
-      display: inline-block; }
-      ul.posts li .image img {
-        max-width: 100%; }
+      padding: 0.25rem;
+      border: none; }
+  .post .image {
+    border: 1px solid #CCC;
+    max-width: 100% !important;
+    display: inline-block; }
+    .post .image img {
+      max-width: 100%; }
+  .post.detail_view {
+    background-color: #FFF; }
+    .post.detail_view .text {
+      font-size: 2rem; }
 
 .profile {
   padding-top: 2rem;

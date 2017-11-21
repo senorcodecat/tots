@@ -1,5 +1,14 @@
 # TOTS
-a cute little social network you can run yourself
+a cute little social network
+
+* share short thoughts and pics
+* follow friends
+* fave stuff
+* get fun notifications
+* chat?
+* no nazis
+* no algorithmic feeds
+* not a customer support and marketing platform for big brands
 
 [Deploy to Glitch]
 
@@ -21,17 +30,17 @@ DONE:
 * search
 * editable usernames
 * files
+* fave counts
 
 TODO:
 
+* post permalinks
+* replies
+* @mentions
 * view followers
 * view following
 * capture / upload profile images
 * edit profile images
-* fave counts
-* replies
-* @mentions
-* post permalinks
 * blocking
 * reporting
 

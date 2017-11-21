@@ -4,7 +4,7 @@
         <span class="notification" ng-bind-html="notification.html"></span>
         <div ng-if="notification.post" class="post">
             <div class="byline">
-                <a ng-href="/@{% notification.post.user.username %}" class="username">{% notification.post.user.displayName %}</a> <span class="date">{% notification.post.date | date : "MMM Do, h:mm a" %}</span>
+                <a ng-href="/@{% notification.post.user.username %}" class="username">{% notification.post.user.displayName %}</a> <span class="date">{% notification.post.date | date : "MMM d, h:mm a" %}</span>
             </div>
             <div class="text" ng-bind-html="notification.post.text | renderPostText"></div>
         </div>

@@ -1,0 +1,21 @@
+<div ng-controller="detail">
+    <div class="post detail_view">
+        <div class="avatar">
+            <img ng-src="{% ui.post.user.avatar_url %}" ng-if="ui.post.user.avatar_url"/>
+        </div>
+        <div class="content">
+            <div class="byline">
+                <a ng-href="/@{% ui.post.user.username %}" class="username">{% ui.post.user.displayName %}</a> <a ng-href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}" class="date">{% ui.post.date | date : "MMM d, h:mm a" %}</a>
+            </div>
+            <div class="text" ng-bind-html="ui.post.text | renderPostText"></div>
+                <div class="image" ng-repeat="image in ui.post.images">
+                    <img ng-src="{% image.url %}" alt="{% image.name %}" />
+                </div>
+            <ul class="actions">
+                <li ng-if="ui.post.faved"><a ng-click="unfave(ui.post._id);">🌟</a><span class="faveCount" ng-if="ui.post.faveCount"> {% ui.post.faveCount %}</span></li>
+                <li ng-if="!ui.post.faved"><a ng-click="fave(ui.post._id);">⭐️</a><span class="faveCount" ng-if="ui.post.faveCount"> {% ui.post.faveCount %}</span></li>
+                <li>💬</li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -58,6 +58,30 @@ module.exports = function(webserver, db) {
         });
   })
 
+  webserver.get('/posts/post', function(req, res) {
+      db.users.findOne({username: req.query.username}, function(err, user) {
+          if (user) {
+              db.posts.findOne({user: user._id, _id: req.query.post}).populate('user').exec(function(err, post) {
+                if (post) {
+                    res.json({
+                        ok: true,
+                        data: post,
+                    })
+                } else {
+                    res.json({
+                        ok: false
+                    })
+                }
+              });
+          } else {
+              res.json({
+                  ok: false
+              });
+          }
+      });
+      console.log(req.query);
+  });
+
   webserver.get('/posts/user', function(req, res) {
 
     var limit = 25;

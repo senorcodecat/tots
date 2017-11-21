@@ -1,12 +1,12 @@
 <div class="content">
     <ul class="posts">
-            <li ng-repeat="post in ui.posts">
+            <li ng-repeat="post in ui.posts" class="post">
                 <div class="avatar">
                     <img ng-src="{% post.user.avatar_url %}" ng-if="post.user.avatar_url"/>
                 </div>
                 <div class="content">
                     <div class="byline">
-                        <a ng-href="/@{% post.user.username %}" class="username">{% post.user.displayName %}</a> <span class="date">{% date | date : "MMM Do, h:mm a" %}</span>
+                        <a ng-href="/@{% post.user.username %}" class="username">{% post.user.displayName %}</a> <a ng-href="/@{% post.user.username %}/tots/{% post._id %}" class="date">{% post.date | date : "MMM d, h:mm a" %}</a>
                     </div>
                     <div class="text" ng-bind-html=" post.text | renderPostText"></div>
                         <div class="image" ng-repeat="image in post.images">

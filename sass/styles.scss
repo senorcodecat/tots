@@ -255,65 +255,79 @@ ul.posts {
 
         @include clearfix;
 
-        .avatar {
-            float: left;
-            padding-top: 3px;
-            img {
-                width: 50px;
-                height: 50px;
-            }
-        }
-
-        margin: 1rem 0;
-        border-top: 1px solid #CCC;
-        padding: 0.5rem 1rem 0;
-
-        .content {
-            margin-left: 70px;
-        }
-
-        .byline {
-            .username {
-                font-weight: bold;
-            }
-            margin-bottom: 0.25rem;
-        }
-        .text {
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .date {
-            // font-style: italic;
-            font-weight: lighter;
-        }
-
-        .actions {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-
-            li {
-                display: inline-block;
-                margin: 0;
-                padding: 0.25rem;
-                border: none;
-            }
-        }
-
-        .image {
-            border: 1px solid #CCC;
-            max-width: 100% !important;
-            display: inline-block;
-
-            img {
-                max-width: 100%;
-            }
-        }
-
 
     }
 
+}
+
+.post {
+    @include clearfix;
+
+    .avatar {
+        float: left;
+        padding-top: 3px;
+        img {
+            width: 50px;
+            height: 50px;
+        }
+    }
+
+    margin: 1rem 0;
+    border-top: 1px solid #CCC;
+    padding: 0.5rem 1rem 0;
+
+    .content {
+        margin-left: 70px;
+    }
+
+    .byline {
+        .username {
+            font-weight: bold;
+        }
+        margin-bottom: 0.25rem;
+    }
+    .text {
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    .date {
+        // font-style: italic;
+        font-weight: lighter;
+    }
+
+    .actions {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+            display: inline-block;
+            margin: 0;
+            padding: 0.25rem;
+            border: none;
+        }
+    }
+
+    .image {
+        border: 1px solid #CCC;
+        max-width: 100% !important;
+        display: inline-block;
+
+        img {
+            max-width: 100%;
+        }
+    }
+
+
+    &.detail_view {
+
+        background-color: #FFF;
+        
+        .text {
+            font-size: 2rem;
+        }
+    }
 }
 
 .profile {

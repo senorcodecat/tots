@@ -23,6 +23,9 @@ app.config(function($interpolateProvider) {
  .when('/@:username', {
   templateUrl: 'partials/profile.html',
 })
+.when('/@:username/tots/:post_id', {
+ templateUrl: 'partials/detail.html',
+})
 .when('/@:username/faves', {
  templateUrl: 'partials/faves.html',
 })
@@ -64,9 +67,11 @@ templateUrl: 'partials/faves.html',
 
 app.filter('renderPostText', ['$sce', function($sce) {
   return function(text) {
-    text = text.replace(/(\W)\#(.*?)(\W)/ig,'$1<a href="/search?query=%23$2">#$2</a>$3');
-    text = text.replace(/\n/g,'<br/>\n');
-    return $sce.trustAsHtml(text);
+      if (text) {
+        text = text.replace(/(\W)\#(.*?)(\W)/ig,'$1<a href="/search?query=%23$2">#$2</a>$3');
+        text = text.replace(/\n/g,'<br/>\n');
+        return $sce.trustAsHtml(text);
+    }
   };
 }])
 
@@ -121,12 +126,22 @@ app.controller('app', ['$scope','$http', function($scope, $http) {
       $http.get('/actions/fave/' + post_id).then(function(res) {
         if (res.data.ok) {
           if (res.data.post) {
-            var updated_post = $scope.ui.posts.filter(function(p) {
-              return p._id == res.data.post._id;
-            });
-            if (updated_post.length) {
-              updated_post[0].faveCount = res.data.post.faveCount;
-              updated_post[0].faved = true;
+              var updated_post;
+             if ($scope.ui.post) {
+                 updated_post = $scope.ui.post;
+             } else {
+                updated_post = $scope.ui.posts.filter(function(p) {
+                  return p._id == res.data.post._id;
+                });
+                if (updated_post.length) {
+                    updated_post = updated_post[0];
+                }
+            }
+            if (updated_post) {
+              updated_post.faved = true;
+              if (typeof(res.data.post.faveCount)!='undefined') {
+                  updated_post.faveCount = res.data.post.faveCount;
+              }
             }
           }
         } else {
@@ -140,13 +155,23 @@ app.controller('app', ['$scope','$http', function($scope, $http) {
       $http.get('/actions/unfave/' + post_id).then(function(res) {
         if (res.data.ok) {
           if (res.data.post) {
-            var updated_post = $scope.ui.posts.filter(function(p) {
-              return p._id == res.data.post._id;
-            });
-            if (updated_post.length) {
-              updated_post[0].faveCount = res.data.post.faveCount;
-              updated_post[0].faved = false;
-            }
+              if ($scope.ui.post) {
+                  updated_post = $scope.ui.post;
+              } else {
+                 updated_post = $scope.ui.posts.filter(function(p) {
+                   return p._id == res.data.post._id;
+                 });
+                 if (updated_post.length) {
+                     updated_post = updated_post[0];
+                 }
+             }
+             if (updated_post) {
+               updated_post.faved = false;
+               if (typeof(res.data.post.faveCount)!='undefined') {
+                   updated_post.faveCount = res.data.post.faveCount;
+               }
+
+             }
           }
         } else {
           alert('FAILED TO FAVE');
@@ -184,10 +209,15 @@ app.controller('app', ['$scope','$http', function($scope, $http) {
         if (res.data.ok) {
           for (var f = 0; f < res.data.data.length;f++) {
             fave = res.data.data[f];
-            for (var p = 0; p < $scope.ui.posts.length; p++) {
-              if ($scope.ui.posts[p]._id == fave.post) {
-                $scope.ui.posts[p].faved = true;
-              }
+            if ($scope.ui.posts) {
+                for (var p = 0; p < $scope.ui.posts.length; p++) {
+                  if ($scope.ui.posts[p]._id == fave.post) {
+                    $scope.ui.posts[p].faved = true;
+                  }
+                }
+            }
+            if ($scope.ui.post && $scope.ui.post._id == fave.post) {
+                $scope.ui.post.faved = true;
             }
           }
         }
@@ -356,6 +386,24 @@ app.controller('notifications', ['$scope','$routeParams','$sce', function($scope
     }
     $scope.$apply();
   });
+
+}])
+
+
+app.controller('detail', ['$scope','$routeParams', function($scope, $routeParams) {
+
+  $scope.ui.nav = 'detail';
+
+  $scope.params = $routeParams;
+
+  var pid = $scope.params.post_id;
+  delete($scope.ui.post);
+  $scope.getPosts('/posts/post',['post=' + $scope.params.post_id,'username=' + encodeURIComponent($scope.params.username)],1).then(function(payload) {
+    $scope.ui.post = payload;
+    $scope.getLiked([$scope.ui.post]);
+    $scope.$apply();
+ });
+
 
 }])
 
