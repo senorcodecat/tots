@@ -40,11 +40,17 @@ nav ul {
       display: none;
       position: absolute;
       top: 1rem;
-      left: -1rem;
       width: 200px;
       background: #fff;
       z-index: 2;
-      box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.15); }
+      box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.15);
+      right: 0rem;
+      text-align: right; }
+      @media all and (min-width: 875px) {
+        nav ul li ul {
+          right: auto;
+          left: -1rem;
+          text-align: left; } }
       nav ul li ul li {
         display: block;
         border-bottom: 2px solid #CCC;
