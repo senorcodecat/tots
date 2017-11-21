@@ -68,7 +68,7 @@ templateUrl: 'partials/faves.html',
 app.filter('renderPostText', ['$sce', function($sce) {
   return function(text) {
       if (text) {
-        text = text.replace(/(\W)\#(.*?)(\W)/ig,'$1<a href="/search?query=%23$2">#$2</a>$3');
+        text = text.replace(/(^|\W)\#(\w+)(\W|$)/ig,'$1<a href="/search?query=%23$2">#$2</a>$3');
         text = text.replace(/\n/g,'<br/>\n');
         return $sce.trustAsHtml(text);
     }
@@ -390,20 +390,42 @@ app.controller('notifications', ['$scope','$routeParams','$sce', function($scope
 }])
 
 
-app.controller('detail', ['$scope','$routeParams', function($scope, $routeParams) {
-
-  $scope.ui.nav = 'detail';
+app.controller('detail', ['$scope','$routeParams','$http', function($scope, $routeParams, $http) {
 
   $scope.params = $routeParams;
-
   var pid = $scope.params.post_id;
+
+  $scope.ui.nav = 'detail';
+  $scope.ui.comment = {
+      post: pid,
+      text: '',
+  }
+
   delete($scope.ui.post);
   $scope.getPosts('/posts/post',['post=' + $scope.params.post_id,'username=' + encodeURIComponent($scope.params.username)],1).then(function(payload) {
     $scope.ui.post = payload;
     $scope.getLiked([$scope.ui.post]);
+    $scope.getComments();
+
     $scope.$apply();
  });
 
+ $scope.getComments = function() {
+     $scope.getPosts('/posts/comments',['post=' + $scope.params.post_id],1).then(function(payload) {
+         $scope.ui.comments = payload;
+         console.log('comments payload',payload);
+         $scope.$apply();
+     });
+ }
+
+ $scope.postComment = function() {
+     $http.post('/actions/comment/' + $scope.ui.comment.post, $scope.ui.comment).then(function(res) {
+         $scope.ui.comment.text = '';
+         $scope.ui.comment.post_to_feed = false;
+         document.getElementById('comment_composer').focus();
+         $scope.getComments();
+     });
+ }
 
 }])
 

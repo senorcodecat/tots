@@ -50,7 +50,7 @@ module.exports = function(webserver, db) {
         // escape some chars
         query = query.replace(/(\#)/g,'\\$1');
         var pattern = new RegExp(query,'im');
-        db.posts.find({text: {$regex: pattern}}).populate('user').sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
+        db.posts.find({text: {$regex: pattern}}).populate('user').populate({path: 'replyTo', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
           res.json({
             ok: true,
             data: posts,
@@ -61,7 +61,7 @@ module.exports = function(webserver, db) {
   webserver.get('/posts/post', function(req, res) {
       db.users.findOne({username: req.query.username}, function(err, user) {
           if (user) {
-              db.posts.findOne({user: user._id, _id: req.query.post}).populate('user').exec(function(err, post) {
+              db.posts.findOne({user: user._id, _id: req.query.post}).populate('user').populate({path: 'post', populate: { path: 'user'}}).exec(function(err, post) {
                 if (post) {
                     res.json({
                         ok: true,
@@ -82,6 +82,23 @@ module.exports = function(webserver, db) {
       console.log(req.query);
   });
 
+  webserver.get('/posts/comments', function(req, res) {
+      db.posts.findOne({_id: req.query.post}).populate('user').exec(function(err, post) {
+        if (post) {
+            db.comments.find({replyTo: post._id}).populate('user').exec(function(err, comments) {
+                res.json({
+                    ok: true,
+                    data: comments,
+                })
+            });
+        } else {
+            res.json({
+                ok: false
+            })
+        }
+      });
+      console.log(req.query);
+  });
   webserver.get('/posts/user', function(req, res) {
 
     var limit = 25;
@@ -103,7 +120,7 @@ module.exports = function(webserver, db) {
         }
 
         checkFollowing(req.user_profile, user_profile, function(following, followback) {
-            db.posts.find({user: user_profile._id}).populate('user').sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
+            db.posts.find({user: user_profile._id}).populate('user').populate({path: 'post', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
               res.json({
                 ok: true,
                 data: {
@@ -139,7 +156,7 @@ module.exports = function(webserver, db) {
         }
 
         checkFollowing(req.user_profile, user_profile, function(following, followback) {
-          db.faves.find({user: user_profile._id}).populate({path: 'post', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, faves) {
+          db.faves.find({user: user_profile._id}).populate({path: 'post', populate: [{ path: 'user'},{path:'replyTo',populate:'user'}]}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, faves) {
               var posts = [];
               for (var p = 0; p < faves.length; p++) {
                   posts.push(faves[p].post);
@@ -280,7 +297,7 @@ module.exports = function(webserver, db) {
         db.follow.find({user: req.user_profile._id}, function(err, following) {
             var following = following.map(function(f) { return f.following; });
             following.push(req.user_profile._id);
-            db.posts.find({user: {$in: following}}).populate('user').sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
+            db.posts.find({user: {$in: following}}).populate('user').populate({path: 'replyTo', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
               res.json({
                 ok: true,
                 data: posts,
@@ -307,7 +324,7 @@ module.exports = function(webserver, db) {
 
     skip = (page - 1) * limit;
 
-    db.posts.find({}).populate('user').sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
+    db.posts.find({}).populate('user').populate({path: 'replyTo', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
       res.json({
         ok: true,
         data: posts,

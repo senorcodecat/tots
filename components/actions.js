@@ -36,6 +36,30 @@ module.exports = function(webserver, db) {
         });
     }
 
+
+    function updateCommentCount(post) {
+        return new Promise(function(resolve, reject) {
+            db.comments.count({
+                replyTo: post._id
+            }, function(err, count) {
+                if (!err) {
+                    post.replyCount = count;
+                    db.posts.update({
+                        _id: post._id
+                    }, {
+                        $set: {
+                            replyCount: count
+                        }
+                    }, function(err, res) {
+                        resolve(count);
+                    });
+                } else {
+                    reject(err);
+                    console.error('error loading comments', err);
+                }
+            });
+        });
+    }
     webserver.post('/actions/post', function(req, res) {
 
         if (req.user && req.body.text && req.body.text != '') {
@@ -89,6 +113,59 @@ module.exports = function(webserver, db) {
             res.redirect('/login');
         }
 
+    });
+
+    webserver.post('/actions/comment/:post', function(req, res) {
+
+        if (req.user && req.body.text && req.body.text != '') {
+            db.posts.findOne({
+                _id: req.params.post
+            }, function(err, post) {
+                if (post) {
+
+                    var comment = new db.comments();
+                    comment.text = req.body.text;
+                    comment.user = req.user_profile._id;
+                    comment.replyTo = post._id;
+                    comment.save();
+
+                    updateCommentCount({
+                        _id: req.params.post
+                    });
+
+                    if (req.body.post_to_feed == true) {
+                        var repost = new db.posts();
+                        repost.text = req.body.text;
+                        repost.user = req.user_profile._id;
+                        repost.replyTo = post._id;
+                        repost.save(function(saved_post) {
+                            comment.post = repost._id;
+                            comment.save();
+                        });
+                    }
+
+                    if (String(req.user_profile._id) != String(post.user)) {
+                        var notification = new db.notifications();
+                        notification.user = post.user;
+                        notification.actor = req.user_profile._id;
+                        notification.post = post._id;
+                        notification.type = 'comment';
+                        notification.text = '<@' + req.user_profile._id + '> replied to your post';
+                        notification.save();
+                    }
+
+                    res.json({
+                        ok: true,
+                        data: comment,
+                    })
+                }
+            });
+
+        } else {
+            res.json({
+                ok: false,
+            })
+        }
     });
 
     webserver.post('/actions/editprofile', function(req, res) {
@@ -253,7 +330,7 @@ module.exports = function(webserver, db) {
                         ok: true,
                         exists: true,
                         post: {
-                          _id: req.params.pid,
+                            _id: req.params.pid,
                         }
                     });
                 }

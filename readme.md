@@ -31,12 +31,14 @@ DONE:
 * editable usernames
 * files
 * fave counts
+* post permalinks
+* replies
 
 TODO:
 
-* post permalinks
-* replies
+* edit posts
 * @mentions
+* last read marker
 * view followers
 * view following
 * capture / upload profile images

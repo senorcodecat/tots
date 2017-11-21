@@ -7,7 +7,7 @@ module.exports = function() {
     mongoose.connect(process.env.mongoURI, { useMongoClient: true });
     mongoose.Promise = global.Promise;
 
-    // mongoose.set('debug', true)
+    mongoose.set('debug', true);
 
 
     var db = mongoose.connection;
@@ -60,6 +60,10 @@ module.exports = function() {
             type: Number,
             default: 0,
         },
+        replyCount: {
+            type: Number,
+            default: 0,
+        },
         images: [{}],
         date: {
             type: Date,
@@ -68,6 +72,39 @@ module.exports = function() {
     });
 
     postSchema.index({user:1,date:1});
+
+
+    var commentSchema = new Schema({
+        user: {
+            type: ObjectId,
+            ref: 'user',
+            index: true,
+        },
+        post: {
+            type: ObjectId,
+            ref: 'post',
+        },
+        text: String,
+        replyTo: {
+            type: ObjectId,
+            ref: 'post',
+            default: null,
+            index: true,
+        },
+        faveCount: {
+            type: Number,
+            default: 0,
+        },
+        images: [{}],
+        date: {
+            type: Date,
+            default: Date.now
+        }
+    });
+
+    commentSchema.index({user:1,date:1});
+
+
 
     var followSchema = new Schema({
         user: {
@@ -132,6 +169,7 @@ module.exports = function() {
     return {
         users: mongoose.model('user', userSchema),
         posts: mongoose.model('post', postSchema),
+        comments: mongoose.model('comment', commentSchema),
         faves: mongoose.model('fave', faveSchema),
         notifications: mongoose.model('notification', notificationSchema),
         follow: mongoose.model('follow', followSchema),

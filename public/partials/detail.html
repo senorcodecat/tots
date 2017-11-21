@@ -14,8 +14,37 @@
             <ul class="actions">
                 <li ng-if="ui.post.faved"><a ng-click="unfave(ui.post._id);">🌟</a><span class="faveCount" ng-if="ui.post.faveCount"> {% ui.post.faveCount %}</span></li>
                 <li ng-if="!ui.post.faved"><a ng-click="fave(ui.post._id);">⭐️</a><span class="faveCount" ng-if="ui.post.faveCount"> {% ui.post.faveCount %}</span></li>
-                <li>💬</li>
+                <li>💬 <span class="replyCount" ng-if="ui.post.replyCount"> {% ui.post.replyCount %}</span></li>
             </ul>
         </div>
     </div>
+    <div ng-if="!ui.post.comments_disabled">
+        <ul class="comments">
+            <li ng-repeat="comment in ui.comments" class="comment" id="comment-{% comment._id %}">
+                <div class="content">
+                    <div class="byline">
+                        <a ng-href="/@{% comment.user.username %}" class="username">{% comment.user.displayName %}</a> <a ng-href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}#comment-{% comment._id %}" class="date">{% comment.date | date : "MMM d, h:mm a" %}</a>
+                    </div>
+                    <div class="text" ng-bind-html="comment.text | renderPostText"></div>
+                </div>
+            </li>
+
+        </ul>
+        <div ng-if="ui.auth">
+            <form method="post" class="post_form" ng-submit="postComment()">
+                <div class="avatar">
+                    <img ng-src="{% ui.user.avatar_url %}" class="avatar" />
+                </div>
+                <div class="composer">
+                    <textarea ng-model="ui.comment.text" placeholder="Reply to this tot" id="comment_composer"></textarea>
+                </div>
+                <div class="actions">
+                    <label for="post_to_feed"><input type="checkbox" ng-model="ui.comment.post_to_feed" id="post_to_feed"> Also post to feed</label>
+                    <button type="submit" ng-disabled="!ui.comment.text.length">Post</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
 </div>
