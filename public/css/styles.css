@@ -40,7 +40,7 @@ nav ul {
       display: none;
       position: absolute;
       top: 1rem;
-      left: 0;
+      left: -1rem;
       width: 200px;
       background: #fff;
       z-index: 2;
@@ -48,7 +48,7 @@ nav ul {
       nav ul li ul li {
         display: block;
         border-bottom: 2px solid #CCC;
-        padding: 0.5rem 1rem; }
+        padding: 0.5rem 1rem 0.5rem 1rem !important; }
         nav ul li ul li:first-child {
           padding-top: 1rem; }
     nav ul li:hover ul {

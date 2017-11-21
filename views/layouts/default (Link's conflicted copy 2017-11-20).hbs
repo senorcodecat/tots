@@ -1,19 +1,8 @@
 <html>
 <head>
     <title>Tots.cool</title>
-    <base href="/">
-    <script>
-      {{#if @loggedin}}
-      var auth = {{{@payload}}};
-      {{else}}
-      var auth = false;
-      {{/if}}
-    </script>
-
-
     <script src="https://cdn.auth0.com/js/auth0/8.10.1/auth0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
     <script src="//rawgithub.com/mgcrea/angular-pull-to-refresh/master/dist/angular-pull-to-refresh.js"></script>
     <script src="/js/angular-file-input/dist/angular-file-input.min.js"></script>
 
@@ -41,17 +30,16 @@
     <meta name="theme-color" content="#ffffff">
 
 
-
 </head>
 <body ng-app="tots" ng-controller="app">
     <header id="header">
         <div class="wrapper">
             <nav>
                 <ul>
-                    <li class="ng-class:{active: ui.nav=='home'};"><a href="/">🏠<span class="label"> Home</span></a></li>
+                    <li><a href="/">🏠<span class="label"> Home</span></a></li>
                     {{#@loggedin}}
-                    <li class="ng-class:{active: ui.nav=='notifications'};"><a href="/notifications">🎉<span class="label"> Notifications</span></a></li>
-                    <li class="ng-class:{active: ui.nav=='public'};"><a href="/public">🌎<span class="label"> Public</span></a></li>
+                    <li><a href="/notifications">🎉<span class="label"> Notifications</span></a></li>
+                    <li><a href="/public">🌎<span class="label"> Public</span></a></li>
                     {{/@loggedin}}
                 </ul>
             </nav>
@@ -59,24 +47,21 @@
                 <ul>
                     <li><form method="get" action="/search"><input type="search" name="query" placeholder="Search" /></form></li>
                     {{#@loggedin}}<li class="menu">
-                        <a href="/me" target="_self">Me</a>
+                        Me
                         <ul>
-                            <li><A href="/me" target="_self">My Profile</a></li>
+                            <li><A href="/me">My Profile</a></li>
                             <li><a href="/editprofile">Edit Profile</a></li>
-                            <li><a href="/logout" target="_self">Logout</a></li>
+                            <li><a href="/logout">Logout</a></li>
                         </ul>
                     </li>{{/@loggedin}}
-                    {{^@loggedin}}<li><a href="/login" target="_self">Login</a></li>{{/@loggedin}}
+                    {{^@loggedin}}<li><a href="/login">Login</a></li>{{/@loggedin}}
                 </ul>
             </nav>
         </div>
     </header>
     <div class="body">
       <div class="wrapper">
-        <div ng-view>
-          <!-- Loading Tots! -->
-        </div>
-        {{{body}}}
+          {{{body}}}
       </div>
     </body>
 </body>
