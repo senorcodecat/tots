@@ -261,6 +261,7 @@ app.controller('feed', ['$scope','$routeParams', function($scope, $routeParams) 
 
   $scope.ui.nav = 'home';
   $scope.ui.page = 0;
+  $scope.ui.loaded = false;
   $scope.params = $routeParams;
   if ($scope.params.page) {
     $scope.ui.page = $scope.params.page;
@@ -271,6 +272,7 @@ app.controller('feed', ['$scope','$routeParams', function($scope, $routeParams) 
 
   $scope.getPosts('/posts/feed',[],$scope.ui.page).then(function(posts) {
     $scope.ui.posts = posts;
+    $scope.ui.loaded = true;
 
     $scope.getLiked($scope.ui.posts);
 
@@ -395,6 +397,8 @@ app.controller('notifications', ['$scope','$routeParams','$sce', function($scope
 
   $scope.ui.nav = 'notifications';
   $scope.ui.page = 0;
+  $scope.ui.loaded = false;
+
   $scope.params = $routeParams;
   if ($scope.params.page) {
     $scope.ui.page = $scope.params.page;
@@ -404,6 +408,8 @@ app.controller('notifications', ['$scope','$routeParams','$sce', function($scope
 
   $scope.getPosts('/get/notifications',[],$scope.ui.page).then(function(notifications) {
     $scope.ui.notifications = notifications;
+    $scope.ui.loaded = true;
+
     for (var n = 0; n < $scope.ui.notifications.length; n++) {
       $scope.ui.notifications[n].html = $sce.trustAsHtml($scope.ui.notifications[n].text);
     }

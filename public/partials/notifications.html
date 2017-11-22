@@ -1,5 +1,5 @@
 <div ng-controller="notifications">
-<div ng-if="ui.notifications && !ui.notifications.length" class="dialog">
+<div ng-if="ui.loaded && !ui.notifications.length" class="dialog">
     <p>You have not received any notifications.</p>
 </div>
 <ul class="notifications">
