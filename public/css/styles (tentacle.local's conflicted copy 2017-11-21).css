@@ -1,0 +1,63 @@
+/*
+Error: Invalid CSS after "    margin: 1rem -": expected expression (e.g. 1px, bold), was ";"
+        on line 428 of sass/styles.scss
+
+423: 
+424: 
+425: .dialog {
+426:     background: #FFF;
+427:     padding: 1rem;
+428:     margin: 1rem -;
+429: }
+
+Backtrace:
+sass/styles.scss:428
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/scss/parser.rb:1179:in `expected'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/script/lexer.rb:227:in `expected!'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/script/parser.rb:673:in `assert_expr'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/script/parser.rb:275:in `plus_or_minus'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/script/parser.rb:267:in `relational'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/script/parser.rb:267:in `eq_or_neq'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/script/parser.rb:267:in `and_expr'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/script/parser.rb:267:in `or_expr'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/script/parser.rb:462:in `space'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/script/parser.rb:408:in `interpolation'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/script/parser.rb:333:in `expr'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/script/parser.rb:671:in `assert_expr'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/script/parser.rb:63:in `parse'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/scss/parser.rb:1041:in `sass_script'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/scss/parser.rb:894:in `value!'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/scss/parser.rb:767:in `block in try_declaration'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/scss/parser.rb:1155:in `call'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/scss/parser.rb:1155:in `rethrow'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/scss/parser.rb:780:in `try_declaration'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/scss/parser.rb:709:in `declaration_or_ruleset'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/scss/parser.rb:674:in `block_child'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/scss/parser.rb:666:in `block_contents'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/scss/parser.rb:655:in `block'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/scss/parser.rb:647:in `ruleset'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/scss/parser.rb:673:in `block_child'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/scss/parser.rb:666:in `block_contents'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/scss/parser.rb:123:in `stylesheet'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/scss/parser.rb:39:in `parse'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/engine.rb:403:in `_to_tree'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/engine.rb:378:in `_render_with_sourcemap'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/engine.rb:295:in `render_with_sourcemap'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/plugin/compiler.rb:490:in `update_stylesheet'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/plugin/compiler.rb:209:in `each'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/plugin/compiler.rb:471:in `on_file_changed'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/lib/sass/plugin/compiler.rb:328:in `block in watch'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/vendor/listen/lib/listen/listener.rb:252:in `call'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/vendor/listen/lib/listen/listener.rb:252:in `on_change'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/vendor/listen/lib/listen/listener.rb:290:in `block in initialize_adapter'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/vendor/listen/lib/listen/adapter.rb:254:in `call'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/vendor/listen/lib/listen/adapter.rb:254:in `report_changes'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/vendor/listen/lib/listen/adapter.rb:323:in `poll_changed_directories'
+/Library/Ruby/Gems/2.0.0/gems/sass-3.4.21/vendor/listen/lib/listen/adapter.rb:299:in `block in start_poller'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: Invalid CSS after \"    margin: 1rem -\": expected expression (e.g. 1px, bold), was \";\"\A         on line 428 of sass/styles.scss\A \A 423: \A 424: \A 425: .dialog {\A 426:     background: #FFF;\A 427:     padding: 1rem;\A 428:     margin: 1rem -;\A 429: }"; }

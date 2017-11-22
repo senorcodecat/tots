@@ -2,6 +2,21 @@
 
 <div ng-include="'/partials/postForm.html'"></div>
 
+<div ng-if="ui.posts && !ui.posts.length" class="dialog">
+    <h1>What is Tots?</h1>
+
+    <ul>
+        <li>A fun place to put your 💬 and 📷</li>
+        <li>Follow 😎 and ⭐️ things</li>
+        <li>💯  Your feed is only stuff from people you follow</li>
+        <li>🚫  No Nazis!</li>
+        <li>✅  Edit your posts like a grownup</li>
+    </ul>
+
+    <p>To get started, <a href="/public">find some people to follow!</a></p>
+
+</div>
+
 <div  ng-include="'/partials/posts.html'"></div>
 
 <a ng-if="ui.previous" ng-href="/public/{% ui.previous %}">PREVIOUS PAGE</a>
