@@ -164,10 +164,10 @@ module.exports = function(webserver, db) {
                     comment.text = req.body.text;
                     comment.user = req.user_profile._id;
                     comment.replyTo = post._id;
-                    comment.save();
-
-                    updateCommentCount({
-                        _id: req.params.post
+                    comment.save(function() {
+                        updateCommentCount({
+                            _id: req.params.post
+                        });
                     });
 
                     if (req.body.post_to_feed == true) {
