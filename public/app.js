@@ -87,6 +87,7 @@ app.filter('renderPostText', ['$sce', function($sce) {
   };
 }])
 
+
 app.filter('curseFilter', ['$sce', function($sce) {
   return function(text) {
       if (text) {

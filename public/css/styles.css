@@ -277,4 +277,10 @@ h2 {
   .dialog h1, .dialog h2, .dialog h3 {
     margin-top: 0; }
 
+.tiny_avatar {
+  display: inline-block; }
+  .tiny_avatar img {
+    width: 25px;
+    height: 25px; }
+
 /*# sourceMappingURL=styles.css.map */

@@ -431,3 +431,11 @@ h2 {
         margin-top: 0;
     }
 }
+
+.tiny_avatar {
+    display: inline-block;
+    img {
+        width: 25px;
+        height: 25px;
+    }
+}
