@@ -1,6 +1,6 @@
 var hbs = require('hbs');
 
-
+var http = require('http');
 var express = require('express');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
@@ -75,13 +75,15 @@ module.exports = function(db) {
         }))
     }
 
-    app.use(session({
+    var store = new MongoStore({ mongooseConnection: db._db });
+    var sess = session({
         secret: 'ilovetots',
         "cookie": {
           "maxAge": 2592000000,
         },
-        store: new MongoStore({ mongooseConnection: db._db })
-    }));
+        store: store,
+    })
+    app.use(sess);
 
     app.use(passport.initialize());
     app.use(passport.session());
@@ -101,6 +103,9 @@ module.exports = function(db) {
 
     // Check logged in
     app.use(function(req, res, next) {
+
+      console.log('MIDDLEWARE', req.originalUrl);
+
       res.locals.loggedin = false;
       res.locals.thisurl = req.protocol + '://' + req.get('host') + req.originalUrl;
 
@@ -172,8 +177,17 @@ module.exports = function(db) {
     );
 
 
-    app.listen(3000, () => debug('Example app listening on port 3000!'))
+    var server = http.createServer(app);
 
+    server.listen(process.env.PORT || 3000, null, function() {
+
+        debug('Express webserver configured and listening at http://localhost:' + process.env.PORT || 3000);
+
+    });
+
+    app.server = server;
+    app.store = store;
+    app._session = sess;
     return app;
 
 }

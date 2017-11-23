@@ -15,6 +15,7 @@
     "body-parser": "^1.18.2",
     "connect-ensure-login": "^0.1.1",
     "connect-mongo": "^2.0.0",
+    "cookie": "^0.3.1",
     "cookie-parser": "^1.4.3",
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
@@ -27,6 +28,7 @@
     "mongoose": "^4.13.1",
     "passport": "^0.4.0",
     "passport-auth0": "^0.6.0",
-    "s3": "^4.4.0"
+    "s3": "^4.4.0",
+    "ws": "^3.3.2"
   }
 }

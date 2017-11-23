@@ -7,7 +7,7 @@ module.exports = function() {
     mongoose.connect(process.env.mongoURI, { useMongoClient: true });
     mongoose.Promise = global.Promise;
 
-    mongoose.set('debug', true);
+    // mongoose.set('debug', true);
 
 
     var db = mongoose.connection;
@@ -175,6 +175,10 @@ module.exports = function() {
         post: {
             type: ObjectId,
             ref: 'post',
+        },
+        comment: {
+            type: ObjectId,
+            ref: 'comment',
         },
         type: String,
         text: String,

@@ -55,10 +55,9 @@ BORING:
 admin mode
 
 FAR OUT:
+chat-style replies
 sms?
 personalized notification webhooks
 default signups OFF, enable with flag
-chat-style replies
-notifications
 ability to federate / follow someone on a different instance
 identity verification - same username != same user

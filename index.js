@@ -5,6 +5,7 @@ var app = require('./components/webserver.js')(db);
 var actions = require('./components/actions.js')(app,db);
 var getPosts = require('./components/getPosts.js')(app,db);
 var notifications = require('./components/notifications.js')(app,db);
+require('./components/chat.js')(app,db);
 
 var debug = require('debug')('tots:main');
 

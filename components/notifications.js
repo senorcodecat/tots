@@ -29,7 +29,7 @@ module.exports = function(webserver, db) {
     }
     skip = (page - 1) * limit;
 
-    db.notifications.find({user: req.user_profile._id}).populate('actor').populate({path: 'post', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, notifications) {
+    db.notifications.find({user: req.user_profile._id}).populate('actor').populate({path: 'post', populate: { path: 'user'}}).populate({path: 'comment', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, notifications) {
       async.each(notifications, function(n, next) {
         renderMentions(n.text, function(text) {
           n.text = text;

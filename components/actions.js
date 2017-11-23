@@ -186,6 +186,7 @@ module.exports = function(webserver, db) {
                         notification.user = post.user;
                         notification.actor = req.user_profile._id;
                         notification.post = post._id;
+                        notification.comment = comment._id;
                         notification.type = 'comment';
                         notification.text = '<@' + req.user_profile._id + '> replied to your post';
                         notification.save();

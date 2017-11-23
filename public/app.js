@@ -439,6 +439,8 @@ app.controller('detail', ['$scope','$routeParams','$http', function($scope, $rou
     $scope.getLiked([$scope.ui.post]);
     $scope.getComments();
 
+    messenger.boot();
+
     $scope.$apply();
  });
 

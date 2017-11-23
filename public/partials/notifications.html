@@ -4,13 +4,24 @@
 </div>
 <ul class="notifications">
     <li ng-repeat="notification in ui.notifications">
+        <span ng-if="notification.type=='fave'">⭐️</span>
+        <span ng-if="notification.type=='comment'">💬</span>
+        <span ng-if="notification.type=='follow'">❤️</span>
+
         <span class="notification" ng-bind-html="notification.html"></span>
-        <div ng-if="notification.post" class="post">
+        <div ng-if="!notification.comment" class="post">
             <div class="byline">
                 <a ng-href="/@{% notification.post.user.username %}" class="username">{% notification.post.user.displayName %}</a> <a ng-href="/@{% notification.post.user.username %}/tots/{% notification.post._id %}"  class="date">{% notification.post.date | date : "MMM d, h:mm a" %}</a>
             </div>
             <div class="text" ng-bind-html="notification.post.text | renderPostText"></div>
         </div>
+        <div ng-if="notification.comment" class="post">
+            <div class="byline">
+                <a ng-href="/@{% notification.comment.user.username %}" class="username">{% notification.comment.user.displayName %}</a> <a ng-href="/@{% notification.post.user.username %}/tots/{% notification.post._id %}#comment-{% notification.comment._id %}"  class="date">{% notification.comment.date | date : "MMM d, h:mm a" %}</a>
+            </div>
+            <div class="text" ng-bind-html="notification.comment.text | renderPostText"></div>
+        </div>
+
     </li>
 </ul>
 </div>
