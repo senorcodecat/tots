@@ -12,7 +12,7 @@
             <img ng-src="{% notification.actor.avatar_url %}">
         </span> -->
         <span class="notification" ng-bind-html="notification.html"></span>
-        <div ng-if="!notification.comment" class="post">
+        <div ng-if="!notification.comment && notification.post" class="post">
             <div class="byline">
                 <a ng-href="/@{% notification.post.user.username %}" class="username">{% notification.post.user.displayName %}</a> <a ng-href="/@{% notification.post.user.username %}/tots/{% notification.post._id %}"  class="date">{% notification.post.date | date : "MMM d, h:mm a" %}</a>
             </div>

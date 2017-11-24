@@ -11,7 +11,6 @@ a cute little social network
 * no algorithmic feeds
 * not a customer support and marketing platform for big brands
 
-[Deploy to Glitch]
 
 
 DONE:
@@ -39,11 +38,13 @@ DONE:
 
 TODO:
 
+* autorotate images when uploaded
+* delete post
+* @mentions - http://ment.io/
 * square crop images
 * remove pics from post
 * change pics on post
 * link unfurling header things
-* @mentions
 * last read marker
 * view followers
 * view following
@@ -61,3 +62,4 @@ personalized notification webhooks
 default signups OFF, enable with flag
 ability to federate / follow someone on a different instance
 identity verification - same username != same user
+[Deploy to Glitch]
