@@ -25,7 +25,7 @@
                     <a ng-href="/@{% notification.post.user.username %}/tots/{% notification.post._id %}#comment-{% notification.comment._id %}"  class="date">{% notification.comment.date | date : "MMM d, h:mm a" %}</a>
                 </div>
                 <div class="replyline">
-                    <a ng-href="/@{% notification.post.user.username %}/tots/{% notification.post._id %}">In reply to "{% notification.post.text | limitTo: 50 %}"</a>
+                    <a ng-href="/@{% notification.post.user.username %}/tots/{% notification.post._id %}">In reply to "{% notification.post.text | striptags | limitTo: 50 %}"</a>
                 </div>
                 <div class="text" ng-bind-html="notification.comment.text | renderPostText"></div>
             </div>

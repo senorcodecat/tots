@@ -70,6 +70,15 @@ app.config(function($interpolateProvider) {
     $locationProvider.html5Mode(true);
 });
 
+app.filter('striptags', ['$sce', function($sce) {
+    return function(text) {
+        if (text) {
+            text = text.replace(/<.*?>/g,'');
+            return text;
+        }
+    }
+}]);
+
 app.filter('renderPostText', ['$sce', function($sce) {
     return function(text) {
         if (text) {

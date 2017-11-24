@@ -51,11 +51,11 @@ module.exports = function(webserver, db) {
       async.each(notifications, function(n, next) {
         renderMentions(n.text, function(text) {
           n.text = text;
-          if (n.post.text) {
+          if (n.post && n.post.text) {
               renderMentions(n.post.text, function(text) {
                   n.post.text = text;
                   if (n.comment.text) {
-                      renderMentions(n.comment.text, function(text) {
+                      renderMentions(n.comment && n.comment.text, function(text) {
                           n.comment.text = text;
                           next();
                       });
