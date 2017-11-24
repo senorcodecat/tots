@@ -35,14 +35,3 @@
         <button type="submit" ng-disabled="!tot.text.length">Post</button>
     </div>
 </form>
-
-
-
-<script type="text/ng-template" id="/people-mentions.tpl">
-    <ul class="list-group user-search">
-        <li mentio-menu-item="person" ng-repeat="person in items" class="list-group-item">
-            <span class="text-primary"
-                ng-bind-html="person.displayName | mentioHighlight:typedTerm:'menu-highlighted' | unsafe"></span>
-        </li>
-    </ul>
-</script>

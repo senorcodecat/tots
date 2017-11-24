@@ -1,21 +1,39 @@
 var async = require('async');
 module.exports = function(webserver, db) {
 
-  function renderMentions(text, cb) {
-    var users = text.match('<@(.*?)>','gm');
-    if (users) {
-        var uid = users[1];
-        db.users.findOne({_id: uid}, function(err, user) {
-            var profile_link = '<a href="/@' + user.username + '">' + user.displayName + '</a>';
-            var pattern = new RegExp('<@' + uid + '>','g');
-            text = text.replace(pattern, profile_link);
-            cb(text);
-        });
-    } else {
-        cb(text);
-    }
-  }
 
+
+        function renderMentions(text, cb) {
+          var matches = text.match(/\<\@(\w+)\>/igm);
+          if (matches) {
+
+              // remove dupes
+              var users = matches.filter(function(item, pos) {
+                  return matches.indexOf(item) == pos;
+              });
+              users = users.map(function(u) {
+                    // get the meat of the mention <@(MEAT)>
+                  return u.substr(2).slice(0,-1);
+              })
+              // console.log('render mentions', users);
+              async.each(users, function(uid, next) {
+                  db.users.findOne({_id: uid}, function(err, user) {
+                      if (user) {
+                          var profile_link = '<a href="/@' + user.username + '">@' + user.displayName + '</a>';
+                          var pattern = new RegExp('<@' + uid + '>','g');
+                          text = text.replace(pattern, profile_link);
+                          // console.log('RENDERED MENTION', text);
+                      }
+                      next();
+                  });
+              }, function() {
+
+                  cb(text);
+              })
+          } else {
+              cb(text);
+          }
+        }
 
   function notificationRoute(req, res) {
     var limit = 25;
@@ -33,7 +51,21 @@ module.exports = function(webserver, db) {
       async.each(notifications, function(n, next) {
         renderMentions(n.text, function(text) {
           n.text = text;
-          next();
+          if (n.post.text) {
+              renderMentions(n.post.text, function(text) {
+                  n.post.text = text;
+                  if (n.comment.text) {
+                      renderMentions(n.comment.text, function(text) {
+                          n.comment.text = text;
+                          next();
+                      });
+                  } else {
+                      next();
+                  }
+              })
+          } else {
+              next();
+          }
         })
       }, function() {
         res.json({

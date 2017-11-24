@@ -109,6 +109,10 @@ function handleMentions(post, cb) {
         var matches = post.text.match(/(\@\w+)/img);
         console.log(matches);
 
+        if (!matches) {
+            return cb(null,post);
+        }
+
         // remove dupes
         var mentions = matches.filter(function(item, pos) {
             return matches.indexOf(item) == pos;
@@ -122,9 +126,30 @@ function handleMentions(post, cb) {
                 if (user) {
                     var pattern = new RegExp('\@' + username,'ig');
                     post.text = post.text.replace(pattern,'<@' + user._id + '>');
+
+                    // don't notify of self-mentions
+                    // this checks if mentioned user is post owner
+                    if (String(user._id) != String(post.user)) {
+
+                        // send a notification to mentioned person
+                        var notification = new db.notifications();
+                        notification.user = user._id;
+                        notification.actor = post.user;
+                        // is this a comment or a post?
+                        if (post.replyTo) {
+                            // this is a comment
+                            notification.post = post.replyTo;
+                            notification.comment = post._id;
+                        } else {
+                            notification.post = post._id;
+                        }
+                        notification.type = 'mention';
+                        notification.text = '<@' + post.user + '> mentioned you in a post';
+                        notification.save();
+                    }
+
                     next();
 
-                    // send a notification to mentioned person
 
                 } else {
                     next();
@@ -190,38 +215,46 @@ webserver.post('/actions/comment/:post', function(req, res) {
                 comment.text = req.body.text;
                 comment.user = req.user_profile._id;
                 comment.replyTo = post._id;
-                comment.save(function() {
-                    updateCommentCount({
-                        _id: req.params.post
+                handleMentions(comment, function(err, comment) {
+                    comment.save(function() {
+                        updateCommentCount({
+                            _id: req.params.post
+                        });
                     });
+
+                    if (req.body.post_to_feed == true) {
+                        var repost = new db.posts();
+                        repost.text = comment.text;
+                        repost.user = req.user_profile._id;
+                        repost.replyTo = post._id;
+                        repost.save(function(saved_post) {
+                            comment.post = repost._id;
+                            comment.save();
+                        });
+                    }
+
+                    // TODO:
+                    // do not send a comment notification if there was already a mention
+
+                    if (String(req.user_profile._id) != String(post.user)) {
+                        var notification = new db.notifications();
+                        notification.user = post.user;
+                        notification.actor = req.user_profile._id;
+                        notification.post = post._id;
+                        notification.comment = comment._id;
+                        notification.type = 'comment';
+                        notification.text = '<@' + req.user_profile._id + '> replied to your post';
+                        notification.save();
+                    }
+
+                    res.json({
+                        ok: true,
+                        data: comment,
+                    })
+
+
                 });
 
-                if (req.body.post_to_feed == true) {
-                    var repost = new db.posts();
-                    repost.text = req.body.text;
-                    repost.user = req.user_profile._id;
-                    repost.replyTo = post._id;
-                    repost.save(function(saved_post) {
-                        comment.post = repost._id;
-                        comment.save();
-                    });
-                }
-
-                if (String(req.user_profile._id) != String(post.user)) {
-                    var notification = new db.notifications();
-                    notification.user = post.user;
-                    notification.actor = req.user_profile._id;
-                    notification.post = post._id;
-                    notification.comment = comment._id;
-                    notification.type = 'comment';
-                    notification.text = '<@' + req.user_profile._id + '> replied to your post';
-                    notification.save();
-                }
-
-                res.json({
-                    ok: true,
-                    data: comment,
-                })
             }
         });
 

@@ -45,7 +45,19 @@
                     <img ng-src="{% ui.user.avatar_url %}" class="avatar" />
                 </div>
                 <div class="composer">
-                    <textarea ng-model="ui.comment.text" placeholder="Reply to this tot" id="comment_composer"></textarea>
+                    <textarea
+                    ng-model="ui.comment.text"
+                    placeholder="Reply to this tot"
+                    id="comment_composer"
+
+                    mentio
+                    mentio-trigger-char="'@'"
+                    mentio-items="ui.people"
+                    mentio-search="searchPeople(term)"
+                    mentio-template-url="/people-mentions.tpl"
+                    mentio-typed-term="ui.selected_mention"
+
+                    ></textarea>
                 </div>
                 <div class="actions">
                     <label for="post_to_feed"><input type="checkbox" ng-model="ui.comment.post_to_feed" id="post_to_feed"> Also post to feed</label>

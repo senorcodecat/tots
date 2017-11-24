@@ -30,14 +30,6 @@ module.exports = function(webserver, db) {
 
               cb(text);
           })
-          // var uid = users[1];
-          // db.users.findOne({_id: uid}, function(err, user) {
-          //     var profile_link = '<a href="/@' + user.username + '">' + user.displayName + '</a>';
-          //     var pattern = new RegExp('<@' + uid + '>','g');
-          //     text = text.replace(pattern, profile_link);
-          //     cb(text);
-          // });
-          // cb(text);
       } else {
           cb(text);
       }
@@ -61,6 +53,33 @@ module.exports = function(webserver, db) {
                     return -1;
                 } else if (a.getTime() < b.getTime()) {
                     return 1;
+                } else {
+                    return 0;
+                }
+            });
+            cb(processed);
+        });
+
+    }
+
+    function preprocessComments(posts, cb) {
+
+        var processed = []
+        async.each(posts, function(p, next) {
+            renderMentions(p.text, function(text) {
+                p.text = text;
+                processed.push(p);
+                next();
+            })
+        }, function() {
+
+            processed = processed.sort(function(a, b) {
+                var a = new Date(a.date);
+                var b = new Date(b.date);
+                if (a.getTime() > b.getTime()) {
+                    return 1;
+                } else if (a.getTime() < b.getTime()) {
+                    return -1;
                 } else {
                     return 0;
                 }
@@ -189,10 +208,12 @@ module.exports = function(webserver, db) {
       db.posts.findOne({_id: req.query.post}).exec(function(err, post) {
         if (post) {
             db.comments.find({replyTo: post._id}).populate('user').exec(function(err, comments) {
-                res.json({
-                    ok: true,
-                    data: comments,
-                })
+                preprocessComments(comments, function(comments) {
+                    res.json({
+                        ok: true,
+                        data: comments,
+                    })
+                });
             });
         } else {
             res.json({
