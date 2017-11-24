@@ -35,12 +35,14 @@ DONE:
 * replies
 * edit posts
 * edit profile images
+* autorotate images when uploaded
 
 TODO:
 
-* autorotate images when uploaded
-* delete post
 * @mentions - http://ment.io/
+* ensure usernames do not have spaces!
+
+* delete post
 * square crop images
 * remove pics from post
 * change pics on post

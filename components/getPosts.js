@@ -1,7 +1,74 @@
 var debug = require('debug')('tots:getPosts');
-
+var async = require('async');
 module.exports = function(webserver, db) {
 
+
+    function renderMentions(text, cb) {
+      var matches = text.match(/\<\@(\w+)\>/igm);
+      if (matches) {
+
+          // remove dupes
+          var users = matches.filter(function(item, pos) {
+              return matches.indexOf(item) == pos;
+          });
+          users = users.map(function(u) {
+                // get the meat of the mention <@(MEAT)>
+              return u.substr(2).slice(0,-1);
+          })
+          // console.log('render mentions', users);
+          async.each(users, function(uid, next) {
+              db.users.findOne({_id: uid}, function(err, user) {
+                  if (user) {
+                      var profile_link = '<a href="/@' + user.username + '">@' + user.displayName + '</a>';
+                      var pattern = new RegExp('<@' + uid + '>','g');
+                      text = text.replace(pattern, profile_link);
+                      // console.log('RENDERED MENTION', text);
+                  }
+                  next();
+              });
+          }, function() {
+
+              cb(text);
+          })
+          // var uid = users[1];
+          // db.users.findOne({_id: uid}, function(err, user) {
+          //     var profile_link = '<a href="/@' + user.username + '">' + user.displayName + '</a>';
+          //     var pattern = new RegExp('<@' + uid + '>','g');
+          //     text = text.replace(pattern, profile_link);
+          //     cb(text);
+          // });
+          // cb(text);
+      } else {
+          cb(text);
+      }
+    }
+
+    function preprocessPosts(posts, cb) {
+
+        var processed = []
+        async.each(posts, function(p, next) {
+            renderMentions(p.text, function(text) {
+                p.text = text;
+                processed.push(p);
+                next();
+            })
+        }, function() {
+
+            processed = processed.sort(function(a, b) {
+                var a = new Date(a.date);
+                var b = new Date(b.date);
+                if (a.getTime() > b.getTime()) {
+                    return -1;
+                } else if (a.getTime() < b.getTime()) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
+            cb(processed);
+        });
+
+    }
 
   webserver.post('/get/liked', function(req, res) {
     if (req.user) {
@@ -51,11 +118,27 @@ module.exports = function(webserver, db) {
         query = query.replace(/(\#)/g,'\\$1');
         var pattern = new RegExp(query,'im');
         db.posts.find({text: {$regex: pattern}}).populate('user').populate({path: 'replyTo', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
+            preprocessPosts(posts, function(posts) {
           res.json({
             ok: true,
             data: posts,
           });
+      });
         });
+  })
+
+  webserver.get('/get/people', function(req, res) {
+
+      var q = req.query.q;
+      // var pattern = new RegExp(q);
+
+      db.users.find({$or:[
+          {username: { $regex: q, $options: 'i'}},
+          {displayName: { $regex: q, $options: 'i'}},
+      ]}).sort({displayName:1}).limit(10).exec(function(err, users) {
+            res.json(users || [])
+      });
+
   })
 
   webserver.get('/posts/post', function(req, res) {
@@ -63,10 +146,12 @@ module.exports = function(webserver, db) {
           if (user) {
               db.posts.findOne({user: user._id, _id: req.query.post}).populate('user').populate({path: 'replyTo', populate: { path: 'user'}}).exec(function(err, post) {
                 if (post) {
+                    preprocessPosts([post], function(posts) {
                     res.json({
                         ok: true,
-                        data: post,
+                        data: posts[0],
                     })
+                });
                 } else {
                     res.json({
                         ok: false
@@ -85,10 +170,12 @@ module.exports = function(webserver, db) {
       db.posts.findOne({_id: req.query.post}).exec(function(err, post) {
         if (post) {
             db.revisions.find({post: post._id}).exec(function(err, revisions) {
+                preprocessPosts(revisions, function(revisions) {
                 res.json({
                     ok: true,
                     data: revisions,
                 })
+            });
             });
         } else {
             res.json({
@@ -136,6 +223,8 @@ module.exports = function(webserver, db) {
 
         checkFollowing(req.user_profile, user_profile, function(following, followback) {
             db.posts.find({user: user_profile._id}).populate('user').populate({path: 'post', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
+
+                preprocessPosts(posts, function(posts) {
               res.json({
                 ok: true,
                 data: {
@@ -145,6 +234,7 @@ module.exports = function(webserver, db) {
                   followback: followback
                 }
               });
+          });
             });
         });
     });
@@ -176,15 +266,19 @@ module.exports = function(webserver, db) {
               for (var p = 0; p < faves.length; p++) {
                   posts.push(faves[p].post);
               }
-              res.json({
-                ok: true,
-                data: {
-                  posts,
-                  profile: user_profile,
-                  following: following,
-                  followback: followback
-                }
+              preprocessPosts(posts, function(posts) {
+                  res.json({
+                    ok: true,
+                    data: {
+                      posts,
+                      profile: user_profile,
+                      following: following,
+                      followback: followback
+                    }
+                  });
               });
+
+
             });
         });
     });
@@ -313,10 +407,12 @@ module.exports = function(webserver, db) {
             var following = following.map(function(f) { return f.following; });
             following.push(req.user_profile._id);
             db.posts.find({user: {$in: following}}).populate('user').populate({path: 'replyTo', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
-              res.json({
-                ok: true,
-                data: posts,
-              });
+                preprocessPosts(posts, function(posts) {
+                  res.json({
+                    ok: true,
+                    data: posts,
+                  });
+                });
             });
         });
 
@@ -340,10 +436,12 @@ module.exports = function(webserver, db) {
     skip = (page - 1) * limit;
 
     db.posts.find({}).populate('user').populate({path: 'replyTo', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
-      res.json({
-        ok: true,
-        data: posts,
-      });
+        preprocessPosts(posts, function(posts) {
+          res.json({
+            ok: true,
+            data: posts,
+          });
+        });
     });
 
   }

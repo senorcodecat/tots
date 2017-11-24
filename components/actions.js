@@ -2,7 +2,7 @@ var debug = require('debug')('tots:actions');
 var jo = require('jpeg-autorotate');
 var fs = require('fs');
 var s3 = require('s3');
-
+var async = require('async');
 var client = s3.createClient({
     s3Options: {
         accessKeyId: process.env.aws_key,
@@ -103,32 +103,75 @@ webserver.post('/actions/edit', function(req, res) {
 
 })
 
+function handleMentions(post, cb) {
+
+    if (post.text) {
+        var matches = post.text.match(/(\@\w+)/img);
+        console.log(matches);
+
+        // remove dupes
+        var mentions = matches.filter(function(item, pos) {
+            return matches.indexOf(item) == pos;
+        })
+
+        async.each(mentions, function(username, next) {
+            username = username.substr(1);
+
+            // look up user by username
+            db.users.findOne({username: username}, function(err, user) {
+                if (user) {
+                    var pattern = new RegExp('\@' + username,'ig');
+                    post.text = post.text.replace(pattern,'<@' + user._id + '>');
+                    next();
+
+                    // send a notification to mentioned person
+
+                } else {
+                    next();
+                }
+            });
+
+        }, function() {
+
+            cb(null, post);
+
+        });
+
+    } else {
+        cb(null,post)
+    }
+}
+
+
 webserver.post('/actions/post', function(req, res) {
 
     if (req.user && req.body.text && req.body.text != '') {
         var post = new db.posts();
         post.text = req.body.text;
         post.user = req.user_profile._id;
-        post.save();
+        handleMentions(post, function(err,post) {
 
-        if (req.files && req.files.image) {
-            debug('Got a file upload', req.files.image);
-            acceptUpload(req.files.image, req.files.image.name, req.user_profile._id, function(err, s3_file) {
-                if (err) {
-                    res.json({ok: false, error: err});
-                } else {
-                    post.images.push(s3_file)
-                    post.save();
+            post.save();
 
-                    debug('NEW POST', post);
-                    res.redirect('/me');
-                }
+            if (req.files && req.files.image) {
+                debug('Got a file upload', req.files.image);
+                acceptUpload(req.files.image, req.files.image.name, req.user_profile._id, function(err, s3_file) {
+                    if (err) {
+                        res.json({ok: false, error: err});
+                    } else {
+                        post.images.push(s3_file)
+                        post.save();
 
-            })
-        } else {
-            debug('NEW POST', post);
-            res.redirect('/me');
-        }
+                        debug('NEW POST', post);
+                        res.redirect('/me');
+                    }
+
+                })
+            } else {
+                debug('NEW POST', post);
+                res.redirect('/me');
+            }
+        });
     } else {
         res.redirect('/login');
     }
