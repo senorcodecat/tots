@@ -113,54 +113,18 @@ webserver.post('/actions/post', function(req, res) {
 
         if (req.files && req.files.image) {
             debug('Got a file upload', req.files.image);
-            var upload_path = '/tmp/' + req.user_profile._id + '_' + req.files.image.name;
-            req.files.image.mv(upload_path, function(err) {
+            acceptUpload(req.files.image, req.files.image.name, req.user_profile._id, function(err, s3_file) {
                 if (err) {
-                    console.error(err);
+                    res.json({ok: false, error: err});
+                } else {
+                    post.images.push(s3_file)
+                    post.save();
 
                     debug('NEW POST', post);
                     res.redirect('/me');
-
-                } else {
-                    var options = {};
-                    jo.rotate(upload_path, options, function(error, buffer, orientation) {
-                        if (error) {
-                            console.error('JPG ROTATE ERROR', error);
-                        } else {
-
-                            debug('writing rotated file back to tmp');
-                            fs.writeFile(upload_path, buffer, "binary", function(err) {
-
-                                debug('File ready to upload');
-                                var ts = new Date().getTime();
-                                var uploader = client.uploadFile({
-                                    localFile: '/tmp/' + req.user_profile._id + '_' + req.files.image.name,
-                                    s3Params: {
-                                        Bucket: 'tots',
-                                        Key: 'images/' + req.user_profile._id + '_' + ts + '_' + req.files.image.name,
-                                    }
-                                });
-                                uploader.on('error', function(err) {
-                                    console.error("unable to upload:", err.stack);
-                                });
-                                uploader.on('end', function() {
-
-                                    post.images.push({
-                                        name: req.files.image.name,
-                                        s3_key: 'images/' + req.user_profile._id + '_' + ts + '_' + req.files.image.name,
-                                        url: 'https://s3.amazonaws.com/tots/images/' + req.user_profile._id + '_' + ts + '_' + req.files.image.name
-                                    })
-                                    post.save();
-
-                                    debug('NEW POST', post);
-                                    res.redirect('/me');
-
-                                });
-                            });
-                        }
-                    });
                 }
-            });
+
+            })
         } else {
             debug('NEW POST', post);
             res.redirect('/me');
@@ -225,6 +189,78 @@ webserver.post('/actions/comment/:post', function(req, res) {
     }
 });
 
+function autoRotate(file, cb) {
+
+    if (file.match(/\.jpg$/i) || file.match(/\.jpeg$/i)) {
+        var options = {
+            quality: 85,
+        };
+        jo.rotate(file, options, function(error, buffer, orientation) {
+            if (error) {
+                console.error('JPG ROTATE ERROR', error);
+                cb(null,file);
+            } else {
+
+                debug('writing rotated file back to tmp');
+                fs.writeFile(file, buffer, "binary", function(err) {
+                    if (err) {
+                        cb(err);
+                    } else {
+                        cb(null, file);
+                    }
+                });
+            }
+        });
+    } else {
+        cb(null,file);
+    }
+
+}
+
+function acceptUpload(file, filename, user_id, cb) {
+
+    var upload_path = '/tmp/' + user_id + '_' + filename;
+    file.mv(upload_path, function(err) {
+        if (err) {
+            console.error(err);
+
+            debug('NEW POST', post);
+            res.redirect('/me');
+
+        } else {
+            autoRotate(upload_path, function(err) {
+                if (err) {
+                    cb(err);
+                } else {
+                    debug('File ready to upload');
+                    var ts = new Date().getTime();
+                    var uploader = client.uploadFile({
+                        localFile: upload_path,
+                        s3Params: {
+                            Bucket: 'tots',
+                            Key: 'images/' + user_id + '_' + ts + '_' + filename,
+                        }
+                    });
+                    uploader.on('error', function(err) {
+                        console.error("unable to upload:", err.stack);
+                    });
+                    uploader.on('end', function() {
+
+                        cb(null, {
+                            name: filename,
+                            s3_key: 'images/' + user_id + '_' + ts + '_' + filename,
+                            url: 'https://s3.amazonaws.com/tots/images/' + user_id + '_' + ts + '_' + filename
+                        })
+
+                    });
+                }
+            });
+        }
+    });
+
+
+}
+
 webserver.post('/actions/editprofile', function(req, res) {
 
         if (req.user_profile) {
@@ -243,46 +279,14 @@ webserver.post('/actions/editprofile', function(req, res) {
 
                     if (req.files && req.files.image) {
                         debug('Got a file upload', req.files.image);
-                        var upload_path = '/tmp/' + req.user_profile._id + '_' + req.files.image.name;
-                        req.files.image.mv(upload_path, function(err) {
+                        acceptUpload(req.files.image, req.files.image.name, req.user_profile._id, function(err, s3_file) {
                             if (err) {
-                                console.error(err);
-
-                                debug('NEW POST', post);
-                                res.redirect('/me');
-
+                                res.json({ok: false, error: err});
                             } else {
-                                jo.rotate(upload_path, options, function(error, buffer, orientation) {
-                                    if (error) {
-                                        console.error('JPG ROTATE ERROR', error);
-                                    } else {
-                                        debug('writing rotated file back to tmp');
-                                        fs.writeFile(upload_path, buffer, "binary", function(err) {
+                                req.user_profile.avatar_url = s3_file.url;
+                                req.user_profile.save();
 
-
-                                            debug('File ready to upload');
-                                            var ts = new Date().getTime();
-                                            var uploader = client.uploadFile({
-                                                localFile: '/tmp/' + req.user_profile._id + '_' + req.files.image.name,
-                                                s3Params: {
-                                                    Bucket: 'tots',
-                                                    Key: 'images/' + req.user_profile._id + '_' + ts + '_' + req.files.image.name,
-                                                }
-                                            });
-                                            uploader.on('error', function(err) {
-                                                console.error("unable to upload:", err.stack);
-                                            });
-                                            uploader.on('end', function() {
-
-                                                req.user_profile.avatar_url = 'https://s3.amazonaws.com/tots/images/' + req.user_profile._id + '_' + ts + '_' + req.files.image.name;
-                                                req.user_profile.save();
-
-                                                res.redirect('/me');
-
-                                            });
-                                        });
-                                    }
-                                });
+                                res.redirect('/me');
                             }
                         });
                     } else {
