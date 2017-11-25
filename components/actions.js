@@ -128,9 +128,8 @@ function handleMentions(post, cb) {
                     post.text = post.text.replace(pattern,'<@' + user._id + '>');
 
                     // don't notify of self-mentions
-                    // this checks if mentioned user is post owner
+                    // this checks if mentioned user is post or comment owner
                     if (String(user._id) != String(post.user)) {
-
                         // send a notification to mentioned person
                         var notification = new db.notifications();
                         notification.user = user._id;
@@ -233,18 +232,19 @@ webserver.post('/actions/comment/:post', function(req, res) {
                         });
                     }
 
-                    // TODO:
-                    // do not send a comment notification if there was already a mention
-
                     if (String(req.user_profile._id) != String(post.user)) {
-                        var notification = new db.notifications();
-                        notification.user = post.user;
-                        notification.actor = req.user_profile._id;
-                        notification.post = post._id;
-                        notification.comment = comment._id;
-                        notification.type = 'comment';
-                        notification.text = '<@' + req.user_profile._id + '> replied to your post';
-                        notification.save();
+                        var pattern = new RegExp("<@" + post.user + ">");
+                        // do not send a comment notification if there was already a mention
+                        if (!comment.text.match(pattern)) {
+                            var notification = new db.notifications();
+                            notification.user = post.user;
+                            notification.actor = req.user_profile._id;
+                            notification.post = post._id;
+                            notification.comment = comment._id;
+                            notification.type = 'comment';
+                            notification.text = '<@' + req.user_profile._id + '> replied to your post';
+                            notification.save();
+                        }
                     }
 
                     res.json({
