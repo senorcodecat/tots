@@ -54,8 +54,8 @@ module.exports = function(webserver, db) {
           if (n.post && n.post.text) {
               renderMentions(n.post.text, function(text) {
                   n.post.text = text;
-                  if (n.comment.text) {
-                      renderMentions(n.comment && n.comment.text, function(text) {
+                  if (n.comment && n.comment.text) {
+                      renderMentions(n.comment.text, function(text) {
                           n.comment.text = text;
                           next();
                       });
@@ -63,6 +63,11 @@ module.exports = function(webserver, db) {
                       next();
                   }
               })
+          } else if (n.comment && n.comment.text) {
+              renderMentions(n.comment.text, function(text) {
+                  n.comment.text = text;
+                  next();
+              });
           } else {
               next();
           }
