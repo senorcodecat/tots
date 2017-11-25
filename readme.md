@@ -35,22 +35,24 @@ DONE:
 * replies
 * edit posts
 * edit profile images
+* link unfurling header things
+
 * autorotate images when uploaded
+* @mentions - http://ment.io/
 
 TODO:
 
-* @mentions - http://ment.io/
+* fix post editing w/rt mentions
 * ensure usernames do not have spaces!
 
 * delete post
-* square crop images
+* square crop avatar images
 * remove pics from post
 * change pics on post
-* link unfurling header things
 * last read marker
 * view followers
 * view following
-* capture / upload profile images
+* capture / upload profile images on signup
 * blocking
 * reporting
 
