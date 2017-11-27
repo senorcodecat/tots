@@ -1,5 +1,5 @@
 var hbs = require('hbs');
-
+var request = require('request');
 var http = require('http');
 var express = require('express');
 var session = require('express-session');
@@ -188,6 +188,31 @@ module.exports = function(db) {
     app.server = server;
     app.store = store;
     app._session = sess;
+
+
+    function keepalive() {
+
+      request({
+        url: 'http://' + process.env.PROJECT_DOMAIN + '.glitch.me',
+      }, function(err) {
+
+        setTimeout(function() {
+          keepalive();
+        }, 55000);
+
+      });
+
+    }
+
+    // if this is running on Glitch
+    if (process.env.PROJECT_DOMAIN) {
+
+      // make a web call to self every 55 seconds
+      // in order to avoid the process being put to sleep.
+      keepalive();
+
+    }
+
     return app;
 
 }
