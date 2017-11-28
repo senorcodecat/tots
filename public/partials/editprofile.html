@@ -1,27 +1,29 @@
+<div class="editprofile">
+    <h1>Edit Profile</h1>
+    <form method="post" action="/actions/editprofile" encType="multipart/form-data">
 
-<h1>Edit Profile</h1>
-<form method="post" action="/actions/editprofile" encType="multipart/form-data">
+    <p>
+      <label>Username: (no spaces)</label>
+      @<input name="username" ng-model="ui.user.username" pattern="[\w]+" placeholder="slartibartfast" required/>
+      <!-- your profile: http://tots.cool/@{% ui.user.username %} -->
+    </p>
 
-<p>
-  <label>Username:</label>
-  <input name="username" ng-model="ui.user.username" />
-</p>
+    <p>
+      <label>Display Name:</label>
+      <input name="displayName" ng-model="ui.user.displayName" placeholder="U. Surname" required />
+    </p>
 
-<p>
-  <label>Display Name:</label>
-  <input name="displayName" ng-model="ui.user.displayName" />
-</p>
+    <p>
+      <label>Bio:</label>
+      <textarea name="bio" ng-model="ui.user.bio"></textarea>
+    </p>
 
-<p>
-  <label>Bio:</label>
-  <textarea name="bio" ng-model="ui.user.bio"></textarea>
-</p>
-
-<p>
-  <label>Avatar:</label>
-  <input type="file" name="image" />
-</p>
+    <p>
+      <label>Avatar:</label>
+      <input type="file" name="image" />
+    </p>
 
 
-<button type="submit">Save</button>
-</form>
+    <button type="submit">Save</button>
+    </form>
+</div>

@@ -207,7 +207,7 @@ ul.posts {
     background-color: #FFF;
     border: 1px solid #CCC; }
     .post.detail_view .text {
-      font-size: 2rem; }
+      font-size: 1.2rem; }
 
 .byline {
   margin-bottom: 0.25rem; }
@@ -319,5 +319,12 @@ h2 {
 
 mentio-menu {
   display: none; }
+
+.editprofile p label {
+  display: block; }
+.editprofile p input, .editprofile p textarea {
+  font-size: 1.2rem; }
+.editprofile p textarea {
+  width: 100%; }
 
 /*# sourceMappingURL=styles.css.map */

@@ -83,12 +83,15 @@ webserver.post('/actions/edit', function(req, res) {
                 revision.save();
 
                 original_post.text = req.body.text;
-                original_post.updated = new Date();
-                original_post.save();
 
-                return res.json({
-                    ok: true
-                });
+                handleMentions(original_post, function(err,original_post) {
+                    original_post.updated = new Date();
+                    original_post.save();
+
+                    return res.json({
+                        ok: true
+                    });
+                }, true);
 
             }
         });
@@ -103,7 +106,7 @@ webserver.post('/actions/edit', function(req, res) {
 
 })
 
-function handleMentions(post, cb) {
+function handleMentions(post, cb, donotnotify) {
 
     if (post.text) {
         var matches = post.text.match(/(\@\w+)/img);
@@ -129,24 +132,25 @@ function handleMentions(post, cb) {
 
                     // don't notify of self-mentions
                     // this checks if mentioned user is post or comment owner
-                    if (String(user._id) != String(post.user)) {
-                        // send a notification to mentioned person
-                        var notification = new db.notifications();
-                        notification.user = user._id;
-                        notification.actor = post.user;
-                        // is this a comment or a post?
-                        if (post.replyTo) {
-                            // this is a comment
-                            notification.post = post.replyTo;
-                            notification.comment = post._id;
-                        } else {
-                            notification.post = post._id;
+                    if (donotnotify !== true) {
+                        if (String(user._id) != String(post.user)) {
+                            // send a notification to mentioned person
+                            var notification = new db.notifications();
+                            notification.user = user._id;
+                            notification.actor = post.user;
+                            // is this a comment or a post?
+                            if (post.replyTo) {
+                                // this is a comment
+                                notification.post = post.replyTo;
+                                notification.comment = post._id;
+                            } else {
+                                notification.post = post._id;
+                            }
+                            notification.type = 'mention';
+                            notification.text = '<@' + post.user + '> mentioned you in a post';
+                            notification.save();
                         }
-                        notification.type = 'mention';
-                        notification.text = '<@' + post.user + '> mentioned you in a post';
-                        notification.save();
                     }
-
                     next();
 
 
@@ -348,6 +352,8 @@ webserver.post('/actions/editprofile', function(req, res) {
                 }, function(err, existing) {
                     if (existing == 0) {
                         req.user_profile.username = req.body.username;
+
+                        req.user_profile.username = req.user_profile.username.replace(/\W/g,'');
                     }
                     req.user_profile.displayName = req.body.displayName;
                     req.user_profile.bio = req.body.bio;

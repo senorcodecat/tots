@@ -11,7 +11,7 @@
                     <div class="replyline" ng-if="post.replyTo">
                         reply to <a ng-href="/@{% post.replyTo.user.username %}/tots/{% post.replyTo._id %}">{% post.replyTo.user.displayName %}</a>
                     </div>
-                    <div class="text" ng-bind-html=" post.text | renderPostText"></div>
+                    <div class="text" ng-bind-html="post.rendered_text | renderPostText"></div>
                     <div class="revisionLine" ng-if="post.updated">
                         updated <a ng-href="/@{% post.user.username %}/tots/{% post._id %}/revisions" class="date">{% post.updated | date : "MMM d, h:mm a" %}</a>
                     </div>

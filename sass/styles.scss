@@ -329,7 +329,7 @@ ul.posts {
         border: 1px solid #CCC;
 
         .text {
-            font-size: 2rem;
+            font-size: 1.2rem;
         }
     }
 }
@@ -485,4 +485,24 @@ h2 {
 
 mentio-menu {
     display: none;
+}
+
+.editprofile {
+
+    p {
+        label {
+            display: block;
+        }
+
+        input, textarea {
+            font-size: 1.2rem;
+            // width: 100%;
+        }
+
+        textarea {
+            width: 100%;
+        }
+    }
+
+
 }

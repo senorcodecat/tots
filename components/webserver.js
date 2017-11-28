@@ -125,6 +125,9 @@ module.exports = function(db) {
                   user.user_id = req.user._json.sub;
                   user.avatar_url = req.user.picture || null;
 
+                  // remove any spaces or non word chars from username
+                  user.username = user.username.replace(/\W/g,'');
+
               }
 
 

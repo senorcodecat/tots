@@ -570,6 +570,8 @@ app.controller('editpost', ['$scope', '$routeParams', '$http', function($scope, 
 
     $scope.saveEdit = function() {
         if ($scope.ui.post.user._id == $scope.ui.user._id) {
+            // move this value to the right location for saving...
+            $scope.ui.post.text = $scope.ui.post.editable_text;
             $http.post('/actions/edit', $scope.ui.post).then(function(res) {
                 if (res.data.ok) {
                     window.location = '/@' + $scope.ui.post.user.username + '/tots/' + $scope.ui.post._id;
@@ -579,6 +581,7 @@ app.controller('editpost', ['$scope', '$routeParams', '$http', function($scope, 
             })
 
         }
+        return false;
     }
 
 }])

@@ -4,10 +4,21 @@
       <h2>Yeah that's fine. We'll even track revision history for you.</h2>
 
       <h2>Edit Post</h2>
-      <form method="post" encType="multipart/form-data" action="/actions/edit" class="post_form"  ng-submit="saveEdit">
+      <form method="post" encType="multipart/form-data"  class="post_form"  ng-submit="saveEdit()">
         <input type="hidden" name="_id" ng-value="ui.post._id" />
         <div class="composer">
-          <textarea name="text" ng-model="ui.post.text"></textarea>
+          <textarea
+            name="text"
+            ng-model="ui.post.editable_text"
+
+            mentio
+            mentio-trigger-char="'@'"
+            mentio-items="ui.people"
+            mentio-search="searchPeople(term)"
+            mentio-template-url="/people-mentions.tpl"
+            mentio-typed-term="ui.selected_mention"
+
+            ></textarea>
           <!-- <div class="img_preview" ng-if="ui.img_preview">
               <img ng-src='{% ui.img_preview %}' ng-click="removeFile()"/>
           </div> -->
@@ -17,7 +28,7 @@
             <label for="file" class="attachment">📷</label>
             <input id="file" style="display: none;" ng-model="ui.file" ng-change="fileChange()" type="file" accept="image/*" name="image" />
           </div> -->
-          <button type="submit" ng-disabled="!ui.post.text">Update Post</button>
+          <button type="submit" ng-disabled="!ui.post.editable_text">Update Post</button>
         </div>
       </form>
 </div>

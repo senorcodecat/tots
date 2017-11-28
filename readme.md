@@ -39,11 +39,11 @@ DONE:
 
 * autorotate images when uploaded
 * @mentions - http://ment.io/
-
-TODO:
-
+* user profile fails to render reply text
 * fix post editing w/rt mentions
 * ensure usernames do not have spaces!
+
+TODO:
 
 * delete post
 * square crop avatar images

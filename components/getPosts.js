@@ -3,8 +3,13 @@ var async = require('async');
 module.exports = function(webserver, db) {
 
 
-    function renderMentions(text, cb) {
-      var matches = text.match(/\<\@(\w+)\>/igm);
+    function renderMentions(post, cb) {
+
+      post.rendered_text = post.text;
+      post.editable_text = post.text;
+
+      var matches = post.text.match(/\<\@(\w+)\>/igm);
+
       if (matches) {
 
           // remove dupes
@@ -16,22 +21,30 @@ module.exports = function(webserver, db) {
               return u.substr(2).slice(0,-1);
           })
           // console.log('render mentions', users);
+
+
           async.each(users, function(uid, next) {
               db.users.findOne({_id: uid}, function(err, user) {
                   if (user) {
                       var profile_link = '<a href="/@' + user.username + '">@' + user.displayName + '</a>';
                       var pattern = new RegExp('<@' + uid + '>','g');
-                      text = text.replace(pattern, profile_link);
+                      post.rendered_text = post.rendered_text.replace(pattern, profile_link);
                       // console.log('RENDERED MENTION', text);
+
+                      var username_only = '@' + user.username;
+                      pattern = new RegExp('<@' + uid + '>','g');
+
+                      post.editable_text = post.editable_text.replace(pattern, username_only);
+
                   }
                   next();
               });
           }, function() {
 
-              cb(text);
+              cb(post);
           })
       } else {
-          cb(text);
+          cb(post);
       }
     }
 
@@ -39,8 +52,9 @@ module.exports = function(webserver, db) {
 
         var processed = []
         async.each(posts, function(p, next) {
-            renderMentions(p.text, function(text) {
-                p.text = text;
+            p = p.toObject();
+            renderMentions(p, function(p) {
+                // p.text = text;
                 processed.push(p);
                 next();
             })
@@ -66,8 +80,9 @@ module.exports = function(webserver, db) {
 
         var processed = []
         async.each(posts, function(p, next) {
-            renderMentions(p.text, function(text) {
-                p.text = text;
+            p = p.toObject();
+            renderMentions(p, function(p) {
+                // p.text = text;
                 processed.push(p);
                 next();
             })
@@ -166,9 +181,11 @@ module.exports = function(webserver, db) {
               db.posts.findOne({user: user._id, _id: req.query.post}).populate('user').populate({path: 'replyTo', populate: { path: 'user'}}).exec(function(err, post) {
                 if (post) {
                     preprocessPosts([post], function(posts) {
+                    post = posts[0];
+                    // post.rendered_text = post.text.replace(/<.*?>/g,'');
                     res.json({
                         ok: true,
-                        data: posts[0],
+                        data: post,
                     })
                 });
                 } else {
@@ -243,7 +260,7 @@ module.exports = function(webserver, db) {
         }
 
         checkFollowing(req.user_profile, user_profile, function(following, followback) {
-            db.posts.find({user: user_profile._id}).populate('user').populate({path: 'post', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
+            db.posts.find({user: user_profile._id}).populate('user').populate({path: 'replyTo', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
 
                 preprocessPosts(posts, function(posts) {
               res.json({
@@ -329,82 +346,6 @@ module.exports = function(webserver, db) {
               });
           }
   }
-  //
-  // app.get('/@:username/following/:page?', function(req, res, next) {
-  //     res.send('coming soon?');
-  // });
-  //
-  // app.get('/@:username/followers/:page?', function(req, res, next) {
-  //     res.send('coming soon?');
-  // });
-  //
-  // app.get('/@:username/faves/:page?', function(req, res, next) {
-  //     var limit = 25;
-  //     var page = parseInt(req.params.page) || 1;
-  //     if (page < 1) {
-  //         page = 1;
-  //     }
-  //     var skip = (page - 1) * limit;
-  //     db.users.findOne({username: req.params.username}, function(err, user_profile) {
-  //         if (err || !user_profile) {
-  //             return res.send('User not found');
-  //         }
-  //
-  //         checkFollowing(req.user_profile, user_profile, function(following, followback) {
-  //             db.faves.find({user: user_profile._id}).populate({path: 'post', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, faves) {
-  //                 var posts = [];
-  //                 for (var p = 0; p < faves.length; p++) {
-  //                     posts.push(faves[p].post);
-  //                 }
-  //                 res.render('faves', {
-  //                   posts: posts,
-  //                   profile: user_profile,
-  //                   following: following,
-  //                   followback: followback,
-  //                   layout: 'layouts/default',
-  //                   page: page,
-  //                   next: page+1,
-  //                   previous: (page > 1) ? page-1 : null,
-  //                 });
-  //             });
-  //         });
-  //     });
-  //
-  // });
-
-  //
-  // app.get('/@:username/:page?', function(req, res, next) {
-  //     var limit = 25;
-  //     var page = parseInt(req.params.page) || 1;
-  //     if (page < 1) {
-  //         page = 1;
-  //     }
-  //     var skip = (page - 1) * limit;
-  //     db.users.findOne({username: req.params.username}, function(err, user_profile) {
-  //         if (err || !user_profile) {
-  //             return res.send('User not found');
-  //         }
-  //
-  //         checkFollowing(req.user_profile, user_profile, function(following, followback) {
-  //             db.posts.find({user: user_profile._id}).populate('user').sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
-  //                 res.render('user', {
-  //                   posts: posts,
-  //                   profile: user_profile,
-  //                   following: following,
-  //                   followback: followback,
-  //                   layout: 'layouts/default',
-  //                   page: page,
-  //                   next: page+1,
-  //                   previous: (page > 1) ? page-1 : null,
-  //                 });
-  //             });
-  //         });
-  //     });
-  //
-  // });
-
-
-
 
 
   function feedRoute(req, res) {

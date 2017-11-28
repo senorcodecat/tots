@@ -10,7 +10,7 @@
             <div class="replyline" ng-if="ui.post.replyTo">
                 reply to <a ng-href="/@{% ui.post.replyTo.user.username %}/tots/{% ui.post.replyTo._id %}">{% ui.post.replyTo.user.displayName %}</a>
             </div>
-            <div class="text" ng-bind-html="ui.post.text | renderPostText"></div>
+            <div class="text" ng-bind-html="ui.post.rendered_text | renderPostText"></div>
             <div class="revisionLine" ng-if="ui.post.updated">
                 updated <a ng-href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}/revisions" class="date">{% ui.post.updated | date : "MMM d, h:mm a" %}</a>
             </div>
@@ -34,7 +34,7 @@
                     <div class="byline">
                         <a ng-href="/@{% comment.user.username %}" class="username">{% comment.user.displayName %}</a> <a ng-href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}#comment-{% comment._id %}" class="date">{% comment.date | date : "MMM d, h:mm a" %}</a>
                     </div>
-                    <div class="text" ng-bind-html="comment.text | renderPostText"></div>
+                    <div class="text" ng-bind-html="comment.rendered_text | renderPostText"></div>
                 </div>
             </li>
 

@@ -10,7 +10,7 @@
             <div class="replyline" ng-if="ui.post.replyTo">
                 reply to <a ng-href="/@{% ui.post.replyTo.user.username %}/tots/{% ui.post.replyTo._id %}">{% ui.post.replyTo.user.displayName %}</a>
             </div>
-            <div class="text" ng-bind-html="ui.post.text | renderPostText"></div>
+            <div class="text" ng-bind-html="ui.post.rendered_text | renderPostText"></div>
             <div class="revisionLine" ng-if="ui.post.updated">
                 updated <a ng-href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}/revisions" class="date">{% ui.post.updated | date : "MMM d, h:mm a" %}</a>
             </div>
@@ -31,7 +31,7 @@
               <div class="byline">
                 <span class="date">{% post.date | date : "MMM d, h:mm a" %}</span>
               </div>
-              <div class="text" ng-bind-html=" post.text | renderPostText"></div>
+              <div class="text" ng-bind-html="post.rendered_text | renderPostText"></div>
               <div class="image" ng-repeat="image in post.images">
                   <img ng-src="{% image.url %}" alt="{% image.name %}" />
               </div>
