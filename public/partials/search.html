@@ -1,5 +1,9 @@
 <div ng-controller="search">
 
+  <form method="get" ng-submit="search()" class="big_search">
+      <input type="search" results name="query" ng-model="ui.query" placeholder="Search" />
+  </form>
+
   <div  ng-include="'/partials/posts.html'"></div>
 
   <a ng-if="ui.previous" ng-href="/feed/{% ui.previous %}">PREVIOUS PAGE</a>

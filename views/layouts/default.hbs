@@ -81,11 +81,13 @@
                     <li class="ng-class:{active: ui.nav=='notifications'};"><a href="/notifications">🎉<span class="label"> Notifications</span></a></li>
                     <li class="ng-class:{active: ui.nav=='public'};"><a href="/public">🌎<span class="label"> Public</span></a></li>
                     {{/@loggedin}}
+                    <li class="ng-class:{active: ui.nav=='search'}; small_screen_only"><a href="/search">🔍<span class="label"> Search</span></a></li>
+
                 </ul>
             </nav>
             <nav class="right">
                 <ul>
-                    <li><form method="get" action="/search"><input type="search" name="query" placeholder="Search" /></form></li>
+                    <li class="big_screen_only"><form method="get" action="/search"><input type="search" name="query" placeholder="Search" /></form></li>
                     {{#@loggedin}}<li class="menu">
                         <a href="/me" target="_self">Me</a>
                         <ul>

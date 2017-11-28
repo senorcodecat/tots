@@ -348,19 +348,22 @@ app.controller('search', ['$scope', '$routeParams', function($scope, $routeParam
         $scope.ui.page = $scope.params.page;
     }
 
-    var query = $scope.params.query;
+    $scope.ui.query = $scope.params.query;
 
     $scope.ui.posts = [];
 
-    $scope.getPosts('/posts/search', ['query=' + encodeURIComponent(query)], $scope.ui.page).then(function(posts) {
-        $scope.ui.posts = posts;
+    $scope.search = function() {
+        $scope.getPosts('/posts/search', ['query=' + encodeURIComponent($scope.ui.query)], $scope.ui.page).then(function(posts) {
+            $scope.ui.posts = posts;
 
-        $scope.getLiked($scope.ui.posts);
+            $scope.getLiked($scope.ui.posts);
 
-        $scope.$apply();
+            $scope.$apply();
 
-    })
+        })
+    }
 
+    $scope.search();
 
 }])
 
