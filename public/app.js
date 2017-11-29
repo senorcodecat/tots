@@ -476,6 +476,13 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
         $scope.ui.comment.text = '';
     }
 
+    $scope.chatKeypress = function(evt) {
+        console.log(evt);
+        if (evt.keyCode == 13) {
+            $scope.sendLive();
+        }
+    }
+
     $scope.getPosts('/posts/post', ['post=' + $scope.params.post_id, 'username=' + encodeURIComponent($scope.params.username)], 1).then(function(payload) {
         $scope.ui.post = payload;
         if ($scope.ui.user && ($scope.ui.post.user._id == $scope.ui.user._id)) {
