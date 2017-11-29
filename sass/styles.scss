@@ -582,6 +582,7 @@ mentio-menu {
       flex-grow:  1;
       flex-direction: column-reverse;
       display: flex;
+      -webkit-overflow-scrolling: touch;
       overflow-y: auto;
   }
 

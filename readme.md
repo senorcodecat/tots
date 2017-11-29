@@ -48,11 +48,10 @@ DONE:
 TODO:
 
 LIVE MODE
-* handle mentions
-* save posts to db
 * ability to toggle live mode
 * header for roster
 * online/offline indicator
+* probably need to reload message history
 
 
 * loading states
