@@ -582,12 +582,12 @@ mentio-menu {
       flex-grow:  1;
       flex-direction: column-reverse;
       display: flex;
-      -webkit-overflow-scrolling: touch;
       overflow-y: auto;
-
-      & > div {
-        height: calc(100% + 1px);
-      }
+      // -webkit-overflow-scrolling: touch;
+      //
+      // & > div {
+      //   height: calc(100% + 1px);
+      // }
   }
 
    footer {
