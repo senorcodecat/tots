@@ -23,48 +23,41 @@
                 <li>💬 <span class="replyCount" ng-if="ui.post.replyCount"> {% ui.post.replyCount %}</span></li>
 
                 <li ng-if="ui.post.mine"><A href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}/edit">Edit</a></li>
-                    <li><a href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}/live">🔴 LIVE!!!</a></li>
+
             </ul>
         </div>
     </div>
-    <div ng-if="!ui.post.comments_disabled">
-        <ul class="replies">
-            <li ng-repeat="comment in ui.comments" class="reply" id="comment-{% comment._id %}">
-                <div class="content">
-                    <div class="byline">
-                        <a ng-href="/@{% comment.user.username %}" class="username">{% comment.user.displayName %}</a> <a ng-href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}#comment-{% comment._id %}" class="date">{% comment.date | date : "MMM d, h:mm a" %}</a>
-                    </div>
-                    <div class="text" ng-bind-html="comment.rendered_text | renderPostText"></div>
-                </div>
-            </li>
-
-        </ul>
-        <div ng-if="ui.auth">
-            <form method="post" class="post_form" ng-submit="postComment()">
-                <div class="avatar">
-                    <img ng-src="{% ui.user.avatar_url %}" class="avatar" />
-                </div>
-                <div class="composer">
-                    <textarea
-                    ng-model="ui.comment.text"
-                    placeholder="Reply to this tot"
-                    id="comment_composer"
-
-                    mentio
-                    mentio-trigger-char="'@'"
-                    mentio-items="ui.people"
-                    mentio-search="searchPeople(term)"
-                    mentio-template-url="/people-mentions.tpl"
-                    mentio-typed-term="ui.selected_mention"
-
-                    ></textarea>
-                </div>
-                <div class="actions">
-                    <label for="post_to_feed"><input type="checkbox" ng-model="ui.comment.post_to_feed" id="post_to_feed"> Also post to feed</label>
-                    <button type="submit" ng-disabled="!ui.comment.text.length">Post</button>
-                </div>
-            </form>
+    <div id="message_window">
+        <div class="disconnected">
+            Disconnected... reconnecting!
         </div>
+        <div class="offline">
+            Offline! Reload to reconnect.
+        </div>
+
+        <section>
+            <div id="message_list">
+                <div id="message_template">
+                    <div class="message {{message.type}}">
+                        {{#if message.isTyping}}
+                            <div class="typing-indicator">
+                                ...
+                            </div>
+                        {{/if}}
+                        {{message.user.displayName}}:
+                        {{{message.html}}}
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div id="message_replies">
+        </div>
+        <footer>
+            <form onsubmit="messenger.send(messenger.input.value, event)">
+                <input type="text" autocomplete="off" id="messenger_input" placeholder="Type here..." />
+                <button type="submit">Send</button>
+            </form>
+        </footer>
     </div>
 
 </div>

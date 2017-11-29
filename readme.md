@@ -45,6 +45,12 @@ DONE:
 
 TODO:
 
+* loading states
+* don't show paginators until stuff is loaded
+* edit profile on mobile is super ugly
+* edit posts on mobile is EVEN UGLIER
+* empty state  for profile
+* empty state for search
 * delete post
 * square crop avatar images
 * remove pics from post

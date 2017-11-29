@@ -60,6 +60,12 @@ app.get('/@:username/tots/:post/edit', function(req, res, next) {
     layout: 'layouts/default',
   });
 });
+app.get('/@:username/tots/:post/live', function(req, res, next) {
+  res.render('home', {
+    layout: 'layouts/default',
+  });
+});
+
 app.get('/@:username/tots/:post/revisions', function(req, res, next) {
   res.render('home', {
     layout: 'layouts/default',

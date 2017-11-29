@@ -25,6 +25,9 @@ app.config(function($interpolateProvider) {
         .when('/@:username/tots/:post_id', {
             templateUrl: 'partials/detail.html',
         })
+        .when('/@:username/tots/:post_id/live', {
+            templateUrl: 'partials/live.html',
+        })
         .when('/@:username/tots/:post_id/edit', {
             templateUrl: 'partials/edit.html',
         })
@@ -474,7 +477,7 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
         $scope.getLiked([$scope.ui.post]);
         $scope.getComments();
 
-        // messenger.boot();
+        messenger.boot($scope.params.post_id);
 
         $scope.$apply();
     });

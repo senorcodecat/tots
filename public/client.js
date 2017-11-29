@@ -78,7 +78,7 @@ var messenger = {
         type: 'message',
         text: text,
         user: this.guid,
-        channel: 'socket',
+        channel: this.options.channel,
       }));
     } else {
 
@@ -86,7 +86,7 @@ var messenger = {
         type: 'message',
         text: text,
         user: this.guid,
-        channel: 'webhook',
+        channel: this.options.channel,
       });
     }
     this.input.value = '';
@@ -136,7 +136,7 @@ var messenger = {
     that.webhook({
       type: connectEvent,
       user: that.guid,
-      channel: 'webhook',
+      channel: that.options.channel,
     });
 
   },
@@ -163,8 +163,9 @@ var messenger = {
       that.trigger('connected', event);
       that.socket.send(JSON.stringify({
         type: connectEvent,
+        channel: that.options.channel,
         user: that.guid,
-        channel: 'socket',
+        // channel: 'socket',
       }));
     });
 
@@ -222,7 +223,7 @@ var messenger = {
         delete(that.next_line);
       }
   },
-  boot: function() {
+  boot: function(channel_to_join) {
 
     console.log('Booting up');
 
@@ -238,6 +239,8 @@ var messenger = {
     that.replies = document.getElementById('message_replies');
 
     that.input = document.getElementById('messenger_input');
+
+    that.options.channel = channel_to_join;
 
     that.focus();
 
