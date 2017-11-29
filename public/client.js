@@ -70,8 +70,10 @@ var messenger = {
     //   message: message
     // });
     // this.message_list.appendChild(el);
-    this.clearReplies();
-    this.renderMessage(message);
+    // this.clearReplies();
+    // this.renderMessage(message);
+    message.rendered_text = message.text;
+    this.$scope.$broadcast('message', message);
 
     if (this.options.use_sockets) {
       this.socket.send(JSON.stringify({
@@ -89,7 +91,7 @@ var messenger = {
         channel: this.options.channel,
       });
     }
-    this.input.value = '';
+    // this.input.value = '';
 
     this.trigger('sent', message);
 
@@ -231,30 +233,30 @@ var messenger = {
     that.$scope = $scope;
 
     that.message_window = document.getElementById("message_window");
-
-    that.message_list = document.getElementById("message_list");
-
-    var source = document.getElementById('message_template').innerHTML;
-    that.message_template = Handlebars.compile(source);
-
-    that.replies = document.getElementById('message_replies');
-
-    that.input = document.getElementById('messenger_input');
+    //
+    // that.message_list = document.getElementById("message_list");
+    //
+    // var source = document.getElementById('message_template').innerHTML;
+    // that.message_template = Handlebars.compile(source);
+    //
+    // that.replies = document.getElementById('message_replies');
+    //
+    // that.input = document.getElementById('messenger_input');
 
     that.options.channel = channel_to_join;
 
-    that.focus();
+    // that.focus();
 
     // console.log('messenger',that);
 
     that.on('connected', function() {
       that.message_window.className = 'connected';
-      that.input.disabled = false;
+      // that.input.disabled = false;
     })
 
     that.on('disconnected', function() {
       that.message_window.className = 'disconnected';
-      that.input.disabled = true;
+      // that.input.disabled = true;
     });
 
     that.on('webhook_error', function(err) {
@@ -265,7 +267,7 @@ var messenger = {
     });
 
     that.on('typing', function() {
-      that.clearReplies();
+      // that.clearReplies();
       that.renderMessage({
           isTyping: true
       });
@@ -287,7 +289,8 @@ var messenger = {
 
     that.on('message', function(message) {
         // console.log('RECEIVED MESSAGE', message);
-      that.renderMessage(message);
+      // that.renderMessage(message);
+      that.$scope.$broadcast('message', message);
 
     });
 
@@ -313,7 +316,7 @@ var messenger = {
     });
 
     that.on('message', function(message) {
-      that.clearReplies();
+      // that.clearReplies();
       if (message.quick_replies) {
 
         for (var r = 0; r < message.quick_replies.length; r++) {

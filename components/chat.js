@@ -37,21 +37,25 @@ module.exports = function(webserver, db) {
         if (!clients || !clients.length) {
             console.error('message to empty room');
         }
-        for (var c = 0; c < clients.length; c++) {
-            if (ws.guid != clients[c].guid) {
-                message.user = ws.user;
-                var success = true;
-                try {
-                    // console.log('SEND', JSON.stringify(message));
-                    clients[c].send(JSON.stringify(message));
-                } catch(err) {
-//                    console.log('Should remove client!',c);
-                    // return;
-                    clients[c].dead = true;
-                    success = false;
+
+        message.user = ws.user;
+
+        db.renderMentions(message, function(message) {
+            for (var c = 0; c < clients.length; c++) {
+                if (ws.guid != clients[c].guid) {
+                    var success = true;
+                    try {
+                        // console.log('SEND', JSON.stringify(message));
+                        clients[c].send(JSON.stringify(message));
+                    } catch(err) {
+    //                    console.log('Should remove client!',c);
+                        // return;
+                        clients[c].dead = true;
+                        success = false;
+                    }
                 }
             }
-        }
+        });
     })
 
     broadcast.on('message', function(message, ws) {
@@ -154,15 +158,10 @@ module.exports = function(webserver, db) {
             roster.push(temp[r]);
         }
 
-
-        console.log(roster);
-
         ws.send(JSON.stringify({
             type: 'roster',
             roster: roster,
-        }))
-
-
+        }));
     });
 
 

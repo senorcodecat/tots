@@ -48,6 +48,8 @@ module.exports = function(webserver, db) {
       }
     }
 
+    db.renderMentions = renderMentions;
+
     function preprocessPosts(posts, cb) {
 
         var processed = []

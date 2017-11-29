@@ -470,6 +470,12 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
     }
 
     delete($scope.ui.post);
+
+    $scope.sendLive = function() {
+        messenger.send($scope.ui.comment.text);
+        $scope.ui.comment.text = '';
+    }
+
     $scope.getPosts('/posts/post', ['post=' + $scope.params.post_id, 'username=' + encodeURIComponent($scope.params.username)], 1).then(function(payload) {
         $scope.ui.post = payload;
         if ($scope.ui.user && ($scope.ui.post.user._id == $scope.ui.user._id)) {
@@ -489,6 +495,15 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
         $scope.ui.roster = roster;
         $scope.$apply();
     })
+
+    $scope.$on('message', function(evt,message) {
+        if (!message.user) {
+            message.user = $scope.ui.user;
+        }
+        $scope.ui.comments.push(message);
+        $scope.$apply();
+    })
+
 
     $scope.$on('roster_add', function(evt,user) {
 
