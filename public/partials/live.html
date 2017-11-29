@@ -1,16 +1,10 @@
 <div ng-controller="detail" id="message_window">
 
 
-        <!-- <div id="roster">
-            <p>{% ui.roster.length %} chatters online</p>
-            <ul>
-                <li ng-repeat="person in ui.roster">
-                    {% person.displayName %}
-                </li>
-            </ul>
-        </div> -->
+
+    <div id="chat">
     <section>
-        <div id="chat">
+        <div>
             <ul class="replies">
                 <li class="post">
                     <div class="avatar">
@@ -53,13 +47,29 @@
             </ul>
         </div>
     </section>
-    <footer>
+    <footer ng-if="ui.user">
+        <div class="online_now">{% ui.roster.length %} people online</div>
         <form method="post" class="post_form" ng-submit="sendLive()">
             <div class="avatar">
                 <img ng-src="{% ui.user.avatar_url %}" class="avatar" />
             </div>
             <div class="composer">
-                <textarea ng-model="ui.comment.text" ng-keypress="chatKeypress($event)" placeholder="Reply to this tot" id="comment_composer" mentio mentio-trigger-char="'@'" mentio-items="ui.people" mentio-search="searchPeople(term)" mentio-template-url="/people-mentions.tpl" mentio-typed-term="ui.selected_mention"></textarea>
+                <textarea
+                  ng-model="ui.comment.text"
+                  ng-keypress="chatKeypress($event)"
+                  placeholder="Reply to this tot"
+
+                  id="comment_composer"
+
+                  rows="1" msd-elastic
+
+                  mentio mentio-trigger-char="'@'"
+                  mentio-items="ui.people"
+                  mentio-search="searchPeople(term)"
+                  mentio-template-url="/people-mentions.tpl"
+                  mentio-typed-term="ui.selected_mention"
+                >
+                </textarea>
             </div>
             <div class="actions">
                 <label for="post_to_feed"><input type="checkbox" ng-model="ui.comment.post_to_feed" id="post_to_feed"> Also post to feed</label>
@@ -67,6 +77,15 @@
             </div>
         </form>
     </footer>
+  </div>
+  <div id="roster">
+      <ul>
+          <li ng-repeat="person in ui.roster">
+              <a ng-href="/@{% person.username %}">{% person.displayName %}</a>
+          </li>
+      </ul>
+  </div>
+
 
 </div>
 <!--

@@ -8,6 +8,9 @@ html, body {
   padding: 0;
   margin: 0; }
 
+form {
+  margin: 0; }
+
 a {
   color: brown;
   text-decoration: none; }
@@ -121,8 +124,7 @@ a {
       width: 100%;
       border: 0;
       margin: 0;
-      padding: 0.5rem;
-      height: 3.5rem; }
+      padding: 0.5rem; }
   .post_form .img_preview {
     width: 100px;
     max-height: 100px;
@@ -142,8 +144,7 @@ a {
   .post_form textarea {
     flex-grow: 1;
     margin-bottom: 1rem;
-    font-size: 20px;
-    height: 3rem; }
+    font-size: 20px; }
   .post_form .actions {
     text-align: right; }
 
@@ -342,11 +343,46 @@ mentio-menu {
 #message_window {
   /*height: 500px;
   width: 320px;*/
-  height: 100%;
+  height: calc(100% - 55px);
   width: 100%;
-  /*margin: 2rem auto;*/
   display: flex;
-  flex-direction: column; }
+  flex-direction: row; }
+
+.online_now {
+  padding: 0.25rem 1rem;
+  font-size: 0.8rem;
+  text-align: center;
+  font-weight: bold;
+  background: #F0FFF0; }
+
+#roster {
+  display: none;
+  flex-shrink: 0;
+  width: 200px;
+  border-left: 1px solid #CCC; }
+  #roster ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0; }
+    #roster ul li {
+      padding: 1rem; }
+  @media all and (min-width: 600px) {
+    #roster {
+      display: block; } }
+
+#chat {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin: 0px auto; }
+  #chat section {
+    flex-grow: 1;
+    flex-direction: column-reverse;
+    display: flex;
+    overflow-y: auto; }
+  #chat footer {
+    border-top: 1px solid #CCC;
+    flex-shrink: 0; }
 
 #message_window .disconnected {
   background: #FFFFCC;
@@ -366,11 +402,5 @@ mentio-menu {
   color: #FFF;
   padding: 0.25rem;
   display: block; }
-
-#message_window section {
-  flex-grow: 1;
-  flex-direction: column-reverse;
-  display: flex;
-  overflow-y: auto; }
 
 /*# sourceMappingURL=styles.css.map */

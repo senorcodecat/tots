@@ -43,7 +43,17 @@ DONE:
 * fix post editing w/rt mentions
 * ensure usernames do not have spaces!
 
+
+
 TODO:
+
+LIVE MODE
+* handle mentions
+* save posts to db
+* ability to toggle live mode
+* header for roster
+* online/offline indicator
+
 
 * loading states
 * don't show paginators until stuff is loaded
@@ -66,7 +76,6 @@ BORING:
 admin mode
 
 FAR OUT:
-chat-style replies
 sms?
 personalized notification webhooks
 default signups OFF, enable with flag

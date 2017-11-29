@@ -73,6 +73,7 @@ var messenger = {
     // this.clearReplies();
     // this.renderMessage(message);
     message.rendered_text = message.text;
+    message.date = new Date();
     this.$scope.$broadcast('message', message);
 
     if (this.options.use_sockets) {

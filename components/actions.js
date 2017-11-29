@@ -62,6 +62,8 @@ function updateCommentCount(post) {
     });
 }
 
+db.updateCommentCount = updateCommentCount;
+
 webserver.post('/actions/edit', function(req, res) {
 
     if (req.user && req.body._id) {
@@ -110,7 +112,6 @@ function handleMentions(post, cb, donotnotify) {
 
     if (post.text) {
         var matches = post.text.match(/(\@\w+)/img);
-        console.log(matches);
 
         if (!matches) {
             return cb(null,post);
@@ -170,6 +171,7 @@ function handleMentions(post, cb, donotnotify) {
     }
 }
 
+db.handleMentions = handleMentions;
 
 webserver.post('/actions/post', function(req, res) {
 

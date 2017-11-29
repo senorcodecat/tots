@@ -60,7 +60,14 @@ module.exports = function(webserver, db) {
 
     broadcast.on('message', function(message, ws) {
         // console.log('RCVD:', message,'user',ws.user.displayName);
-        broadcast.emit('broadcast', message, ws);
+
+        saveComment(message, ws, function(comment) {
+            // update with new mention stuff
+            message.text = comment.text;
+            message.date = comment.date;
+            broadcast.emit('broadcast', message, ws);
+        });
+
 
     });
 
@@ -105,9 +112,6 @@ module.exports = function(webserver, db) {
             roster.push(temp[r]);
         }
 
-
-
-        console.log(roster);
 
         ws.send(JSON.stringify({
             type: 'roster',
@@ -180,17 +184,53 @@ module.exports = function(webserver, db) {
             // reject here if user is unknown.
             //
 
-            db.users.findOne({user_id: info.req.session.passport.user._json.sub}, function(err, user) {
-                console.log('SET USER');
-                info.req.user_profile = user;
-                done(info.req.user_profile);
-            });
+            if (info.req.session && info.req.session.passport && info.req.session.passport.user) {
+              db.users.findOne({user_id: info.req.session.passport.user._json.sub}, function(err, user) {
+                  console.log('SET USER');
+                  info.req.user_profile = user;
+                  done(info.req.user_profile);
+              });
+            } else {
+              done();
+            }
           });
 },
     });
 
     function heartbeat() {
         // this.isAlive = true;
+    }
+
+    function saveComment(message, ws, cb) {
+
+      var comment = new db.comments();
+      comment.text = message.text;
+      comment.user = ws.user._id;
+      comment.replyTo = message.channel;
+      db.handleMentions(comment, function(err, comment) {
+
+          comment.save(function() {
+              db.updateCommentCount({
+                  _id: message.channel
+              });
+          });
+
+          if (message.post_to_feed == true) {
+              var repost = new db.posts();
+              repost.text = comment.text;
+              repost.user = ws.user._id;
+              repost.replyTo = message.channel;
+              repost.save(function(saved_post) {
+                  comment.post = repost._id;
+                  comment.save();
+              });
+          }
+
+          cb(comment);
+
+
+      }, true);
+
     }
 
     wss.on('connection', function connection(ws, req) {
@@ -210,6 +250,12 @@ module.exports = function(webserver, db) {
         ws.user = req.user_profile;
         ws.guid = guid();
 
+        if (!ws.user) {
+          ws.send(JSON.stringify({
+            error: 'auth_required',
+          }))
+          ws.close();
+        }
         // console.log('GOT A NEW WEBSOCKET CONNECT', req.session.passport);
 
 
@@ -218,6 +264,7 @@ module.exports = function(webserver, db) {
             var message = JSON.parse(message);
             // console.log('RECEIVED', message);
             // controller.ingest(bot, message, ws);
+
             broadcast.emit(message.type, message, ws);
 
         });

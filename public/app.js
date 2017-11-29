@@ -1,4 +1,4 @@
-var app = angular.module('tots', ['mgcrea.pullToRefresh', 'angular-file-input', 'ngRoute', 'mentio']);
+var app = angular.module('tots', ['mgcrea.pullToRefresh', 'angular-file-input', 'ngRoute', 'mentio','monospaced.elastic']);
 //'monospaced.elastic'
 
 
@@ -478,8 +478,16 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
 
     $scope.chatKeypress = function(evt) {
         console.log(evt);
-        if (evt.keyCode == 13) {
+        var keyCode = (evt.keyCode ? evt.keyCode :evt.which);
+
+        if (keyCode == 13) {
+          if (evt.ctrlKey) {
+            $scope.ui.comment.text = $scope.ui.comment.text + '\n';
+            evt.preventDefault();
+          } else {
             $scope.sendLive();
+            evt.preventDefault();
+          }
         }
     }
 
