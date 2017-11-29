@@ -584,6 +584,10 @@ mentio-menu {
       display: flex;
       -webkit-overflow-scrolling: touch;
       overflow-y: auto;
+
+      & > div {
+        height: calc(100% + 1px);
+      }
   }
 
    footer {

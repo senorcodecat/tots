@@ -381,6 +381,8 @@ mentio-menu {
     display: flex;
     -webkit-overflow-scrolling: touch;
     overflow-y: auto; }
+    #chat section > div {
+      height: calc(100% + 1px); }
   #chat footer {
     border-top: 1px solid #CCC;
     flex-shrink: 0; }
