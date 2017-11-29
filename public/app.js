@@ -463,6 +463,7 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
     var pid = $scope.params.post_id;
 
     $scope.ui.nav = 'detail';
+    $scope.ui.roster = [];
     $scope.ui.comment = {
         post: pid,
         text: '',
@@ -477,10 +478,43 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
         $scope.getLiked([$scope.ui.post]);
         $scope.getComments();
 
-        messenger.boot($scope.params.post_id);
+        messenger.boot($scope.params.post_id, $scope);
 
         $scope.$apply();
     });
+
+    $scope.$on('roster', function(evt,roster) {
+
+        console.log('GOT UPDATED ROSTER', roster);
+        $scope.ui.roster = roster;
+        $scope.$apply();
+    })
+
+    $scope.$on('roster_add', function(evt,user) {
+
+        console.log('GOT ROSTER ADDITION', user);
+        for (var r = 0; r < $scope.ui.roster.length; r++) {
+            console.log('compare',$scope.ui.roster[r]._id , user._id);
+            if ($scope.ui.roster[r].id == user._id) {
+                console.log('ALREADY IN ROSTER');
+                return;
+            }
+        }
+        $scope.ui.roster.push(user);
+        $scope.$apply();
+
+    })
+    $scope.$on('roster_remove', function(evt,user) {
+
+        console.log('GOT ROSTER REMOVAL', user);
+        for (var r = 0; r < $scope.ui.roster.length; r++) {
+            if ($scope.ui.roster[r]._id == user._id) {
+                $scope.ui.roster.splice(r,1);
+                $scope.$apply();
+                return;
+            }
+        }
+    })
 
     $scope.getComments = function() {
         $scope.getPosts('/posts/comments', ['post=' + $scope.params.post_id], 1).then(function(payload) {

@@ -27,6 +27,15 @@
             </ul>
         </div>
     </div>
+
+    <div id="roster">
+        <p>{% ui.roster.length %} chatters online</p>
+        <ul>
+            <li ng-repeat="person in ui.roster">
+                {% person.displayName %}
+            </li>
+        </ul>
+    </div>
     <div id="message_window">
         <div class="disconnected">
             Disconnected... reconnecting!

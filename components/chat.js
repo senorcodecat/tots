@@ -9,24 +9,59 @@ module.exports = function(webserver, db) {
 
     broadcast.channels = {};
 
-    broadcast.on('message', function(message, ws) {
-        console.log('RCVD:', message,'user',ws.user.displayName);
-        // broadcast this back out to all the other people in this channel
+    broadcast.on('closed', function(ws) {
         var clients = broadcast.channels[ws.channel];
-        for (var c = 0; c < clients.length; c++) {
-            if (ws.guid != clients[c].guid) {
-                message.user = ws.user;
-                try {
-                    clients[c].send(JSON.stringify(message));
-                } catch(err) {
-                    console.log('Should remove client!',c);
+        if (clients && clients.length) {
+            for (var c = 0; c < clients.length; c++) {
+                if (clients[c].guid == ws.guid) {
+                    // console.log('Client disconnected');
+                    // remove this one
+                    broadcast.channels[ws.channel].splice(c,1);
+
+                    broadcast.emit('broadcast',{
+                        text: ws.user.displayName + ' left',
+                        channel: ws.channel,
+                        user: ws.user,
+                        type: 'channel_leave',
+                    }, ws)
+
                 }
             }
         }
     });
 
+    broadcast.on('broadcast', function(message, ws) {
+        // console.log('time to broadcast', message);
+        // broadcast this back out to all the other people in this channel
+        var clients = broadcast.channels[ws.channel];
+        if (!clients || !clients.length) {
+            console.error('message to empty room');
+        }
+        for (var c = 0; c < clients.length; c++) {
+            if (ws.guid != clients[c].guid) {
+                message.user = ws.user;
+                var success = true;
+                try {
+                    // console.log('SEND', JSON.stringify(message));
+                    clients[c].send(JSON.stringify(message));
+                } catch(err) {
+//                    console.log('Should remove client!',c);
+                    // return;
+                    clients[c].dead = true;
+                    success = false;
+                }
+            }
+        }
+    })
+
+    broadcast.on('message', function(message, ws) {
+        // console.log('RCVD:', message,'user',ws.user.displayName);
+        broadcast.emit('broadcast', message, ws);
+
+    });
+
     broadcast.on('hello', function(message, ws) {
-        console.log('hello:', message);
+        // console.log('hello:', message);
         if (!broadcast.channels[message.channel]) {
             broadcast.channels[message.channel] = [];
         }
@@ -34,11 +69,52 @@ module.exports = function(webserver, db) {
         ws.channel = message.channel;
 
         broadcast.channels[message.channel].push(ws);
+
+        broadcast.emit('broadcast',{
+            text: ws.user.displayName + ' joined the chat',
+            channel: message.channel,
+            user: message.user,
+            type: 'channel_join',
+        }, ws)
+
+        var fullroster = broadcast.channels[message.channel].map(function(client) {
+            if (!client.dead) {
+                return {
+                    displayName: client.user.displayName,
+                    username: client.user.username,
+                    id: client.user._id,
+                    _id: client.user._id,
+                    avatar_url: client.user.avatar_url,
+                }
+            }
+        });
+
+
+        // this seems gross!
+        var temp = {};
+        var roster = [];
+        for (var f = 0; f < fullroster.length; f++) {
+            temp[fullroster[f].id] = fullroster[f];
+        }
+
+        for (var r in temp) {
+            roster.push(temp[r]);
+        }
+
+
+
+        console.log(roster);
+
+        ws.send(JSON.stringify({
+            type: 'roster',
+            roster: roster,
+        }))
+
 
     });
 
     broadcast.on('welcome_back', function(message, ws) {
-        console.log('welcome_back:', message);
+        // console.log('welcome_back:', message);
 
         if (!broadcast.channels[message.channel]) {
             broadcast.channels[message.channel] = [];
@@ -47,6 +123,45 @@ module.exports = function(webserver, db) {
         ws.channel = message.channel;
 
         broadcast.channels[message.channel].push(ws);
+
+        broadcast.emit('broadcast',{
+            text: ws.user.displayName + ' joined the chat',
+            channel: message.channel,
+            user: message.user,
+            type: 'channel_join',
+        }, ws)
+
+        var fullroster = broadcast.channels[message.channel].map(function(client) {
+            if (!client.dead) {
+                return {
+                    displayName: client.user.displayName,
+                    username: client.user.username,
+                    id: client.user._id,
+                    _id: client.user._id,
+                    avatar_url: client.user.avatar_url,
+                }
+            }
+        });
+
+        // this seems gross!
+        var temp = {};
+        var roster = [];
+        for (var f = 0; f < fullroster.length; f++) {
+            temp[fullroster[f].id] = fullroster[f];
+        }
+
+        for (var r in temp) {
+            roster.push(temp[r]);
+        }
+
+
+        console.log(roster);
+
+        ws.send(JSON.stringify({
+            type: 'roster',
+            roster: roster,
+        }))
+
 
     });
 
@@ -65,7 +180,12 @@ module.exports = function(webserver, db) {
             // We can reject the connection by returning false to done(). For example,
             // reject here if user is unknown.
             //
-            done(info.req.session.passport.user);
+
+            db.users.findOne({user_id: info.req.session.passport.user._json.sub}, function(err, user) {
+                console.log('SET USER');
+                info.req.user_profile = user;
+                done(info.req.user_profile);
+            });
           });
 },
     });
@@ -88,14 +208,16 @@ module.exports = function(webserver, db) {
         //     console.log('SESSION',err,sess);
         // });
 
-        ws.user = req.session.passport.user;
+        ws.user = req.user_profile;
         ws.guid = guid();
 
         // console.log('GOT A NEW WEBSOCKET CONNECT', req.session.passport);
+
+
         ws.on('message', function incoming(message) {
 
             var message = JSON.parse(message);
-            console.log('RECEIVED', message);
+            // console.log('RECEIVED', message);
             // controller.ingest(bot, message, ws);
             broadcast.emit(message.type, message, ws);
 
@@ -103,6 +225,7 @@ module.exports = function(webserver, db) {
 
         ws.on('close', function(err) {
             console.log('CLOSED', err);
+            broadcast.emit('closed', ws);
             // bot.connected = false;
         });
 

@@ -223,11 +223,12 @@ var messenger = {
         delete(that.next_line);
       }
   },
-  boot: function(channel_to_join) {
+  boot: function(channel_to_join, $scope) {
 
     console.log('Booting up');
 
     var that = this;
+    that.$scope = $scope;
 
     that.message_window = document.getElementById("message_window");
 
@@ -244,7 +245,7 @@ var messenger = {
 
     that.focus();
 
-    console.log('messenger',that);
+    // console.log('messenger',that);
 
     that.on('connected', function() {
       that.message_window.className = 'connected';
@@ -285,8 +286,29 @@ var messenger = {
     });
 
     that.on('message', function(message) {
-
+        // console.log('RECEIVED MESSAGE', message);
       that.renderMessage(message);
+
+    });
+
+    that.on('channel_join', function(message) {
+        // console.log('RECEIVED MESSAGE', message);
+      // that.renderMessage(message);
+      that.$scope.$broadcast('roster_add', message.user);
+
+    });
+
+    that.on('roster', function(message) {
+        // console.log('ROSTER', message);
+      // that.renderMessage(message);
+      that.$scope.$broadcast('roster', message.roster);
+    });
+
+
+    that.on('channel_leave', function(message) {
+        // console.log('RECEIVED MESSAGE', message);
+      // that.renderMessage(message);
+      that.$scope.$broadcast('roster_remove', message.user);
 
     });
 
