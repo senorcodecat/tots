@@ -40,8 +40,12 @@ module.exports = function(webserver, db) {
 
 
     controller.hears(['.*'],'message_received', function(bot, message) {
+
+      var number = message.user;
+      number = number.replace(/^\+\d/,'');
+
       db.users.findOne({
-        phonenumber: message.user,
+        phonenumber: number,
         phone_verified: true,
       }, function(err, user) {
 

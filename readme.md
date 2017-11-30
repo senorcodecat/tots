@@ -67,9 +67,10 @@ LIVE MODE
 SMS BOT
 TEXT TOTS: (347) 273-8687
 * Add and verify phone number
+* send vcard
+
 * ability to post via sms
 * opt in to notifications for GO LIVES
-* send vcard
 
 * edit profile on mobile is super ugly
 * edit posts on mobile is EVEN UGLIER
