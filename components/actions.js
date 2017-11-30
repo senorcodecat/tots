@@ -432,6 +432,16 @@ function acceptUpload(file, filename, user_id, cb) {
 
 }
 
+function generateCode() {
+  var code = '';
+  for (var i = 0; i < 4; i ++) {
+    code = code + Math.floor(Math.random()*10);
+  }
+  return code;
+
+}
+
+
 webserver.post('/actions/addphone', function(req, res) {
 
         if (req.user_profile) {
@@ -440,7 +450,7 @@ webserver.post('/actions/addphone', function(req, res) {
             // TODO: Make sure this number isn't already in use by someone else
             req.user_profile.phonenumber = req.body.phonenumber;
             req.user_profile.phonenumber_verified = false;
-            req.user_profile.phonenumber_verification = '1234';
+            req.user_profile.phonenumber_verification = generateCode();
 
             // req.user_profile.markModified('phonenumber_verified');
 
