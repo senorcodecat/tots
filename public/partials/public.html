@@ -2,8 +2,9 @@
 
   <div  ng-include="'/partials/posts.html'"></div>
 
-  <a ng-if="ui.previous" ng-href="/feed/{% ui.previous %}">PREVIOUS PAGE</a>
-  <a ng-if="ui.next" ng-href="/feed/{% ui.next %}">NEXT PAGE</a>
-
+  <footer class="pagination" ng-if="ui.loaded">
+    <a ng-if="ui.previous" class="previous" ng-href="/public/{% ui.previous %}">PREVIOUS PAGE</a>
+    <a ng-if="ui.next" class="next" ng-href="/public/{% ui.next %}">NEXT PAGE</a>
+  </footer>
 
 </div>

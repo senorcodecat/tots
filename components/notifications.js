@@ -39,8 +39,8 @@ module.exports = function(webserver, db) {
     var limit = 25;
     var page = 1;
     var skip = 0;
-    if (req.params.page) {
-        page = parseInt(req.params.page)
+    if (req.query.page) {
+        page = parseInt(req.query.page)
         if (page < 1) {
             page = 1;
         }

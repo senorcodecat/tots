@@ -403,4 +403,16 @@ mentio-menu {
   padding: 0.25rem;
   display: block; }
 
+footer.pagination:after {
+  content: "";
+  display: table;
+  clear: both; }
+footer.pagination a {
+  display: block;
+  padding: 1rem; }
+footer.pagination .previous {
+  float: left; }
+footer.pagination .next {
+  float: right; }
+
 /*# sourceMappingURL=styles.css.map */

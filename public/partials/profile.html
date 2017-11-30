@@ -21,8 +21,9 @@
 
   <div  ng-include="'/partials/posts.html'"></div>
 
-  <a ng-if="ui.previous" ng-href="/@{% ui.profile.username %}/{% ui.previous %}">PREVIOUS PAGE</a>
-  <a ng-if="ui.next" ng-href="/@{% ui.profile.username %}/{% ui.next %}">NEXT PAGE</a>
-
+  <footer class="pagination" ng-if="ui.loaded">
+    <a ng-if="ui.previous" class="previous" ng-href="/@{% ui.profile.username %}/{% ui.previous %}">PREVIOUS PAGE</a>
+    <a ng-if="ui.next" class="next" ng-href="/@{% ui.profile.username %}/{% ui.next %}">NEXT PAGE</a>
+  </footer>
 
 </div>

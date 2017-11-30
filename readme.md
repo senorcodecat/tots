@@ -44,6 +44,8 @@ DONE:
 * ensure usernames do not have spaces!
 * nav bar thing
 * ability to toggle live mode
+* online/offline indicator
+* don't show paginators until stuff is loaded
 
 
 
@@ -52,15 +54,14 @@ TODO:
 LIVE MODE
 * toggling live mode should not not make a revision
 * live count in feed
+* handle failure to send message
 * list of live things as sidebar on feed
 * header for roster
-* online/offline indicator
 * probably need to reload message history on reconnect or attempt some "since" sync
 
 * livemode should auto-close after a few hours
 
 * loading states
-* don't show paginators until stuff is loaded
 * protect against double post
 * edit profile on mobile is super ugly
 * edit posts on mobile is EVEN UGLIER

@@ -63,7 +63,7 @@
                 </div>
                 <div class="actions">
                     <label for="post_to_feed"><input type="checkbox" ng-model="ui.comment.post_to_feed" id="post_to_feed"> Also post to feed</label>
-                    <button type="submit" ng-disabled="!ui.comment.text.length">Post</button>
+                    <button type="submit" ng-disabled="ui.working || !ui.comment.text.length">Post</button>
                 </div>
             </form>
         </div>

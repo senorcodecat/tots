@@ -35,4 +35,11 @@
 
     </li>
 </ul>
+<footer class="pagination" ng-if="ui.loaded">
+  <a ng-if="ui.previous" class="previous" ng-href="/notifications/{% ui.previous %}">PREVIOUS PAGE</a>
+  <a ng-if="ui.next" class="next" ng-href="/notifications/{% ui.next %}">NEXT PAGE</a>
+</footer>
+
+
+
 </div>

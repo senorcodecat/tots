@@ -615,3 +615,19 @@ mentio-menu {
   padding: 0.25rem;
   display: block;
 }
+
+
+footer.pagination {
+  @include clearfix;
+  a {
+    display: block;
+    padding: 1rem;
+  }
+
+  .previous {
+    float: left;
+  }
+  .next {
+    float: right;
+  }
+}

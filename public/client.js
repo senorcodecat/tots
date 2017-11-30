@@ -78,12 +78,16 @@ var messenger = {
     this.$scope.$broadcast('message', message);
 
     if (this.options.use_sockets) {
-      this.socket.send(JSON.stringify({
-        type: 'message',
-        text: text,
-        user: this.guid,
-        channel: this.options.channel,
-      }));
+      try {
+        this.socket.send(JSON.stringify({
+          type: 'message',
+          text: text,
+          user: this.guid,
+          channel: this.options.channel,
+        }));
+      } catch(err) {
+        console.error('Error sending message', err);
+      }
     } else {
 
       this.webhook({

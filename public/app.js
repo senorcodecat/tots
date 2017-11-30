@@ -155,7 +155,10 @@ app.controller('app', ['$scope', '$http','$location', function($scope, $http, $l
             var limit = 25;
             options.push('page=' + page);
             options.push('limit=' + limit)
-            $http.get(source + "?" + options.join("&")).then(function(res) {
+
+            var url = source + "?" + options.join("&");
+            console.log('FETCH DATA', url);
+            $http.get(url).then(function(res) {
                 if (res.data.ok) {
                     var posts = res.data.data;
                     var tot = posts.length;
@@ -378,6 +381,7 @@ app.controller('public', ['$scope', '$routeParams', function($scope, $routeParam
 
     $scope.ui.page = 0;
     $scope.ui.nav = 'public';
+    $scope.ui.loaded = false;
 
     $scope.params = $routeParams;
     if ($scope.params.page) {
@@ -389,6 +393,7 @@ app.controller('public', ['$scope', '$routeParams', function($scope, $routeParam
 
     $scope.getPosts('/posts/public', [], $scope.ui.page).then(function(posts) {
         $scope.ui.posts = posts;
+        $scope.ui.loaded = true;
 
         $scope.getLiked($scope.ui.posts);
 
@@ -405,7 +410,7 @@ app.controller('search', ['$scope', '$routeParams', function($scope, $routeParam
 
     $scope.ui.page = 0;
     $scope.ui.nav = 'search';
-
+    $scope.ui.loaded = false;
     $scope.params = $routeParams;
     if ($scope.params.page) {
         $scope.ui.page = $scope.params.page;
@@ -418,7 +423,7 @@ app.controller('search', ['$scope', '$routeParams', function($scope, $routeParam
     $scope.search = function() {
         $scope.getPosts('/posts/search', ['query=' + encodeURIComponent($scope.ui.query)], $scope.ui.page).then(function(posts) {
             $scope.ui.posts = posts;
-
+            $scope.ui.loaded = true;
             $scope.getLiked($scope.ui.posts);
 
             $scope.$apply();
@@ -435,6 +440,9 @@ app.controller('profile', ['$scope', '$routeParams', function($scope, $routePara
     $scope.ui.page = 0;
     $scope.ui.nav = 'profile';
 
+    $scope.ui.loaded = false;
+
+
     $scope.params = $routeParams;
     if ($scope.params.page) {
         $scope.ui.page = $scope.params.page;
@@ -450,6 +458,7 @@ app.controller('profile', ['$scope', '$routeParams', function($scope, $routePara
         $scope.ui.profile = payload.profile;
         $scope.ui.following = payload.following;
         $scope.ui.followback = payload.followback;
+        $scope.ui.loaded = true;
 
         $scope.pushHistory(window.location.pathname, $scope.ui.profile.displayName + '\'s Profile');
 
@@ -466,6 +475,7 @@ app.controller('faves', ['$scope', '$routeParams', function($scope, $routeParams
 
     $scope.ui.page = 0;
     $scope.ui.nav = 'profile';
+    $scope.ui.loaded = false;
 
     $scope.params = $routeParams;
     if ($scope.params.page) {
@@ -482,6 +492,7 @@ app.controller('faves', ['$scope', '$routeParams', function($scope, $routeParams
         $scope.ui.profile = payload.profile;
         $scope.ui.following = payload.following;
         $scope.ui.followback = payload.followback;
+        $scope.ui.loaded = true;
 
         $scope.pushHistory(window.location.pathname, $scope.ui.profile.displayName + '\'s Faves');
 
@@ -535,6 +546,8 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
         text: '',
     }
 
+    $scope.ui.working = false;
+
     delete($scope.ui.post);
     delete($scope.ui.comments);
 
@@ -564,12 +577,16 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
     }
 
     $scope.postComment = function() {
+      if (!$scope.ui.working) {
+        $scope.ui.working = true;
         $http.post('/actions/comment/' + $scope.ui.comment.post, $scope.ui.comment).then(function(res) {
             $scope.ui.comment.text = '';
             $scope.ui.comment.post_to_feed = false;
             document.getElementById('comment_composer').focus();
             $scope.getComments();
+            $scope.ui.working = false;
         });
+      }
     }
 
 }])
@@ -738,7 +755,7 @@ app.controller('revisions', ['$scope', '$routeParams', '$http', function($scope,
     });
 
     $scope.getRevisions = function() {
-        $scope.getPosts('/posts/revisions', ['post=' + $scope.params.post_id], 1).then(function(payload) {
+        $scope.getPosts('/posts/revisions', ['post=' + $scope.params.post_id], 0).then(function(payload) {
             $scope.ui.revisions = payload;
             console.log('SET REVISIONS TO', payload);
             $scope.$apply();
@@ -822,7 +839,6 @@ app.controller('postForm', ['$scope', '$http', function($scope, $http) {
             return false;
         }
     }
-
 
     $scope.focus = function() {
         $scope.ui.focused = true;
