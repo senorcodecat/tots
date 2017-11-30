@@ -38,7 +38,7 @@
         You can also receive some special alerts.
       </p>
 
-      <div ng-if="!ui.user.phonenumber_verified">
+      <div ng-if="ui.user.phonenumber_verified==false">
         <p>
           <label>Phone Number:</label>
           <input ng-model="ui.user.phonenumber" pattern="\d+">
@@ -49,14 +49,21 @@
           <input ng-model="ui.verification_test">
         </p>
 
-        <button type="submit">Update Phone Number</button>
+        <button type="submit">Add Phone Number</button>
       </div>
-      <div ng-if="ui.user.phonenumber_verified">
+      <div ng-if="ui.user.phonenumber_verified==true">
         <p>
           <label>Phone Number:</label>
           <input ng-model="ui.user.phonenumber" readonly>
         </p>
         <button ng-click="ui.user.phonenumber_verified=false;">Change Number</button>
+
+        <h2>SMS Notifications</h2>
+
+        <p>
+          <label for="friends_live"><input type="checkbox" ng-model="ui.user.notifications.friends_live" id="friends_live"> Txt me when a friend starts a live chat</label>
+        </p>
+
       </div>
 
 

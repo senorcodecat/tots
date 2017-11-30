@@ -811,6 +811,8 @@ app.controller('editprofile', ['$scope', '$routeParams', '$http', function($scop
       if (res.data.ok) {
         if (res.data.data.verification_sent) {
           $scope.ui.verification_sent = true;
+        } else if (res.data.data.phonenumber_verified) {
+          $scope.ui.user.phonenumber_verified = true;
         }
       } else {
           alert('ERROR ADDING PHONE!', res.data.error);

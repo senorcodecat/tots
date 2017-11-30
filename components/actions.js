@@ -385,8 +385,11 @@ webserver.post('/actions/addphone', function(req, res) {
           if (req.body.phonenumber && !req.body.verification) {
             // TODO: Make sure this number isn't already in use by someone else
             req.user_profile.phonenumber = req.body.phonenumber;
-            req.user_profile.phone_verified = false;
+            req.user_profile.phonenumber_verified = false;
             req.user_profile.phonenumber_verification = '1234';
+
+            // req.user_profile.markModified('phonenumber_verified');
+
             req.user_profile.save(function(err) {
 
 
@@ -424,9 +427,19 @@ webserver.post('/actions/addphone', function(req, res) {
 
               req.user_profile.phonenumber_verified = true;
               req.user_profile.phonenumber_verification = null;
+              req.user_profile.notifications = {
+                friends_live: true,
+              }
               req.user_profile.save(function(err) {
 
                 var bot = botkit.spawn({});
+
+                res.json({
+                  ok: true,
+                  data: {
+                    phonenumber_verified: true,
+                  }
+                })
 
                 bot.say({
                   text: 'We are now connected! You can txt me updates!',
