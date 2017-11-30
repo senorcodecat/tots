@@ -1,4 +1,4 @@
-<div class="editprofile" class="wrapper">
+<div class="editprofile wrapper" ng-controller="editprofile">
     <h1>Edit Profile</h1>
     <form method="post" action="/actions/editprofile" encType="multipart/form-data">
 
@@ -23,7 +23,44 @@
       <input type="file" name="image" />
     </p>
 
-
     <button type="submit">Save</button>
     </form>
+
+
+
+
+    <h1>Add Phone Number</h1>
+
+    <form ng-submit="updatePhone()">
+
+      <p>
+        If you add a phone number to your account, you can post by texting!
+        You can also receive some special alerts.
+      </p>
+
+      <div ng-if="!ui.user.phonenumber_verified">
+        <p>
+          <label>Phone Number:</label>
+          <input ng-model="ui.user.phonenumber" pattern="\d+">
+        </p>
+
+        <p ng-if="ui.verification_sent">
+          <label>Enter the verification code we sent</label>
+          <input ng-model="ui.verification_test">
+        </p>
+
+        <button type="submit">Update Phone Number</button>
+      </div>
+      <div ng-if="ui.user.phonenumber_verified">
+        <p>
+          <label>Phone Number:</label>
+          <input ng-model="ui.user.phonenumber" readonly>
+        </p>
+        <button ng-click="ui.user.phonenumber_verified=false;">Change Number</button>
+      </div>
+
+
+    </form>
+
+
 </div>

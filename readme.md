@@ -47,6 +47,7 @@ DONE:
 * online/offline indicator
 * don't show paginators until stuff is loaded
 * protect against double post
+* loading states
 
 
 
@@ -63,7 +64,13 @@ LIVE MODE
 
 * livemode should auto-close after a few hours
 
-* loading states
+SMS BOT
+TEXT TOTS: (347) 273-8687 
+* Add and verify phone number
+* ability to post via sms
+* opt in to notifications for GO LIVES
+* send vcard
+
 * edit profile on mobile is super ugly
 * edit posts on mobile is EVEN UGLIER
 * empty state for profile

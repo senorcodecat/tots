@@ -800,6 +800,26 @@ app.controller('revisions', ['$scope', '$routeParams', '$http', function($scope,
 }])
 
 
+app.controller('editprofile', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
+
+  $scope.updatePhone = function() {
+
+    $http.post('/actions/addphone', {
+      phonenumber: $scope.ui.user.phonenumber,
+      verification: $scope.ui.verification_test,
+    }).then(function(res) {
+      if (res.data.ok) {
+        if (res.data.data.verification_sent) {
+          $scope.ui.verification_sent = true;
+        }
+      } else {
+          alert('ERROR ADDING PHONE!', res.data.error);
+      }
+    });
+
+  }
+
+}]);
 
 app.controller('editpost', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
 

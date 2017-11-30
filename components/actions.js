@@ -11,7 +11,7 @@ var client = s3.createClient({
     }
 });
 
-module.exports = function(webserver, db) {
+module.exports = function(webserver, db, botkit) {
 
 function updateFaveCount(post) {
     return new Promise(function(resolve, reject) {
@@ -377,6 +377,86 @@ function acceptUpload(file, filename, user_id, cb) {
 
 
 }
+
+webserver.post('/actions/addphone', function(req, res) {
+
+        if (req.user_profile) {
+
+          if (req.body.phonenumber && !req.body.verification) {
+            // TODO: Make sure this number isn't already in use by someone else
+            req.user_profile.phonenumber = req.body.phonenumber;
+            req.user_profile.phone_verified = false;
+            req.user_profile.phonenumber_verification = '1234';
+            req.user_profile.save(function(err) {
+
+
+              var bot = botkit.spawn({});
+
+              bot.say({
+                text: 'Your verification code for tots is: ' + req.user_profile.phonenumber_verification,
+                user: req.user_profile.phonenumber,
+                channel: req.user_profile.phonenumber,
+              }, function(err) {
+                if (err) {
+                   console.error('SMS ERROR', err);
+                   res.json({
+                     ok: false,
+                     error: err,
+                   })
+                } else {
+                  res.json({
+                    ok: true,
+                    data: {
+                      phonenumber: req.user_profile.phonenumber,
+                      phonenumber_verified: req.user_profile.phonenumber_verified,
+                      verification_sent: true,
+                    }
+                  });
+                }
+
+              });
+
+
+
+            })
+          } else if (req.body.phonenumber && req.body.verification) {
+            if (req.user_profile.phonenumber == req.body.phonenumber && req.body.verification == req.user_profile.phonenumber_verification) {
+
+              req.user_profile.phonenumber_verified = true;
+              req.user_profile.phonenumber_verification = null;
+              req.user_profile.save(function(err) {
+
+                var bot = botkit.spawn({});
+
+                bot.say({
+                  text: 'We are now connected! You can txt me updates!',
+                  user: req.user_profile.phonenumber,
+                  channel: req.user_profile.phonenumber,
+                } , function(err) {
+                  if (err) {
+                    console.error('ERROR SENDING SMS', err);
+                  }
+                });
+
+              });
+
+            } else {
+              res.json({
+                ok: false,
+                error: 'Verification code did not match',
+              })
+
+            }
+
+          }
+        } else {
+          res.json({
+            ok: false,
+            error: 'auth_required',
+          });
+        }
+});
+
 
 webserver.post('/actions/editprofile', function(req, res) {
 

@@ -41,6 +41,22 @@ module.exports = function() {
         lastAuth: {
             type: Date,
             default: null
+        },
+        phonenumber: {
+          type: String,
+          default: null,
+          index: true,
+        },
+        phonenumber_verification: {
+          type: String
+        },
+        phonenumber_verified: {
+          type: Boolean,
+          default: false,
+        },
+        notifications: {
+          type: Object,
+          default: {}
         }
     });
 
