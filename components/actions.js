@@ -506,9 +506,10 @@ webserver.post('/actions/addphone', function(req, res) {
                 })
 
                 bot.say({
-                  text: 'We are now connected! You can txt me updates!',
+                  text: 'We are now connected! You can txt me updates! Add me to your contacts!',
                   user: req.user_profile.phonenumber,
                   channel: req.user_profile.phonenumber,
+                  mediaUrl: 'https://tots.glitch.me/tots.vcf'
                 } , function(err) {
                   if (err) {
                     console.error('ERROR SENDING SMS', err);

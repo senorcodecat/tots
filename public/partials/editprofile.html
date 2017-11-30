@@ -41,7 +41,7 @@
       <div ng-if="ui.user.phonenumber_verified==false">
         <p>
           <label>Phone Number:</label>
-          <input ng-model="ui.user.phonenumber" pattern="\d+">
+          <input ng-model="ui.user.phonenumber" pattern="\d\d\d\d\d\d\d\d\d\d">
         </p>
 
         <p ng-if="ui.verification_sent">
