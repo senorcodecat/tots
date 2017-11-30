@@ -1,4 +1,7 @@
-<div class="content">
+<div class="loading" ng-if="!ui.loaded">
+  <img ng-src="{% ui.gif %}">
+</div>
+<div class="content" ng-if="ui.loaded">
     <ul class="posts">
             <li ng-repeat="post in ui.posts" class="post">
                 <div class="avatar" ng-if="post.user.avatar_url">

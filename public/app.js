@@ -122,6 +122,7 @@ app.controller('app', ['$scope', '$http','$location', function($scope, $http, $l
         $scope.ui.user = auth.user_profile;
     }
 
+
     $scope.linkToPost = function(post) {
         var url = '/@' + post.user.username + '/tots/' + post._id;
         if (post.live) {
@@ -130,6 +131,19 @@ app.controller('app', ['$scope', '$http','$location', function($scope, $http, $l
         return url;
     }
 
+    $scope.randomGif = function() {
+      var gifs = [
+        '/img/doggy.gif',
+        '/img/mouse.gif',
+        '/img/panda.gif',
+        '/img/pug.gif',
+      ]
+
+      var gif = gifs[Math.floor(Math.random() * gifs.length)];
+      return gif;
+
+    }
+    $scope.ui.gif = $scope.randomGif();
 
     $scope.ui.people = [{}];
 
@@ -410,7 +424,7 @@ app.controller('search', ['$scope', '$routeParams', function($scope, $routeParam
 
     $scope.ui.page = 0;
     $scope.ui.nav = 'search';
-    $scope.ui.loaded = false;
+
     $scope.params = $routeParams;
     if ($scope.params.page) {
         $scope.ui.page = $scope.params.page;
@@ -421,6 +435,7 @@ app.controller('search', ['$scope', '$routeParams', function($scope, $routeParam
     $scope.ui.posts = [];
 
     $scope.search = function() {
+        $scope.ui.loaded = false;
         $scope.getPosts('/posts/search', ['query=' + encodeURIComponent($scope.ui.query)], $scope.ui.page).then(function(posts) {
             $scope.ui.posts = posts;
             $scope.ui.loaded = true;
@@ -431,7 +446,11 @@ app.controller('search', ['$scope', '$routeParams', function($scope, $routeParam
         })
     }
 
-    $scope.search();
+    if ($scope.ui.query) {
+      $scope.search();
+    } else {
+      $scope.ui.loaded = true;
+    }
 
 }])
 

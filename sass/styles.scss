@@ -9,6 +9,8 @@ $color: brown;
 }
 
 * { box-sizing: border-box; }
+
+
 html, body {
     font-size: 18px;
     font-family: 'ibm plex sans','helvetica',sans-serif;
@@ -16,6 +18,12 @@ html, body {
     padding: 0;
     margin: 0;
 }
+
+
+img {
+  max-width: 100%;
+}
+
 
 form {
   margin: 0;
@@ -629,5 +637,15 @@ footer.pagination {
   }
   .next {
     float: right;
+  }
+}
+
+.loading {
+  padding: 1rem;
+  background: #FFF;
+  img {
+    max-width: 100%;
+    margin: 0px auto;
+    display: block;
   }
 }

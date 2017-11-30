@@ -8,6 +8,9 @@ html, body {
   padding: 0;
   margin: 0; }
 
+img {
+  max-width: 100%; }
+
 form {
   margin: 0; }
 
@@ -414,5 +417,13 @@ footer.pagination .previous {
   float: left; }
 footer.pagination .next {
   float: right; }
+
+.loading {
+  padding: 1rem;
+  background: #FFF; }
+  .loading img {
+    max-width: 100%;
+    margin: 0px auto;
+    display: block; }
 
 /*# sourceMappingURL=styles.css.map */

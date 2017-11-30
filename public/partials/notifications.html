@@ -1,44 +1,47 @@
 <div ng-controller="notifications" class="wrapper">
-<div ng-if="ui.loaded && !ui.notifications.length" class="dialog">
-    <p>You have not received any notifications.</p>
-</div>
-<ul class="notifications">
-    <li ng-repeat="notification in ui.notifications">
-        <span ng-if="notification.type=='fave'">⭐️&nbsp;</span>
-        <span ng-if="notification.type=='comment'">💬&nbsp;</span>
-        <span ng-if="notification.type=='follow'">❤️&nbsp;</span>
-        <span ng-if="notification.type=='mention'">🎉&nbsp;</span>
+  <div class="loading" ng-if="!ui.loaded">
+    <img ng-src="{% ui.gif %}">
+  </div>
+  <div ng-if="ui.loaded && !ui.notifications.length" class="dialog">
+      <p>You have not received any notifications.</p>
+  </div>
+  <ul class="notifications">
+      <li ng-repeat="notification in ui.notifications">
+          <span ng-if="notification.type=='fave'">⭐️&nbsp;</span>
+          <span ng-if="notification.type=='comment'">💬&nbsp;</span>
+          <span ng-if="notification.type=='follow'">❤️&nbsp;</span>
+          <span ng-if="notification.type=='mention'">🎉&nbsp;</span>
 
-        <!-- <span class="tiny_avatar" ng-if="notification.actor.avatar_url">
-            <img ng-src="{% notification.actor.avatar_url %}">
-        </span> -->
-        <span class="notification" ng-bind-html="notification.html"></span>
-        <div ng-if="!notification.comment && notification.post" class="post">
-            <div class="byline">
-                <a ng-href="/@{% notification.post.user.username %}" class="username">{% notification.post.user.displayName %}</a> <a ng-href="/@{% notification.post.user.username %}/tots/{% notification.post._id %}"  class="date">{% notification.post.date | date : "MMM d, h:mm a" %}</a>
-            </div>
-            <div class="text" ng-bind-html="notification.post.text | renderPostText"></div>
-        </div>
-        <div ng-if="notification.comment" class="post">
-            <div class="content">
-                <div class="byline">
-                    <a ng-href="/@{% notification.comment.user.username %}" class="username">{% notification.comment.user.displayName %}</a>
-                    <a ng-href="/@{% notification.post.user.username %}/tots/{% notification.post._id %}#comment-{% notification.comment._id %}"  class="date">{% notification.comment.date | date : "MMM d, h:mm a" %}</a>
-                </div>
-                <div class="replyline">
-                    <a ng-href="/@{% notification.post.user.username %}/tots/{% notification.post._id %}">In reply to "{% notification.post.text | striptags | limitTo: 50 %}"</a>
-                </div>
-                <div class="text" ng-bind-html="notification.comment.text | renderPostText"></div>
-            </div>
+          <!-- <span class="tiny_avatar" ng-if="notification.actor.avatar_url">
+              <img ng-src="{% notification.actor.avatar_url %}">
+          </span> -->
+          <span class="notification" ng-bind-html="notification.html"></span>
+          <div ng-if="!notification.comment && notification.post" class="post">
+              <div class="byline">
+                  <a ng-href="/@{% notification.post.user.username %}" class="username">{% notification.post.user.displayName %}</a> <a ng-href="/@{% notification.post.user.username %}/tots/{% notification.post._id %}"  class="date">{% notification.post.date | date : "MMM d, h:mm a" %}</a>
+              </div>
+              <div class="text" ng-bind-html="notification.post.text | renderPostText"></div>
+          </div>
+          <div ng-if="notification.comment" class="post">
+              <div class="content">
+                  <div class="byline">
+                      <a ng-href="/@{% notification.comment.user.username %}" class="username">{% notification.comment.user.displayName %}</a>
+                      <a ng-href="/@{% notification.post.user.username %}/tots/{% notification.post._id %}#comment-{% notification.comment._id %}"  class="date">{% notification.comment.date | date : "MMM d, h:mm a" %}</a>
+                  </div>
+                  <div class="replyline">
+                      <a ng-href="/@{% notification.post.user.username %}/tots/{% notification.post._id %}">In reply to "{% notification.post.text | striptags | limitTo: 50 %}"</a>
+                  </div>
+                  <div class="text" ng-bind-html="notification.comment.text | renderPostText"></div>
+              </div>
 
-        </div>
+          </div>
 
-    </li>
-</ul>
-<footer class="pagination" ng-if="ui.loaded">
-  <a ng-if="ui.previous" class="previous" ng-href="/notifications/{% ui.previous %}">PREVIOUS PAGE</a>
-  <a ng-if="ui.next" class="next" ng-href="/notifications/{% ui.next %}">NEXT PAGE</a>
-</footer>
+      </li>
+  </ul>
+  <footer class="pagination" ng-if="ui.loaded">
+    <a ng-if="ui.previous" class="previous" ng-href="/notifications/{% ui.previous %}">PREVIOUS PAGE</a>
+    <a ng-if="ui.next" class="next" ng-href="/notifications/{% ui.next %}">NEXT PAGE</a>
+  </footer>
 
 
 

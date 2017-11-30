@@ -46,26 +46,27 @@ DONE:
 * ability to toggle live mode
 * online/offline indicator
 * don't show paginators until stuff is loaded
+* protect against double post
 
 
 
 TODO:
 
 LIVE MODE
-* toggling live mode should not not make a revision
-* live count in feed
-* handle failure to send message
 * list of live things as sidebar on feed
 * header for roster
+
+* toggling live mode should not not make a revision
+* live count in feed
+* handle failure to send message to socket
 * probably need to reload message history on reconnect or attempt some "since" sync
 
 * livemode should auto-close after a few hours
 
 * loading states
-* protect against double post
 * edit profile on mobile is super ugly
 * edit posts on mobile is EVEN UGLIER
-* empty state  for profile
+* empty state for profile
 * empty state for search
 * delete post
 * square crop avatar images
