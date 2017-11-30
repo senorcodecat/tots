@@ -64,6 +64,52 @@ function updateCommentCount(post) {
 
 db.updateCommentCount = updateCommentCount;
 
+
+
+function sendLiveNotifications(post, fromuser) {
+
+  if (post.live) {
+    // find people who want a notification about this live post.
+    db.follow.find({
+      following: post.user,
+    },{user:1},function(err, followers) {
+
+      var list = followers.map(function(f) {
+        return f.user;
+      });
+      db.users.find({
+        _id: {$in: list},
+        phonenumber_verified: true,
+        "notifications.friends_live": true,
+      }, function(err, alert_friends) {
+
+        var bot = botkit.spawn({});
+        var text = fromuser.displayName + ' has started a live chat on tots.cool! Click below to join: \n';
+        text = text + 'https://tots.glitch.me/@' + fromuser.username + '/tots/' + post._id + '/live';
+
+        async.each(alert_friends, function(friend, next) {
+
+          bot.say({
+            text: text,
+            user: friend.phonenumber,
+            channel: friend.phonenumber,
+          }, function(err) {
+            if (err) {
+              console.error('ERROR SENDING NOTIFICATION SMS', err);
+            }
+          });
+
+        }, function() {
+
+          // done sending
+        });
+
+      });
+    });
+  }
+}
+
+
 webserver.post('/actions/edit', function(req, res) {
 
     if (req.user && req.body._id) {
@@ -90,6 +136,9 @@ webserver.post('/actions/edit', function(req, res) {
                 if (req.body.live) {
                     console.log('SETTING LIVE SETTING TO ', req.body.live);
                     original_post.live = true;
+
+                    sendLiveNotifications(original_post, req.user_profile);
+
                     // TODO: turn off other live posts by this user.
                     db.posts.update({
                         user: req.user_profile._id,
@@ -201,6 +250,7 @@ webserver.post('/actions/post', function(req, res) {
         post.user = req.user_profile._id;
         if (req.body.live) {
             post.live = true;
+
             // TODO: turn off other live posts by this user.
             db.posts.update({
                 user: req.user_profile._id,
@@ -217,6 +267,10 @@ webserver.post('/actions/post', function(req, res) {
         handleMentions(post, function(err,post) {
 
             post.save();
+
+            if (post.live) {
+              sendLiveNotifications(post, req.user_profile);
+            }
 
             if (req.files && req.files.image) {
                 debug('Got a file upload', req.files.image);

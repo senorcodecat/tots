@@ -65,7 +65,7 @@ LIVE MODE
 * livemode should auto-close after a few hours
 
 SMS BOT
-TEXT TOTS: (347) 273-8687 
+TEXT TOTS: (347) 273-8687
 * Add and verify phone number
 * ability to post via sms
 * opt in to notifications for GO LIVES
@@ -85,6 +85,8 @@ TEXT TOTS: (347) 273-8687
 * capture / upload profile images on signup
 * blocking
 * reporting
+* prevent abuse of SMS verification
+
 
 BORING:
 admin mode
