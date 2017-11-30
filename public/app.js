@@ -369,6 +369,9 @@ app.controller('feed', ['$scope', '$routeParams', function($scope, $routeParams)
         $scope.ui.page = $scope.params.page;
     }
 
+    $scope.ui.next = null;
+    $scope.ui.previous = null;
+
 
     $scope.ui.posts = [];
 
@@ -402,6 +405,10 @@ app.controller('public', ['$scope', '$routeParams', function($scope, $routeParam
         $scope.ui.page = $scope.params.page;
     }
 
+    $scope.ui.next = null;
+    $scope.ui.previous = null;
+
+
     $scope.ui.posts = [];
 
 
@@ -429,6 +436,9 @@ app.controller('search', ['$scope', '$routeParams', function($scope, $routeParam
     if ($scope.params.page) {
         $scope.ui.page = $scope.params.page;
     }
+
+    $scope.ui.next = null;
+    $scope.ui.previous = null;
 
     $scope.ui.query = $scope.params.query;
 
@@ -461,6 +471,8 @@ app.controller('profile', ['$scope', '$routeParams', function($scope, $routePara
 
     $scope.ui.loaded = false;
 
+    $scope.ui.next = null;
+    $scope.ui.previous = null;
 
     $scope.params = $routeParams;
     if ($scope.params.page) {
@@ -495,6 +507,8 @@ app.controller('faves', ['$scope', '$routeParams', function($scope, $routeParams
     $scope.ui.page = 0;
     $scope.ui.nav = 'profile';
     $scope.ui.loaded = false;
+    $scope.ui.next = null;
+    $scope.ui.previous = null;
 
     $scope.params = $routeParams;
     if ($scope.params.page) {
@@ -532,6 +546,8 @@ app.controller('notifications', ['$scope', '$routeParams', '$sce', function($sco
     $scope.ui.nav = 'notifications';
     $scope.ui.page = 0;
     $scope.ui.loaded = false;
+    $scope.ui.next = null;
+    $scope.ui.previous = null;
 
     $scope.params = $routeParams;
     if ($scope.params.page) {
