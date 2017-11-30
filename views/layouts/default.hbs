@@ -86,7 +86,7 @@
                 </ul>
             </nav>
 
-            <nav ng-if="ui.history.length<=1">
+            <nav ng-if="!ui.history || ui.history.length<=1">
                 <ul>
                     <li class="ng-class:{active: ui.nav=='home'};"><a href="/">🏠<span class="label"> Home</span></a></li>
                     {{#@loggedin}}
@@ -97,7 +97,7 @@
 
                 </ul>
             </nav>
-            <nav class="right" ng-if="ui.history.length<=1">
+            <nav class="right" ng-if="!ui.history || ui.history.length<=1">
                 <ul>
                     <li class="big_screen_only"><form method="get" action="/search"><input type="search" name="query" placeholder="Search" /></form></li>
                     {{#@loggedin}}<li class="menu">
