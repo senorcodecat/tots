@@ -48,7 +48,10 @@
         </div>
     </section>
     <footer ng-if="ui.user">
-        <div class="online_now">{% ui.roster.length %} people online</div>
+        <div class="online_now" ng-if="ui.connected">{% ui.roster.length %} people online</div>
+        <div class="online_now" ng-if="!ui.connected && !ui.offline">Connection lost! Reconnecting...</div>
+        <div class="online_now" ng-if="!ui.connected && ui.offline" ng-click="reconnect()">Connection lost. Tap to reconnect.</div>
+
         <form method="post" class="post_form" ng-submit="sendLive()">
             <div class="avatar">
                 <img ng-src="{% ui.user.avatar_url %}" class="avatar" />
@@ -73,7 +76,7 @@
             </div>
             <div class="actions">
                 <label for="post_to_feed"><input type="checkbox" ng-model="ui.comment.post_to_feed" id="post_to_feed"> Also post to feed</label>
-                <button type="submit" ng-disabled="!ui.comment.text.length">Post</button>
+                <button type="submit" ng-disabled="!ui.connected || !ui.comment.text.length">Post</button>
             </div>
         </form>
     </footer>

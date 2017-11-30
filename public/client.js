@@ -143,6 +143,17 @@ var messenger = {
       channel: that.options.channel,
     });
 
+    that.connect(that.config.ws_url);
+
+
+  },
+  reconnect: function() {
+    var that = this;
+
+    that.should_reconnect = true;
+    that.reconnect_count = 0;
+    that.connect(that.config.ws_url);
+
   },
   connect: function(ws_url) {
     var that = this;
@@ -186,7 +197,8 @@ var messenger = {
           that.connect(that.config.ws_url);
         }, that.config.reconnect_timeout);
       } else {
-        that.message_window.className = 'offline';
+        // that.message_window.className = 'offline';
+        that.$scope.$broadcast('offline');
       }
     });
 
@@ -258,12 +270,15 @@ var messenger = {
     // console.log('messenger',that);
 
     that.on('connected', function() {
-      that.message_window.className = 'connected';
+      that.$scope.$broadcast('connected');
+      // that.message_window.className = 'connected';
       // that.input.disabled = false;
     })
 
     that.on('disconnected', function() {
-      that.message_window.className = 'disconnected';
+      that.$scope.$broadcast('disconnected');
+
+      // that.message_window.className = 'disconnected';
       // that.input.disabled = true;
     });
 

@@ -587,12 +587,39 @@ app.controller('live', ['$scope', '$routeParams', '$http', function($scope, $rou
         text: '',
     }
 
+    $scope.ui.connected = false;
+    $scope.ui.offline = false;
+
     delete($scope.ui.post);
     delete($scope.ui.comments);
 
     $scope.$on('$destroy', function() {
         messenger.disconnect();
     })
+
+    $scope.$on('connected', function() {
+      $scope.ui.connected = true;
+      $scope.ui.offline = false;
+      $scope.$apply();
+    })
+
+    $scope.$on('disconnected', function() {
+      $scope.ui.connected = false;
+      $scope.$apply();
+
+    });
+
+    $scope.$on('offline', function() {
+      $scope.ui.connected = false;
+      $scope.ui.offline = true;
+      $scope.$apply();
+
+    });
+
+    $scope.reconnect = function() {
+      console.log('ATTEMPT RECONNECT');
+      messenger.reconnect();
+    }
 
     $scope.sendLive = function() {
         messenger.send($scope.ui.comment.text);
