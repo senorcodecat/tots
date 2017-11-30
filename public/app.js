@@ -1,4 +1,4 @@
-var app = angular.module('tots', ['mgcrea.pullToRefresh', 'angular-file-input', 'ngRoute', 'mentio','monospaced.elastic']);
+var app = angular.module('tots', ['mgcrea.pullToRefresh', 'angular-file-input', 'ngRoute', 'mentio', 'monospaced.elastic']);
 //'monospaced.elastic'
 
 
@@ -76,7 +76,7 @@ app.config(function($interpolateProvider) {
 app.filter('striptags', ['$sce', function($sce) {
     return function(text) {
         if (text) {
-            text = text.replace(/<.*?>/g,'');
+            text = text.replace(/<.*?>/g, '');
             return text;
         }
     }
@@ -111,7 +111,7 @@ app.filter('curseFilter', ['$sce', function($sce) {
     };
 }])
 
-app.controller('app', ['$scope', '$http', function($scope, $http) {
+app.controller('app', ['$scope', '$http','$location', function($scope, $http, $location) {
 
     $scope.ui = {}
 
@@ -122,24 +122,31 @@ app.controller('app', ['$scope', '$http', function($scope, $http) {
         $scope.ui.user = auth.user_profile;
     }
 
-
-        $scope.ui.people = [{
-        }];
-
-        $scope.searchPeople = function(term) {
-            // console.log('SEARCHING PEOPLE!!',term);
-            var peopleList = [];
-            return $http.get('/get/people?q=' + encodeURIComponent(term)).then(function(response) {
-                var peopleList = response.data.map(function(p) {
-                    return {
-                        label: p.username,
-                        displayName: p.displayName
-                    }
-                })
-                $scope.ui.people = peopleList;
-                // return $q.when(peopleList);
-            });
+    $scope.linkToPost = function(post) {
+        var url = '/@' + post.user.username + '/tots/' + post._id;
+        if (post.live) {
+            url = url + '/live';
         }
+        return url;
+    }
+
+
+    $scope.ui.people = [{}];
+
+    $scope.searchPeople = function(term) {
+        // console.log('SEARCHING PEOPLE!!',term);
+        var peopleList = [];
+        return $http.get('/get/people?q=' + encodeURIComponent(term)).then(function(response) {
+            var peopleList = response.data.map(function(p) {
+                return {
+                    label: p.username,
+                    displayName: p.displayName
+                }
+            })
+            $scope.ui.people = peopleList;
+            // return $q.when(peopleList);
+        });
+    }
 
 
     $scope.getPosts = function(source, options, page) {
@@ -233,7 +240,6 @@ app.controller('app', ['$scope', '$http', function($scope, $http) {
         })
     }
 
-
     $scope.follow = function(user_id) {
 
         $http.get('/actions/follow/' + user_id).then(function(res) {
@@ -283,17 +289,61 @@ app.controller('app', ['$scope', '$http', function($scope, $http) {
 
     }
 
-
     $scope.reload = function() {
         console.log('RELOAD!');
         alert('RELOAD!');
     }
+
+    $scope.resetHistory = function(url, title) {
+        $scope.ui.history = [];
+        if (url && title) {
+            $scope.ui.history.push({
+                url: url,
+                title: title,
+            });
+        }
+    }
+
+    $scope.pushHistory = function(url, title) {
+        if (!$scope.ui.history) {
+            $scope.resetHistory();
+        }
+        if (!$scope.ui.history.length || $scope.ui.history[$scope.ui.history.length-1].url != url) {
+            $scope.ui.history.push({
+                url: url,
+                title: title
+            });
+        }
+
+        console.log('HISTORY',$scope.ui.history);
+    }
+
+    $scope.backTitle = function() {
+        return $scope.ui.history[$scope.ui.history.length-2].title;
+    }
+    $scope.popHistory = function() {
+        // get rid of most recent
+        $scope.ui.history.pop();
+        // this leaves previous
+        var back = $scope.ui.history[$scope.ui.history.length-1];
+        console.log('POP TO ',back);
+        // return false;
+        $location.url(back.url);
+        // window.location = back.url;
+        // $scope.$apply();
+    }
+
 
     console.log('TOTS ONLINE');
 }]);
 
 app.controller('feed', ['$scope', '$routeParams', function($scope, $routeParams) {
 
+    $scope.resetHistory('/feed','Feed');
+
+    if (!$scope.ui.auth) {
+        window.location = '/public';
+    }
     $scope.ui.nav = 'home';
     $scope.ui.page = 0;
     $scope.ui.loaded = false;
@@ -314,9 +364,17 @@ app.controller('feed', ['$scope', '$routeParams', function($scope, $routeParams)
         $scope.$apply();
     })
 
+    $scope.getPosts('/posts/feed/live', [], 0).then(function(posts) {
+        $scope.ui.live = posts;
+        console.log('GOT LIVE POSTS', posts);
+        $scope.$apply();
+    })
+
 }])
 
 app.controller('public', ['$scope', '$routeParams', function($scope, $routeParams) {
+
+    $scope.resetHistory('/public','Public Feed');
 
     $scope.ui.page = 0;
     $scope.ui.nav = 'public';
@@ -342,6 +400,8 @@ app.controller('public', ['$scope', '$routeParams', function($scope, $routeParam
 }])
 
 app.controller('search', ['$scope', '$routeParams', function($scope, $routeParams) {
+
+    $scope.resetHistory('/search','Search Tots');
 
     $scope.ui.page = 0;
     $scope.ui.nav = 'search';
@@ -391,6 +451,8 @@ app.controller('profile', ['$scope', '$routeParams', function($scope, $routePara
         $scope.ui.following = payload.following;
         $scope.ui.followback = payload.followback;
 
+        $scope.pushHistory(window.location.pathname, $scope.ui.profile.displayName + '\'s Profile');
+
         $scope.getLiked($scope.ui.posts);
 
         $scope.$apply();
@@ -421,6 +483,8 @@ app.controller('faves', ['$scope', '$routeParams', function($scope, $routeParams
         $scope.ui.following = payload.following;
         $scope.ui.followback = payload.followback;
 
+        $scope.pushHistory(window.location.pathname, $scope.ui.profile.displayName + '\'s Faves');
+
         $scope.getLiked($scope.ui.posts);
 
 
@@ -432,6 +496,8 @@ app.controller('faves', ['$scope', '$routeParams', function($scope, $routeParams
 
 
 app.controller('notifications', ['$scope', '$routeParams', '$sce', function($scope, $routeParams, $sce) {
+
+    $scope.resetHistory('/notifications','Notifications');
 
     $scope.ui.nav = 'notifications';
     $scope.ui.page = 0;
@@ -462,7 +528,7 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
     $scope.params = $routeParams;
     var pid = $scope.params.post_id;
 
-    $scope.ui.nav = 'detail';
+    $scope.ui.nav = '';
     $scope.ui.roster = [];
     $scope.ui.comment = {
         post: pid,
@@ -470,81 +536,24 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
     }
 
     delete($scope.ui.post);
-
-    $scope.sendLive = function() {
-        messenger.send($scope.ui.comment.text);
-        $scope.ui.comment.text = '';
-    }
-
-    $scope.chatKeypress = function(evt) {
-        console.log(evt);
-        var keyCode = (evt.keyCode ? evt.keyCode :evt.which);
-
-        if (keyCode == 13) {
-          if (evt.ctrlKey) {
-            $scope.ui.comment.text = $scope.ui.comment.text + '\n';
-            evt.preventDefault();
-          } else {
-            $scope.sendLive();
-            evt.preventDefault();
-          }
-        }
-    }
+    delete($scope.ui.comments);
 
     $scope.getPosts('/posts/post', ['post=' + $scope.params.post_id, 'username=' + encodeURIComponent($scope.params.username)], 1).then(function(payload) {
         $scope.ui.post = payload;
+        $scope.pushHistory(window.location.pathname, $scope.ui.post.user.displayName + '\'s tot');
+
         if ($scope.ui.user && ($scope.ui.post.user._id == $scope.ui.user._id)) {
             $scope.ui.post.mine = true;
         }
-        $scope.getLiked([$scope.ui.post]);
-        $scope.getComments();
+        if ($scope.ui.post.live) {
+            window.location = '/@' + $scope.ui.post.user.username + '/tots/' + $scope.ui.post._id + '/live';
+        } else {
+            $scope.getLiked([$scope.ui.post]);
+            $scope.getComments();
 
-        messenger.boot($scope.params.post_id, $scope);
-
-        $scope.$apply();
+            $scope.$apply();
+        }
     });
-
-    $scope.$on('roster', function(evt,roster) {
-
-        console.log('GOT UPDATED ROSTER', roster);
-        $scope.ui.roster = roster;
-        $scope.$apply();
-    })
-
-    $scope.$on('message', function(evt,message) {
-        if (!message.user) {
-            message.user = $scope.ui.user;
-        }
-        $scope.ui.comments.push(message);
-        $scope.$apply();
-    })
-
-
-    $scope.$on('roster_add', function(evt,user) {
-
-        console.log('GOT ROSTER ADDITION', user);
-        for (var r = 0; r < $scope.ui.roster.length; r++) {
-            console.log('compare',$scope.ui.roster[r]._id , user._id);
-            if ($scope.ui.roster[r].id == user._id) {
-                console.log('ALREADY IN ROSTER');
-                return;
-            }
-        }
-        $scope.ui.roster.push(user);
-        $scope.$apply();
-
-    })
-    $scope.$on('roster_remove', function(evt,user) {
-
-        console.log('GOT ROSTER REMOVAL', user);
-        for (var r = 0; r < $scope.ui.roster.length; r++) {
-            if ($scope.ui.roster[r]._id == user._id) {
-                $scope.ui.roster.splice(r,1);
-                $scope.$apply();
-                return;
-            }
-        }
-    })
 
     $scope.getComments = function() {
         $scope.getPosts('/posts/comments', ['post=' + $scope.params.post_id], 1).then(function(payload) {
@@ -560,6 +569,120 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
             $scope.ui.comment.post_to_feed = false;
             document.getElementById('comment_composer').focus();
             $scope.getComments();
+        });
+    }
+
+}])
+
+
+app.controller('live', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
+
+    $scope.params = $routeParams;
+    var pid = $scope.params.post_id;
+
+    $scope.ui.nav = '';
+    $scope.ui.roster = [];
+    $scope.ui.comment = {
+        post: pid,
+        text: '',
+    }
+
+    delete($scope.ui.post);
+    delete($scope.ui.comments);
+
+    $scope.$on('$destroy', function() {
+        messenger.disconnect();
+    })
+
+    $scope.sendLive = function() {
+        messenger.send($scope.ui.comment.text);
+        $scope.ui.comment.text = '';
+    }
+
+    $scope.chatKeypress = function(evt) {
+        console.log(evt);
+        var keyCode = (evt.keyCode ? evt.keyCode : evt.which);
+
+        if (keyCode == 13) {
+            if (evt.ctrlKey) {
+                $scope.ui.comment.text = $scope.ui.comment.text + '\n';
+                evt.preventDefault();
+            } else {
+                $scope.sendLive();
+                evt.preventDefault();
+            }
+        }
+    }
+
+    $scope.getPosts('/posts/post', ['post=' + $scope.params.post_id, 'username=' + encodeURIComponent($scope.params.username)], 1).then(function(payload) {
+        $scope.ui.post = payload;
+        if ($scope.ui.user && ($scope.ui.post.user._id == $scope.ui.user._id)) {
+            $scope.ui.post.mine = true;
+        }
+
+
+        if (!$scope.ui.post.live) {
+            window.location = '/@' + $scope.ui.post.user.username + '/tots/' + $scope.ui.post._id;
+        } else {
+
+            $scope.pushHistory(window.location.pathname, $scope.ui.post.user.displayName + '\'s tot');
+
+            $scope.getLiked([$scope.ui.post]);
+            $scope.getComments();
+
+            messenger.boot($scope.params.post_id, $scope);
+
+            $scope.$apply();
+        }
+    });
+
+    $scope.$on('roster', function(evt, roster) {
+
+        console.log('GOT UPDATED ROSTER', roster);
+        $scope.ui.roster = roster;
+        $scope.$apply();
+    })
+
+    $scope.$on('message', function(evt, message) {
+        if (!message.user) {
+            message.user = $scope.ui.user;
+        }
+        $scope.ui.comments.push(message);
+        $scope.$apply();
+    })
+
+
+    $scope.$on('roster_add', function(evt, user) {
+
+        console.log('GOT ROSTER ADDITION', user);
+        for (var r = 0; r < $scope.ui.roster.length; r++) {
+            console.log('compare', $scope.ui.roster[r]._id, user._id);
+            if ($scope.ui.roster[r].id == user._id) {
+                console.log('ALREADY IN ROSTER');
+                return;
+            }
+        }
+        $scope.ui.roster.push(user);
+        $scope.$apply();
+
+    })
+    $scope.$on('roster_remove', function(evt, user) {
+
+        console.log('GOT ROSTER REMOVAL', user);
+        for (var r = 0; r < $scope.ui.roster.length; r++) {
+            if ($scope.ui.roster[r]._id == user._id) {
+                $scope.ui.roster.splice(r, 1);
+                $scope.$apply();
+                return;
+            }
+        }
+    })
+
+    $scope.getComments = function() {
+        $scope.getPosts('/posts/comments', ['post=' + $scope.params.post_id], 1).then(function(payload) {
+            $scope.ui.comments = payload;
+            console.log('comments payload', payload);
+            $scope.$apply();
         });
     }
 
@@ -582,6 +705,8 @@ app.controller('revisions', ['$scope', '$routeParams', '$http', function($scope,
         }
         $scope.getRevisions();
 
+        $scope.pushHistory(window.location.pathname, 'Revisions');
+
         $scope.$apply();
     });
 
@@ -599,6 +724,7 @@ app.controller('revisions', ['$scope', '$routeParams', '$http', function($scope,
 
 app.controller('editpost', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
 
+
     $scope.params = $routeParams;
     var pid = $scope.params.post_id;
 
@@ -609,6 +735,8 @@ app.controller('editpost', ['$scope', '$routeParams', '$http', function($scope, 
             if (post.images.length) {
                 $scope.ui.img_preview = post.images[0].url;
             }
+            $scope.pushHistory(window.location.pathname, 'Edit Post');
+
             $scope.$apply();
         } else {
             window.location = '/';
@@ -656,7 +784,7 @@ app.controller('editpost', ['$scope', '$routeParams', '$http', function($scope, 
 
 }])
 
-app.controller('postForm', ['$scope','$http', function($scope, $http) {
+app.controller('postForm', ['$scope', '$http', function($scope, $http) {
 
     $scope.tot = {
         text: '',

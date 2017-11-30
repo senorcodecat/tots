@@ -23,7 +23,7 @@
                 <li>💬 <span class="replyCount" ng-if="ui.post.replyCount"> {% ui.post.replyCount %}</span></li>
 
                 <li ng-if="ui.post.mine"><A href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}/edit">Edit</a></li>
-                    <li><a href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}/live">🔴 LIVE!!!</a></li>
+                    <li ng-if="ui.post.live"><a href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}/live">🔴 LIVE!!!</a></li>
             </ul>
         </div>
     </div>

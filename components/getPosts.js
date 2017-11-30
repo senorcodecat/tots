@@ -135,6 +135,38 @@ module.exports = function(webserver, db) {
     }
   });
 
+  webserver.get('/posts/feed/live', function(req, res) {
+
+        var limit = 25;
+        var page = 1;
+        var skip = 0;
+        if (req.query.page) {
+            page = parseInt(req.query.page)
+            if (page < 1) {
+                page = 1;
+            }
+        }
+        if (req.query.limit) {
+          limit = parseInt(req.query.limit);
+        }
+
+        skip = (page - 1) * limit;
+
+        db.follow.find({user: req.user_profile._id}, function(err, following) {
+            var following = following.map(function(f) { return f.following; });
+            following.push(req.user_profile._id);
+            db.posts.find({live: true, user: {$in: following}}).populate('user').populate({path: 'replyTo', populate: { path: 'user'}}).sort({date: -1}).limit(limit).skip(skip).exec(function(err, posts) {
+                preprocessPosts(posts, function(posts) {
+                  res.json({
+                    ok: true,
+                    data: posts,
+                  });
+                });
+            });
+        });
+
+  });
+
   webserver.get('/posts/search', function(req, res) {
         var query = req.query.query;
         var limit = 25;

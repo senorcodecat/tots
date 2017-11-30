@@ -75,7 +75,18 @@
 <body ng-app="tots" ng-controller="app">
     <header id="header">
         <div class="wrapper">
-            <nav>
+            <nav ng-if="ui.history.length>1">
+                <ul>
+                    <li><a ng-click="popHistory()">⬅ {% backTitle() %}</a></li>
+                </ul>
+            </nav>
+            <nav class="right" ng-if="ui.history.length>1">
+                <ul>
+                    <li><a href="/">❎</a></li>
+                </ul>
+            </nav>
+
+            <nav ng-if="ui.history.length<=1">
                 <ul>
                     <li class="ng-class:{active: ui.nav=='home'};"><a href="/">🏠<span class="label"> Home</span></a></li>
                     {{#@loggedin}}
@@ -86,7 +97,7 @@
 
                 </ul>
             </nav>
-            <nav class="right">
+            <nav class="right" ng-if="ui.history.length<=1">
                 <ul>
                     <li class="big_screen_only"><form method="get" action="/search"><input type="search" name="query" placeholder="Search" /></form></li>
                     {{#@loggedin}}<li class="menu">

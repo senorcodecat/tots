@@ -1,7 +1,7 @@
 <div ng-controller="editpost" class="wrapper">
-      <h1>OH YOU THINK YOU SHOULD BE ABLE TO EDIT YOUR POSTS DO YOU?</h1>
+      <!-- <h1>OH YOU THINK YOU SHOULD BE ABLE TO EDIT YOUR POSTS DO YOU?</h1>
 
-      <h2>Yeah that's fine. We'll even track revision history for you.</h2>
+      <h2>Yeah that's fine. We'll even track revision history for you.</h2> -->
 
       <h2>Edit Post</h2>
       <form method="post" encType="multipart/form-data"  class="post_form"  ng-submit="saveEdit()">
@@ -30,6 +30,12 @@
             <label for="file" class="attachment">📷</label>
             <input id="file" style="display: none;" ng-model="ui.file" ng-change="fileChange()" type="file" accept="image/*" name="image" />
           </div> -->
+
+          <div class="upload-btn-wrapper">
+              <label for="live"><input type="checkbox" id="live" ng-model="ui.post.live" /> Live Replies</label>
+
+          </div>
+
           <button type="submit" ng-disabled="!ui.post.editable_text">Update Post</button>
         </div>
       </form>

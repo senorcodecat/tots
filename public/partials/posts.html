@@ -6,14 +6,14 @@
                 </div>
                 <div class="content">
                     <div class="byline">
-                        <a ng-href="/@{% post.user.username %}" class="username">{% post.user.displayName %}</a> <a ng-href="/@{% post.user.username %}/tots/{% post._id %}" class="date">{% post.date | date : "MMM d, h:mm a" %}</a>
+                        <a ng-href="/@{% post.user.username %}" class="username">{% post.user.displayName %}</a> <a ng-href="{% linkToPost(post) %}" class="date">{% post.date | date : "MMM d, h:mm a" %}</a>
                     </div>
                     <div class="replyline" ng-if="post.replyTo">
-                        reply to <a ng-href="/@{% post.replyTo.user.username %}/tots/{% post.replyTo._id %}">{% post.replyTo.user.displayName %}</a>
+                        reply to <a ng-href="{% linkToPost(post.replyTo) %}">{% post.replyTo.user.displayName %}</a>
                     </div>
                     <div class="text" ng-bind-html="post.rendered_text | renderPostText"></div>
                     <div class="revisionLine" ng-if="post.updated">
-                        updated <a ng-href="/@{% post.user.username %}/tots/{% post._id %}/revisions" class="date">{% post.updated | date : "MMM d, h:mm a" %}</a>
+                        updated <a ng-href="{% linkToPost(post) %}/revisions" class="date">{% post.updated | date : "MMM d, h:mm a" %}</a>
                     </div>
                     <div class="image" ng-repeat="image in post.images">
                         <img ng-src="{% image.url %}" alt="{% image.name %}" />
@@ -21,8 +21,9 @@
                     <ul class="actions">
                         <li ng-if="post.faved"><a ng-click="unfave(post._id);">🌟</a><span class="faveCount" ng-if="post.faveCount"> {% post.faveCount %}</span></li>
                         <li ng-if="!post.faved"><a ng-click="fave(post._id);">⭐️</a><span class="faveCount" ng-if="post.faveCount"> {% post.faveCount %}</span></li>
+                        <li><a ng-href="{% linkToPost(post) %}">💬</a><span class="replyCount" ng-if="post.replyCount"> {% post.replyCount %}</span></li>
+                        <li ng-if="post.live"><a href="{% linkToPost(post) %}">🔴 LIVE!!!</a></li>
 
-                        <li><a ng-href="/@{% post.user.username %}/tots/{% post._id %}">💬</a><span class="replyCount" ng-if="post.replyCount"> {% post.replyCount %}</span></li>
                     </ul>
                 </div>
             </li>

@@ -85,7 +85,27 @@ webserver.post('/actions/edit', function(req, res) {
                 revision.save();
 
                 original_post.text = req.body.text;
+                console.log('SETTING LIVE SETTING TO ', req.body.live);
 
+                if (req.body.live) {
+                    console.log('SETTING LIVE SETTING TO ', req.body.live);
+                    original_post.live = true;
+                    // TODO: turn off other live posts by this user.
+                    db.posts.update({
+                        user: req.user_profile._id,
+                        _id: {$ne: original_post._id},
+                        live: true,
+                    },{$set: {live: "false"}},{multi: 1}, function(err, rez) {
+                        if (err) {
+                            console.error('Error reseting live status',err);
+                        } else {
+                            console.log('UPDATED LIVE',rez);
+                        }
+                    });
+
+                } else {
+                    original_post.live = false;
+                }
                 handleMentions(original_post, function(err,original_post) {
                     original_post.updated = new Date();
                     original_post.save();
@@ -179,6 +199,21 @@ webserver.post('/actions/post', function(req, res) {
         var post = new db.posts();
         post.text = req.body.text;
         post.user = req.user_profile._id;
+        if (req.body.live) {
+            post.live = true;
+            // TODO: turn off other live posts by this user.
+            db.posts.update({
+                user: req.user_profile._id,
+                _id: {$ne: post._id},
+                live: true,
+            },{$set: {live: "false"}}, {multi: 1}, function(err,rez) {
+                if (err) {
+                    console.error('Error reseting live status',err);
+                } else {
+                    console.log('UPDATED LIVE', rez);
+                }
+            });
+        }
         handleMentions(post, function(err,post) {
 
             post.save();
@@ -199,7 +234,7 @@ webserver.post('/actions/post', function(req, res) {
                 })
             } else {
                 debug('NEW POST', post);
-                res.redirect('/me');
+                res.redirect('/@' + req.user_profile.username + '/tots/' + post._id);
             }
         });
     } else {

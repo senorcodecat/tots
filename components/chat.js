@@ -60,14 +60,14 @@ module.exports = function(webserver, db) {
 
     broadcast.on('message', function(message, ws) {
         // console.log('RCVD:', message,'user',ws.user.displayName);
-
-        saveComment(message, ws, function(comment) {
-            // update with new mention stuff
-            message.text = comment.text;
-            message.date = comment.date;
-            broadcast.emit('broadcast', message, ws);
-        });
-
+        if (ws.user) {
+            saveComment(message, ws, function(comment) {
+                // update with new mention stuff
+                message.text = comment.text;
+                message.date = comment.date;
+                broadcast.emit('broadcast', message, ws);
+            });
+        }
 
     });
 
@@ -112,11 +112,14 @@ module.exports = function(webserver, db) {
             roster.push(temp[r]);
         }
 
-
-        ws.send(JSON.stringify({
-            type: 'roster',
-            roster: roster,
-        }))
+        try {
+            ws.send(JSON.stringify({
+                type: 'roster',
+                roster: roster,
+            }))
+        } catch(err) {
+            console.error('Error sending roster', err);
+        }
 
 
     });
@@ -162,10 +165,14 @@ module.exports = function(webserver, db) {
             roster.push(temp[r]);
         }
 
-        ws.send(JSON.stringify({
-            type: 'roster',
-            roster: roster,
-        }));
+        try {
+            ws.send(JSON.stringify({
+                type: 'roster',
+                roster: roster,
+            }));
+        } catch(err) {
+            console.error('Error sending roster', err);
+        }
     });
 
 
@@ -251,10 +258,14 @@ module.exports = function(webserver, db) {
         ws.guid = guid();
 
         if (!ws.user) {
-          ws.send(JSON.stringify({
-            error: 'auth_required',
-          }))
-          ws.close();
+            try {
+              ws.send(JSON.stringify({
+                error: 'auth_required',
+              }))
+              ws.close();
+          } catch (err) {
+              console.error('Error closing unauthed connect', err);
+          }
         }
         // console.log('GOT A NEW WEBSOCKET CONNECT', req.session.passport);
 

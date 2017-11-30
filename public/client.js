@@ -8,6 +8,7 @@ var messenger = {
     max_reconnect: 5
   },
   options: {
+    should_reconnect: true,
     sound: false,
     use_sockets: true
   },
@@ -179,7 +180,7 @@ var messenger = {
     that.socket.addEventListener('close', function(event) {
       console.log('SOCKET CLOSED!');
       that.trigger('disconnected', event);
-      if (that.reconnect_count < that.config.max_reconnect) {
+      if (that.reconnect_count < that.config.max_reconnect && that.options.should_reconnect) {
         setTimeout(function() {
           console.log('RECONNECTING ATTEMPT ',++that.reconnect_count);
           that.connect(that.config.ws_url);
@@ -201,6 +202,10 @@ var messenger = {
 
       that.trigger(message.type, message);
     });
+  },
+  disconnect: function() {
+      this.options.should_reconnect = false;
+      this.socket.close();
   },
   clearReplies: function() {
     this.replies.innerHTML = '';
@@ -230,6 +235,7 @@ var messenger = {
 
     console.log('Booting up');
 
+
     var that = this;
     that.$scope = $scope;
 
@@ -245,6 +251,7 @@ var messenger = {
     // that.input = document.getElementById('messenger_input');
 
     that.options.channel = channel_to_join;
+    that.options.should_reconnect = true;
 
     // that.focus();
 
