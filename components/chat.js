@@ -1,6 +1,7 @@
 var WebSocket = require('ws');
 var cookie = require('cookie');
 var EventEmitter = require('events');
+var cron = require('node-cron');
 
 
 module.exports = function(webserver, db) {
@@ -8,6 +9,25 @@ module.exports = function(webserver, db) {
     var broadcast = new EventEmitter();
 
     broadcast.channels = {};
+
+    cron.schedule("0 * * * * *", function() {
+        var cutoff = new Date(new Date().getTime() - (5 * 60 * 1000));
+
+        db.posts.update({
+            live: true, // marked as live
+            liveCount: 0, // nobody connected
+            lastReply: {$lt: cutoff} // last comment a while ago
+        },{
+            $set: {
+                live: false
+            }
+        },{multi: 1}, function(err) {
+            if (err) {
+                console.log('ERROR DISABLING LIVE STATUS', err);
+            }
+        });
+    });
+
 
     function updateLiveCount(channel) {
 
