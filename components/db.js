@@ -89,6 +89,10 @@ module.exports = function() {
             type: Number,
             default: 0,
         },
+        lastReply: {
+            type: Date,
+            default: null
+        },
         date: {
             type: Date,
             default: Date.now

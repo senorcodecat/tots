@@ -9,6 +9,28 @@ module.exports = function(webserver, db) {
 
     broadcast.channels = {};
 
+    function updateLiveCount(channel) {
+
+        console.log('UPDATE LIVE COUNT', channel);
+        var fullroster = broadcast.channels[channel] || [];
+        var roster = [];
+        var temp = [];
+        for (var f = 0; f < fullroster.length; f++) {
+            temp[fullroster[f].id] = fullroster[f];
+        }
+
+        for (var r in temp) {
+            roster.push(temp[r]);
+        }
+
+        db.posts.update({_id: channel},{$set: {liveCount: roster.length}}, function(err) {
+            if (err) {
+                console.log('ERROR UPDATING LIVE COUNT', err);
+            }
+        });
+
+    }
+
     broadcast.on('closed', function(ws) {
         var clients = broadcast.channels[ws.channel];
         if (clients && clients.length) {
@@ -83,6 +105,8 @@ module.exports = function(webserver, db) {
 
         broadcast.channels[message.channel].push(ws);
 
+        updateLiveCount(ws.channel);
+
         broadcast.emit('broadcast',{
             text: ws.user.displayName + ' joined the chat',
             channel: message.channel,
@@ -143,6 +167,8 @@ module.exports = function(webserver, db) {
             user: message.user,
             type: 'channel_join',
         }, ws)
+
+        updateLiveCount(ws.channel);
 
         var fullroster = broadcast.channels[message.channel].map(function(client) {
             if (!client.dead) {
@@ -268,9 +294,6 @@ module.exports = function(webserver, db) {
           } catch (err) {
               console.error('Error closing unauthed connect', err);
           }
-      } else {
-          updateLiveCount(ws.channel);
-
       }
         // console.log('GOT A NEW WEBSOCKET CONNECT', req.session.passport);
 

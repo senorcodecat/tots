@@ -161,6 +161,7 @@ a {
     left: 0;
     right: 0;
     border-bottom: 2px solid #CCC;
+    z-index: 3;
     .wrapper {
       position: relative; /* for the nav */
     }
@@ -171,8 +172,40 @@ a {
 }
 
 .wrapper {
+    @include clearfix;
+    position: relative; /* for the nav */
     max-width: 600px;
     margin: 0px auto;
+}
+
+// .container {
+//     max-width: 600px;
+//     // margin: 0px 0px 0px auto;
+//     display: inline-block;
+// }
+
+
+.sidebar {
+    display: none;
+    position: absolute;
+    top: 1rem;
+    left: calc(100% + 1rem);
+    min-width: 200px;
+    background: #FFF;
+    // margin: 0px auto 0px 0px;
+
+    @media all and (min-width: 1050px) {
+        display: block;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        li {
+            padding: 0.25rem 1rem;
+        }
+    }
 }
 
 .post_form {
@@ -224,8 +257,8 @@ a {
         }
     }
     .avatar {
-        width: 32px;
-        height: 32px;
+        width: 50px;
+        height: 50px;
         flex-grow: 0;
         flex-shrink: 0;
     }

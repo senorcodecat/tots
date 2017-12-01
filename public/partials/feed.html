@@ -1,27 +1,37 @@
 <div ng-controller="feed" class="wrapper">
 
-<div ng-include="'/partials/postForm.html'"></div>
+        <div ng-include="'/partials/postForm.html'"></div>
 
-<div ng-if="ui.loaded && !ui.posts.length" class="dialog">
-    <h1>What is Tots?</h1>
+        <div ng-if="ui.loaded && !ui.posts.length" class="dialog">
+            <h1>What is Tots?</h1>
 
-    <ul>
-        <li>A fun place to put your 💬 and 📷</li>
-        <li>Follow 😎 and ⭐️ things</li>
-        <li>💯  Your feed is only stuff from people you follow</li>
-        <li>🚫  No Nazis!</li>
-        <li>✅  Edit your posts like a grownup</li>
-    </ul>
+            <ul>
+                <li>A fun place to put your 💬 and 📷</li>
+                <li>Follow 😎 and ⭐️ things</li>
+                <li>💯 Your feed is only stuff from people you follow</li>
+                <li>🚫 No Nazis!</li>
+                <li>✅ Edit your posts like a grownup</li>
+            </ul>
 
-    <p>To get started, <a href="/public">find some people to follow!</a></p>
+            <p>To get started, <a href="/public">find some people to follow!</a></p>
 
-</div>
+        </div>
 
-<div ng-include="'/partials/posts.html'"></div>
+        <div ng-include="'/partials/posts.html'"></div>
 
-<footer class="pagination" ng-if="ui.loaded">
-  <a ng-if="ui.previous" class="previous" ng-href="/feed/{% ui.previous %}">PREVIOUS PAGE</a>
-  <a ng-if="ui.next" class="next" ng-href="/feed/{% ui.next %}">NEXT PAGE</a>
-</footer>
+        <footer class="pagination" ng-if="ui.loaded">
+            <a ng-if="ui.previous" class="previous" ng-href="/feed/{% ui.previous %}">PREVIOUS PAGE</a>
+            <a ng-if="ui.next" class="next" ng-href="/feed/{% ui.next %}">NEXT PAGE</a>
+        </footer>
 
+    <div class="sidebar" ng-if="ui.live && ui.live.length">
+        <ul>
+            <li>
+                🔴 &nbsp; Live Chats
+            </li>
+            <li ng-repeat="channel in ui.live">
+                <a href="{% linkToPost(channel) %}">@{% channel.user.username %} ({% channel.liveCount %})</a>
+            </li>
+        </ul>
+    </div>
 </div>

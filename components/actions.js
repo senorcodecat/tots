@@ -49,7 +49,8 @@ function updateCommentCount(post) {
                     _id: post._id
                 }, {
                     $set: {
-                        replyCount: count
+                        replyCount: count,
+                        lastReply: new Date(),
                     }
                 }, function(err, res) {
                     resolve(count);

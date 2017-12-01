@@ -99,7 +99,8 @@ a {
   top: 0;
   left: 0;
   right: 0;
-  border-bottom: 2px solid #CCC; }
+  border-bottom: 2px solid #CCC;
+  z-index: 3; }
   #header .wrapper {
     position: relative;
     /* for the nav */ }
@@ -108,8 +109,31 @@ a {
   margin-top: 3rem; }
 
 .wrapper {
+  position: relative;
+  /* for the nav */
   max-width: 600px;
   margin: 0px auto; }
+  .wrapper:after {
+    content: "";
+    display: table;
+    clear: both; }
+
+.sidebar {
+  display: none;
+  position: absolute;
+  top: 1rem;
+  left: calc(100% + 1rem);
+  min-width: 200px;
+  background: #FFF; }
+  @media all and (min-width: 1050px) {
+    .sidebar {
+      display: block; } }
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0; }
+    .sidebar ul li {
+      padding: 0.25rem 1rem; }
 
 .post_form {
   padding: 1rem;
@@ -140,8 +164,8 @@ a {
       border: 1px solid #CCC;
       display: block; }
   .post_form .avatar {
-    width: 32px;
-    height: 32px;
+    width: 50px;
+    height: 50px;
     flex-grow: 0;
     flex-shrink: 0; }
   .post_form textarea {
