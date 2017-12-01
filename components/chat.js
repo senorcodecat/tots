@@ -18,6 +18,8 @@ module.exports = function(webserver, db) {
                     // remove this one
                     broadcast.channels[ws.channel].splice(c,1);
 
+                    updateLiveCount(ws.channel);
+
                     broadcast.emit('broadcast',{
                         text: ws.user.displayName + ' left',
                         channel: ws.channel,
@@ -266,7 +268,10 @@ module.exports = function(webserver, db) {
           } catch (err) {
               console.error('Error closing unauthed connect', err);
           }
-        }
+      } else {
+          updateLiveCount(ws.channel);
+
+      }
         // console.log('GOT A NEW WEBSOCKET CONNECT', req.session.passport);
 
 
