@@ -22,5 +22,6 @@ app.controller('app', ['$scope', '$http','$location', function($scope, $http, $l
     $scope.ui.user_profile = {
         username: payload.displayName.replace(/\W/g,''),
         displayName: payload.displayName,
+        picture: payload.picture,
     }
 }]);

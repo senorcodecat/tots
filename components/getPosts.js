@@ -137,6 +137,10 @@ module.exports = function(webserver, db) {
 
   webserver.get('/posts/feed/live', function(req, res) {
 
+    if (!req.user) {
+      return res.json([]);
+    }
+    
         var limit = 25;
         var page = 1;
         var skip = 0;

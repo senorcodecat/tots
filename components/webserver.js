@@ -128,7 +128,9 @@ module.exports = function(db) {
                   // // remove any spaces or non word chars from username
                   // user.username = user.username.replace(/\W/g,'');
 
-                  if (!req.url.match(/signup/)) {
+                  // console.log('HEY LETS MAKE SURE THIS IS OK', req.url);
+
+                  if (!req.url.match(/signup/) && !req.url.match(/logout/)) {
                       return res.redirect('/signup');
                   } else {
                       return next();

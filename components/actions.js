@@ -449,6 +449,8 @@ function acceptUpload(file, filename, user_id, cb) {
 
 }
 
+db.acceptUpload = acceptUpload;
+
 function generateCode() {
   var code = '';
   for (var i = 0; i < 4; i ++) {

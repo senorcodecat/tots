@@ -2,7 +2,7 @@
     var payload = {{{payload}}};
 </script>
 <div class="wrapper">
-    <form method="post" class="signup">
+  <form method="post" class="signup" action="/signup" encType="multipart/form-data">
         <h1>Complete Registration for Tots</h1>
 
         <p>
@@ -13,27 +13,34 @@
         </p>
 
         <p>
-            With an account, you can post stuff,
-            follow people, fave posts, and receive
-            notifications. You can also use the Tot bot,
-            an SMS interface for posting. Cool, I know.
-        </p>
-
-        <p>
             Before you get started, we need to set up your account.
         </p>
 
         <p>
             <label>Username:</label>
-            <span class="tip">This will be part of your profile URL, and people can @mention you with it.</span>
-            <input ng-model="ui.user_profile.username" required pattern="\w+">
+            <input type="text" ng-model="ui.user_profile.username" name="username" required pattern="\w+">
+            <span class="tip">
+              No spaces or funny characters, please!
+              This will be part of your profile URL, and people can @mention you with it.</span>
         </p>
 
         <p>
             <label>Display Name:</label>
+            <input type="text" ng-model="ui.user_profile.displayName" name="displayName" required >
             <span class="tip">This will be displayed on your posts and profile.</span>
-            <input ng-model="ui.user_profile.displayName" required >
         </p>
+
+        <label>Avatar:</label>
+        <div ng-if="ui.user_profile.picture" class="checkbox">
+          <img ng-src="{% ui.user_profile.picture %}" class="avatar">
+          <label for="use_existing_avatar"><input type="checkbox" id="use_existing_avatar" name="use_existing_avatar" ng-model="ui.user_profile.user_existing_avatar"> Use this one</input></label>
+        </div>
+
+        <p>
+          <span class="tip">Upload a nice square avatar image</span>
+          <input type="file" name="image" />
+        </p>
+
 
         <p>
             <strong>
@@ -47,7 +54,7 @@
             <label><input type="checkbox" required> I want to post stuff and chat with friends</input></label>
         </p>
         <p class="checkbox">
-            <label><input type="checkbox" required> I am not a white supremacist or a nazi sympathizer</input></label>
+            <label><input type="checkbox" required> I am not a white supremacist, ethno-nationalist or a nazi sympathizer</input></label>
         </p>
         <p class="checkbox">
             <label><input type="checkbox" required> I am person, not a brand or marketing campaign</input></label>

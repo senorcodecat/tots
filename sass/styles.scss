@@ -720,7 +720,8 @@ footer.pagination {
 }
 
 .anon {
-
+  background: #FFF;
+  
     nav ul {
         font-weight: bold;
     }
@@ -733,29 +734,44 @@ footer.pagination {
             margin: 0;
         }
 
+        .avatar {
+          width: 50px;
+          height: 50px;
+          display: block;
+        }
 
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        .checkbox {
+
+            label {
+                font-weight: normal;
+            }
+        }
 
             p {
-                label {
-                    display: block;
-                    font-weight: bold;
-                }
-
-                input, textarea {
+                input[type=text], textarea {
                     font-size: 1.2rem;
                     width: 100%;
+                    padding:0.25em;
+                    border: 1px solid $color;
                 }
 
                 textarea {
                     width: 100%;
                 }
 
+                .tip {
+                  display: block;
+                  font-size: 0.8rem;
+                }
+
                 &.checkbox {
                     padding-left: 2rem;
 
-                    label {
-                        font-weight: normal;
-                    }
                     input {
                         width: auto;
                         margin-left: -1.5rem;
