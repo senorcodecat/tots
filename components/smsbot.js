@@ -2,6 +2,10 @@ var Botkit = require('botkit');
 
 module.exports = function(webserver, db) {
 
+    if (!process.env.TWILIO_ACCOUNT_SID) {
+        console.log('***** SMS FUNCTIONALITY DISABLED *******');
+        return {}
+    }
 
     var bot_options = {
         account_sid: process.env.TWILIO_ACCOUNT_SID,
@@ -46,16 +50,41 @@ module.exports = function(webserver, db) {
 
       db.users.findOne({
         phonenumber: number,
-        phone_verified: true,
+        phonenumber_verified: true,
       }, function(err, user) {
 
         if (user) {
-          bot.reply(message,'GOT IT.');
+          // bot.reply(message,'GOT IT.');
+          controller.studio.get(bot, 'post', message.user, message.channel, message).then(function(convo) {
+
+            convo.setVar('tots_user', user);
+            convo.setVar('post_text', message.text);
+            convo.activate();
+
+          });
         } else {
-          bot.reply(message,'WHO ARE YOU?');
+            controller.studio.run(bot, 'login', message.user, message.channel, message).then(function(convo) {
+            });
         }
 
       })
+    })
+
+
+    controller.studio.beforeThread('post','posted', function(convo, next) {
+
+        db.createPost(convo.vars.post_text, convo.vars.tots_user._id).then(function(post) {
+            var url = 'https://tots.glitch.me/@' + convo.vars.tots_user.username + '/tots/' + post._id;
+            convo.setVar('post_url', url);
+            next();
+
+        }).catch(function(err) {
+            convo.setVar('error',err);
+            convo.gotoThread('error');
+            next();
+
+        })
+
     })
 
     return controller;

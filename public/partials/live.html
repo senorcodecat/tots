@@ -1,10 +1,45 @@
 <div ng-controller="live" id="message_window">
 
 
+    <!-- <div class="posts">
+        <div class="post">
+            <div class="avatar">
+                <img ng-src="{% ui.post.user.avatar_url %}" ng-if="ui.post.user.avatar_url" />
+            </div>
+            <div class="content">
+                <div class="byline">
+                    <a ng-href="/@{% ui.post.user.username %}" class="username">{% ui.post.user.displayName %}</a> <a ng-href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}" class="date">{% ui.post.date | date : "MMM d, h:mm a" %}</a>
+                </div>
+                <div class="replyline" ng-if="ui.post.replyTo">
+                    reply to <a ng-href="/@{% ui.post.replyTo.user.username %}/tots/{% ui.post.replyTo._id %}">{% ui.post.replyTo.user.displayName %}</a>
+                </div>
+                <div class="text" ng-bind-html="ui.post.rendered_text | renderPostText"></div>
+                <div class="revisionLine" ng-if="ui.post.updated">
+                    updated <a ng-href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}/revisions" class="date">{% ui.post.updated | date : "MMM d, h:mm a" %}</a>
+                </div>
+                <div class="image" ng-repeat="image in ui.post.images">
+                    <img ng-src="{% image.url %}" alt="{% image.name %}" />
+                </div>
+                <ul class="actions">
+                    <li ng-if="ui.post.faved"><a ng-click="unfave(ui.post._id);">🌟</a><span class="faveCount" ng-if="ui.post.faveCount"> {% ui.post.faveCount %}</span></li>
+                    <li ng-if="!ui.post.faved"><a ng-click="fave(ui.post._id);">⭐️</a><span class="faveCount" ng-if="ui.post.faveCount"> {% ui.post.faveCount %}</span></li>
+                    <li>💬 <span class="replyCount" ng-if="ui.post.replyCount"> {% ui.post.replyCount %}</span></li>
+
+                    <li ng-if="ui.post.mine">
+                        <A href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}/edit">Edit</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <ul class="posts">
+
+        </ul>
+    </div> -->
+
 
     <div id="chat">
-    <section>
-        <div>
+        <section>
             <ul class="replies">
                 <li class="post">
                     <div class="avatar">
@@ -32,8 +67,8 @@
                             <li ng-if="ui.post.mine">
                                 <A href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}/edit">Edit</a>
                             </li>
-
                         </ul>
+                    </div>
                 </li>
                 <li ng-repeat="comment in ui.comments" class="reply" id="comment-{% comment._id %}">
                     <div class="content">
@@ -43,51 +78,39 @@
                         <div class="text" ng-bind-html="comment.rendered_text | renderPostText"></div>
                     </div>
                 </li>
-
             </ul>
-        </div>
-    </section>
-    <footer ng-if="ui.user">
-        <div class="online_now" ng-if="ui.connected">{% ui.roster.length %} people online</div>
-        <div class="online_now" ng-if="!ui.connected && !ui.offline">Connection lost! Reconnecting...</div>
-        <div class="online_now" ng-if="!ui.connected && ui.offline" ng-click="reconnect()">Connection lost. Tap to reconnect.</div>
+        </section>
+        <footer ng-if="ui.user">
+            <div class="online_now" ng-if="ui.connected">{% ui.roster.length %} people online</div>
+            <div class="online_now" ng-if="!ui.connected && !ui.offline">Connection lost! Reconnecting...</div>
+            <div class="online_now" ng-if="!ui.connected && ui.offline" ng-click="reconnect()">Connection lost. Tap to reconnect.</div>
 
-        <form method="post" class="post_form" ng-submit="sendLive()">
-            <div class="avatar">
-                <img ng-src="{% ui.user.avatar_url %}" class="avatar" />
-            </div>
-            <div class="composer">
-                <textarea
-                  ng-model="ui.comment.text"
-                  ng-keypress="chatKeypress($event)"
-                  placeholder="Reply to this tot"
-
-                  id="comment_composer"
-
-                  rows="1" msd-elastic
-
-                  mentio mentio-trigger-char="'@'"
-                  mentio-items="ui.people"
-                  mentio-search="searchPeople(term)"
-                  mentio-template-url="/people-mentions.tpl"
-                  mentio-typed-term="ui.selected_mention"
-                >
+            <form method="post" class="post_form" ng-submit="sendLive()">
+                <div class="avatar">
+                    <img ng-src="{% ui.user.avatar_url %}" class="avatar" />
+                </div>
+                <div class="composer">
+                    <textarea ng-model="ui.comment.text" ng-keypress="chatKeypress($event)" placeholder="Reply to this tot" id="comment_composer" rows="1" msd-elastic mentio mentio-trigger-char="'@'" mentio-items="ui.people" mentio-search="searchPeople(term)" mentio-template-url="/people-mentions.tpl"
+                        mentio-typed-term="ui.selected_mention">
                 </textarea>
-            </div>
-            <div class="actions">
-                <label for="post_to_feed"><input type="checkbox" ng-model="ui.comment.post_to_feed" id="post_to_feed"> Also post to feed</label>
-                <button type="submit" ng-disabled="!ui.connected || !ui.comment.text.length">Post</button>
-            </div>
-        </form>
-    </footer>
-  </div>
-  <div id="roster">
-      <ul>
-          <li ng-repeat="person in ui.roster">
-              <a ng-href="/@{% person.username %}">{% person.displayName %}</a>
-          </li>
-      </ul>
-  </div>
+                </div>
+                <div class="actions">
+                    <label for="post_to_feed"><input type="checkbox" ng-model="ui.comment.post_to_feed" id="post_to_feed"> Also post to feed</label>
+                    <button type="submit" ng-disabled="!ui.connected || !ui.comment.text.length">Post</button>
+                </div>
+            </form>
+        </footer>
+    </div>
+    <div id="roster">
+        <ul>
+            <li class="title">
+                Online Now:
+            </li>
+            <li ng-repeat="person in ui.roster">
+                <a ng-href="/@{% person.username %}">{% person.displayName %}</a>
+            </li>
+        </ul>
+    </div>
 
 
 </div>

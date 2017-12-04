@@ -69,7 +69,7 @@ db.updateCommentCount = updateCommentCount;
 
 function sendLiveNotifications(post, fromuser) {
 
-  if (post.live) {
+  if (post.live && process.env.TWILIO_ACCOUNT_SID) {
     // find people who want a notification about this live post.
     db.follow.find({
       following: post.user,
@@ -104,7 +104,6 @@ function sendLiveNotifications(post, fromuser) {
 
           // done sending
         });
-
       });
     });
   }
@@ -242,6 +241,23 @@ function handleMentions(post, cb, donotnotify) {
 }
 
 db.handleMentions = handleMentions;
+
+db.createPost = function(text, user) {
+
+    return new Promise(function(resolve, reject) {
+        var post = new db.posts();
+        post.text = text;
+        post.user = user;
+        handleMentions(post, function(err,post) {
+
+            if (err) {  return reject(err); }
+            post.save(function(err) {
+                if (err) {  return reject(err); }
+                resolve(post);
+            });
+        });
+    });
+}
 
 webserver.post('/actions/post', function(req, res) {
 

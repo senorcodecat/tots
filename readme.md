@@ -48,30 +48,39 @@ DONE:
 * don't show paginators until stuff is loaded
 * protect against double post
 * loading states
+* list of live things as sidebar on feed
+* live count in feed
+* livemode should auto-close after a few hours
 
-
-
-TODO:
 
 LIVE MODE
-* list of live things as sidebar on feed
+
+* display current post to left of chat on bigger screens?
+* display all live posts to left of chat on bigger screens?
+
 * header for roster
+* when livemode ends, post a notification with a summary.
+    -> maybe needs to capture start and end?
+    -> Live chat lasted 20 minutes, during which 5 people left 12 replies
+* in live mode put post to left of chat?
 
 * toggling live mode should not not make a revision
-* live count in feed
 * handle failure to send message to socket
 * probably need to reload message history on reconnect or attempt some "since" sync
-
-* livemode should auto-close after a few hours
 
 SMS BOT
 TEXT TOTS: (347) 273-8687
 * Add and verify phone number
 * send vcard
-
 * ability to post via sms
 * opt in to notifications for GO LIVES
 
+
+
+TODO:
+* zoom in on images
+* images in comments
+* edit comments
 * edit profile on mobile is super ugly
 * edit posts on mobile is EVEN UGLIER
 * empty state for profile

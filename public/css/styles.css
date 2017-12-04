@@ -393,6 +393,10 @@ mentio-menu {
     margin: 0; }
     #roster ul li {
       padding: 1rem; }
+      #roster ul li.title {
+        background: #FFF; }
+        #roster ul li.title h3 {
+          margin: 0; }
   @media all and (min-width: 600px) {
     #roster {
       display: block; } }

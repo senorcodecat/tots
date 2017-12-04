@@ -1,5 +1,19 @@
 <div ng-controller="public" class="wrapper">
 
+    <div ng-if="!ui.user" class="dialog">
+        <h1>What is Tots?</h1>
+
+        <ul>
+            <li>A fun place to put your 💬 and 📷</li>
+            <li>Follow 😎 and ⭐️ things</li>
+            <li>💯 Your feed is only stuff from people you follow</li>
+            <li>Live chat, if you want!</li>
+            <li>🚫 No Nazis!</li>
+            <li>✅ Edit your posts like a grownup</li>
+        </ul>
+
+    </div>
+
   <div  ng-include="'/partials/posts.html'"></div>
 
   <footer class="pagination" ng-if="ui.loaded">

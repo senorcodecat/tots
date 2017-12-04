@@ -87,12 +87,17 @@ app.filter('renderPostText', ['$sce', function($sce) {
         if (text) {
 
 
-            text = text.replace(/(^|\W)\#(\w+)(\W|$)/ig, '$1<a href="/search?query=%23$2">#$2</a>$3');
+//            text = text.replace(/(^|\W)\#(\w+)(\W|$)/img, '$1<a href="/search?query=%23$2">#$2</a>$3');
+
+            text = text.replace(/((http|https)\:\/\/(.*?))(\s|$)/img, '<a href="$1" target="_blank">$1</a>');
+
+            text = text.replace(/#(\w+)/img, '<a href="/search?query=%23$1">#$1</a>');
 
             // ban some words from appearing
             text = text.replace(/(fuck|bitch|nigger)/ig, '████');
 
-            text = text.replace(/\n/g, '<br/>\n');
+            text = converter.makeHtml(text);
+
             return $sce.trustAsHtml(text);
         }
     };
