@@ -125,8 +125,18 @@ app.controller('app', ['$scope', '$http','$location', function($scope, $http, $l
     } else {
         $scope.ui.auth = true;
         $scope.ui.user = auth.user_profile;
+        mixpanel.identify($scope.ui.user._id);
+        mixpanel.people.set({
+        "User name": $scope.ui.user.username,
+        "$name": $scope.ui.user.displayName,
+        "$phone": $scope.ui.user.phonenumber,
+        });
+
     }
 
+    $scope.$on('$routeChangeSuccess', function($event,  current, previous) {
+        console.log('ROUTE CHANGED', location.href);
+     });
 
     $scope.linkToPost = function(post) {
         var url = '/@' + post.user.username + '/tots/' + post._id;
@@ -134,6 +144,13 @@ app.controller('app', ['$scope', '$http','$location', function($scope, $http, $l
             url = url + '/live';
         }
         return url;
+    }
+
+    $scope.lightbox = function(url) {
+        console.log('OPEN LIGHTBOX', url);
+        $scope.ui.lightbox_img = url;
+        $scope.ui.overlay = true;
+        // $scope.$apply();
     }
 
     $scope.randomGif = function() {
@@ -206,6 +223,7 @@ app.controller('app', ['$scope', '$http','$location', function($scope, $http, $l
 
     $scope.fave = function(post_id) {
 
+        mixpanel.track("Add Fave");
         $http.get('/actions/fave/' + post_id).then(function(res) {
             if (res.data.ok) {
                 if (res.data.post) {
@@ -234,6 +252,8 @@ app.controller('app', ['$scope', '$http','$location', function($scope, $http, $l
     }
 
     $scope.unfave = function(post_id) {
+
+        mixpanel.track("Remove Fave");
 
         $http.get('/actions/unfave/' + post_id).then(function(res) {
             if (res.data.ok) {
@@ -264,6 +284,8 @@ app.controller('app', ['$scope', '$http','$location', function($scope, $http, $l
 
     $scope.follow = function(user_id) {
 
+        mixpanel.track("Follow");
+
         $http.get('/actions/follow/' + user_id).then(function(res) {
             if (res.data.ok) {
                 $scope.ui.following = true;
@@ -274,6 +296,8 @@ app.controller('app', ['$scope', '$http','$location', function($scope, $http, $l
     }
 
     $scope.unfollow = function(user_id) {
+
+        mixpanel.track("Unfollow");
 
         $http.get('/actions/unfollow/' + user_id).then(function(res) {
             if (res.data.ok) {
@@ -362,6 +386,7 @@ app.controller('app', ['$scope', '$http','$location', function($scope, $http, $l
 app.controller('feed', ['$scope', '$routeParams', function($scope, $routeParams) {
 
     $scope.resetHistory('/feed','Feed');
+    mixpanel.track("View Feed");
 
     if (!$scope.ui.auth) {
         window.location = '/public';
@@ -400,6 +425,7 @@ app.controller('feed', ['$scope', '$routeParams', function($scope, $routeParams)
 app.controller('public', ['$scope', '$routeParams', function($scope, $routeParams) {
 
     $scope.resetHistory('/public','Public Feed');
+    mixpanel.track("View Public");
 
     $scope.ui.page = 0;
     $scope.ui.nav = 'public';
@@ -433,6 +459,7 @@ app.controller('public', ['$scope', '$routeParams', function($scope, $routeParam
 app.controller('search', ['$scope', '$routeParams', function($scope, $routeParams) {
 
     $scope.resetHistory('/search','Search Tots');
+    mixpanel.track("View Search");
 
     $scope.ui.page = 0;
     $scope.ui.nav = 'search';
@@ -451,6 +478,9 @@ app.controller('search', ['$scope', '$routeParams', function($scope, $routeParam
 
     $scope.search = function() {
         $scope.ui.loaded = false;
+
+        mixpanel.track("Search for something");
+
         $scope.getPosts('/posts/search', ['query=' + encodeURIComponent($scope.ui.query)], $scope.ui.page).then(function(posts) {
             $scope.ui.posts = posts;
             $scope.ui.loaded = true;
@@ -473,6 +503,7 @@ app.controller('profile', ['$scope', '$routeParams', function($scope, $routePara
 
     $scope.ui.page = 0;
     $scope.ui.nav = 'profile';
+    mixpanel.track("View a user profile");
 
     $scope.ui.loaded = false;
 
@@ -508,6 +539,8 @@ app.controller('profile', ['$scope', '$routeParams', function($scope, $routePara
 
 
 app.controller('faves', ['$scope', '$routeParams', function($scope, $routeParams) {
+
+    mixpanel.track("View someone's faves");
 
     $scope.ui.page = 0;
     $scope.ui.nav = 'profile';
@@ -548,6 +581,8 @@ app.controller('notifications', ['$scope', '$routeParams', '$sce', function($sco
 
     $scope.resetHistory('/notifications','Notifications');
 
+    mixpanel.track("View notifications");
+
     $scope.ui.nav = 'notifications';
     $scope.ui.page = 0;
     $scope.ui.loaded = false;
@@ -578,6 +613,8 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
 
     $scope.params = $routeParams;
     var pid = $scope.params.post_id;
+
+    mixpanel.track("View post permalink");
 
     $scope.ui.nav = '';
     $scope.ui.roster = [];
@@ -618,6 +655,8 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
 
     $scope.postComment = function() {
       if (!$scope.ui.working) {
+        mixpanel.track("Post reply");
+
         $scope.ui.working = true;
         $http.post('/actions/comment/' + $scope.ui.comment.post, $scope.ui.comment).then(function(res) {
             $scope.ui.comment.text = '';
@@ -636,6 +675,8 @@ app.controller('live', ['$scope', '$routeParams', '$http', function($scope, $rou
 
     $scope.params = $routeParams;
     var pid = $scope.params.post_id;
+
+    mixpanel.track("View live chat");
 
     $scope.ui.nav = '';
     $scope.ui.roster = [];
@@ -679,6 +720,8 @@ app.controller('live', ['$scope', '$routeParams', '$http', function($scope, $rou
     }
 
     $scope.sendLive = function() {
+        mixpanel.track("Post live chat");
+
         messenger.send($scope.ui.comment.text);
         $scope.ui.comment.text = '';
     }
@@ -780,6 +823,7 @@ app.controller('revisions', ['$scope', '$routeParams', '$http', function($scope,
     var pid = $scope.params.post_id;
 
     $scope.ui.nav = 'revisions';
+    mixpanel.track("View revisions");
 
     delete($scope.ui.post);
     $scope.getPosts('/posts/post', ['post=' + $scope.params.post_id, 'username=' + encodeURIComponent($scope.params.username)], 1).then(function(payload) {
@@ -807,7 +851,10 @@ app.controller('revisions', ['$scope', '$routeParams', '$http', function($scope,
 
 app.controller('editprofile', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
 
+    mixpanel.track("Edit profile");
+
   $scope.updatePhone = function() {
+      mixpanel.track("Add Phone");
 
     $http.post('/actions/addphone', {
       phonenumber: $scope.ui.user.phonenumber,
@@ -829,6 +876,8 @@ app.controller('editprofile', ['$scope', '$routeParams', '$http', function($scop
 }]);
 
 app.controller('editpost', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
+
+    mixpanel.track("View edit post page");
 
 
     $scope.params = $routeParams;
@@ -873,6 +922,8 @@ app.controller('editpost', ['$scope', '$routeParams', '$http', function($scope, 
 
 
     $scope.saveEdit = function() {
+        mixpanel.track("Edit Post");
+
         if ($scope.ui.post.user._id == $scope.ui.user._id) {
             // move this value to the right location for saving...
             $scope.ui.post.text = $scope.ui.post.editable_text;
@@ -899,6 +950,8 @@ app.controller('postForm', ['$scope', '$http', function($scope, $http) {
 
         if (!$scope.tot.text) {
             return false;
+        } else {
+            mixpanel.track("Author a post");
         }
     }
 

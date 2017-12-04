@@ -65,8 +65,11 @@ LIVE MODE
 * in live mode put post to left of chat?
 
 * toggling live mode should not not make a revision
+* SOUNDS!!
 * handle failure to send message to socket
 * probably need to reload message history on reconnect or attempt some "since" sync
+* some amount of delay between marking a user offline
+
 
 SMS BOT
 TEXT TOTS: (347) 273-8687
@@ -78,6 +81,15 @@ TEXT TOTS: (347) 273-8687
 
 
 TODO:
+* as part of you creating an account,
+    * pick username
+    * add phone
+    * TOS
+* ability to receive webhooks for notifications
+* ability to respond to webhooks with a reply
+* google analytics
+
+
 * zoom in on images
 * images in comments
 * edit comments

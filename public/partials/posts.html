@@ -19,7 +19,7 @@
                         updated <a ng-href="{% linkToPost(post) %}/revisions" class="date">{% post.updated | date : "MMM d, h:mm a" %}</a>
                     </div>
                     <div class="image" ng-repeat="image in post.images">
-                        <img ng-src="{% image.url %}" alt="{% image.name %}" />
+                        <img ng-src="{% image.url %}" alt="{% image.name %}" ng-click="lightbox(image.url)" />
                     </div>
                     <ul class="actions">
                         <li ng-if="post.faved"><a ng-click="unfave(post._id);">🌟<span class="faveCount" ng-if="post.faveCount"> {% post.faveCount %}</span></a></li>

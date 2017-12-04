@@ -454,4 +454,27 @@ footer.pagination .next {
     margin: 0px auto;
     display: block; }
 
+.overlay {
+  display: none; }
+  .overlay.active {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+  .overlay .lightbox {
+    width: 90%;
+    height: 90%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain; }
+
 /*# sourceMappingURL=styles.css.map */
