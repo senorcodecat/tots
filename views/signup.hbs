@@ -1,0 +1,66 @@
+<script>
+    var payload = {{{payload}}};
+</script>
+<div class="wrapper">
+    <form method="post" class="signup">
+        <h1>Complete Registration for Tots</h1>
+
+        <p>
+            I am glad you want to join Tots!
+            I hope it is a fun place for you to post stuff and
+            chat with people.
+            I remember when social networks were fun, I hope you do too!
+        </p>
+
+        <p>
+            With an account, you can post stuff,
+            follow people, fave posts, and receive
+            notifications. You can also use the Tot bot,
+            an SMS interface for posting. Cool, I know.
+        </p>
+
+        <p>
+            Before you get started, we need to set up your account.
+        </p>
+
+        <p>
+            <label>Username:</label>
+            <span class="tip">This will be part of your profile URL, and people can @mention you with it.</span>
+            <input ng-model="ui.user_profile.username" required pattern="\w+">
+        </p>
+
+        <p>
+            <label>Display Name:</label>
+            <span class="tip">This will be displayed on your posts and profile.</span>
+            <input ng-model="ui.user_profile.displayName" required >
+        </p>
+
+        <p>
+            <strong>
+                We are doing things a bit differently here!
+                There are rules!
+                You can only join Tots if you agree to the below items.
+            </strong>
+        </p>
+
+        <p class="checkbox">
+            <label><input type="checkbox" required> I want to post stuff and chat with friends</input></label>
+        </p>
+        <p class="checkbox">
+            <label><input type="checkbox" required> I am not a white supremacist or a nazi sympathizer</input></label>
+        </p>
+        <p class="checkbox">
+            <label><input type="checkbox" required> I am person, not a brand or marketing campaign</input></label>
+        </p>
+
+        <p class="checkbox">
+            <label><input type="checkbox" required> I understand this is a shared public space and that I am expected to show respect to my fellow members and to the general public</input></label>
+        </p>
+        <p class="checkbox">
+            <label><input type="checkbox" required> I will not attack or harass any member of this site, or use this site to attack or harass anyone, anywhere, ever</input></label>
+        </p>
+
+        <button type="submit">Join Tots</button>
+
+    </form>
+</div>

@@ -718,3 +718,51 @@ footer.pagination {
     }
 
 }
+
+.anon {
+
+    nav ul {
+        font-weight: bold;
+    }
+
+    .signup {
+        background: #FFF;
+        padding: 1rem;
+
+        h1 {
+            margin: 0;
+        }
+
+
+
+            p {
+                label {
+                    display: block;
+                    font-weight: bold;
+                }
+
+                input, textarea {
+                    font-size: 1.2rem;
+                    width: 100%;
+                }
+
+                textarea {
+                    width: 100%;
+                }
+
+                &.checkbox {
+                    padding-left: 2rem;
+
+                    label {
+                        font-weight: normal;
+                    }
+                    input {
+                        width: auto;
+                        margin-left: -1.5rem;
+                    }
+                }
+            }
+
+    }
+
+}

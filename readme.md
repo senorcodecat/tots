@@ -51,6 +51,7 @@ DONE:
 * list of live things as sidebar on feed
 * live count in feed
 * livemode should auto-close after a few hours
+* zoom in on images
 
 
 LIVE MODE
@@ -90,7 +91,6 @@ TODO:
 * google analytics
 
 
-* zoom in on images
 * images in comments
 * edit comments
 * edit profile on mobile is super ugly

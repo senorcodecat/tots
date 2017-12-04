@@ -104,7 +104,7 @@ module.exports = function(db) {
     // Check logged in
     app.use(function(req, res, next) {
 
-      console.log('MIDDLEWARE', req.originalUrl);
+      // console.log('MIDDLEWARE', req.originalUrl);
 
       res.locals.loggedin = false;
       res.locals.thisurl = req.protocol + '://' + req.get('host') + req.originalUrl;
@@ -119,15 +119,20 @@ module.exports = function(db) {
               if (err) {
                   debug(err);
               } else if (!user) {
-                  user = new db.users();
-                  user.username = req.user.displayName;
-                  user.displayName = req.user.displayName;
-                  user.user_id = req.user._json.sub;
-                  user.avatar_url = req.user.picture || null;
+                  // user = new db.users();
+                  // user.username = req.user.displayName;
+                  // user.displayName = req.user.displayName;
+                  // user.user_id = req.user._json.sub;
+                  // user.avatar_url = req.user.picture || null;
+                  //
+                  // // remove any spaces or non word chars from username
+                  // user.username = user.username.replace(/\W/g,'');
 
-                  // remove any spaces or non word chars from username
-                  user.username = user.username.replace(/\W/g,'');
-
+                  if (!req.url.match(/signup/)) {
+                      return res.redirect('/signup');
+                  } else {
+                      return next();
+                  }
               }
 
 

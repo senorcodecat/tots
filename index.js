@@ -6,6 +6,7 @@ var botkit = require('./components/smsbot.js')(app,db);
 var actions = require('./components/actions.js')(app,db, botkit);
 var getPosts = require('./components/getPosts.js')(app,db);
 var notifications = require('./components/notifications.js')(app,db);
+var signup = require('./components/signup.js')(app,db,botkit);
 
 require('./components/chat.js')(app,db);
 

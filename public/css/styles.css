@@ -477,4 +477,27 @@ footer.pagination .next {
     background-repeat: no-repeat;
     background-size: contain; }
 
+.anon nav ul {
+  font-weight: bold; }
+.anon .signup {
+  background: #FFF;
+  padding: 1rem; }
+  .anon .signup h1 {
+    margin: 0; }
+  .anon .signup p label {
+    display: block;
+    font-weight: bold; }
+  .anon .signup p input, .anon .signup p textarea {
+    font-size: 1.2rem;
+    width: 100%; }
+  .anon .signup p textarea {
+    width: 100%; }
+  .anon .signup p.checkbox {
+    padding-left: 2rem; }
+    .anon .signup p.checkbox label {
+      font-weight: normal; }
+    .anon .signup p.checkbox input {
+      width: auto;
+      margin-left: -1.5rem; }
+
 /*# sourceMappingURL=styles.css.map */
