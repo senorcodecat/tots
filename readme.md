@@ -61,13 +61,13 @@ DONE:
 * as part of you creating an account,
     * pick username
     * TOS
+* fixed: css of user context menu
+* fixed: first time someone faves something it doesn't seem to update
 
 
 # BUGS:
 
-* first time someone faves something it doesn't seem to update
 * ability to turn off go live notifications
-* css of user context menu
 * list item css in notifications/comments
 
 # LIVE MODE

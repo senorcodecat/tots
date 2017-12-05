@@ -136,6 +136,9 @@ app.controller('app', ['$scope', '$http','$location', function($scope, $http, $l
 
     $scope.$on('$routeChangeSuccess', function($event,  current, previous) {
         console.log('ROUTE CHANGED', location.href);
+
+        // reset some stuff
+        $scope.ui.post = null;
      });
 
     $scope.linkToPost = function(post) {
@@ -242,6 +245,9 @@ app.controller('app', ['$scope', '$http','$location', function($scope, $http, $l
                         updated_post.faved = true;
                         if (typeof(res.data.post.faveCount) != 'undefined') {
                             updated_post.faveCount = res.data.post.faveCount;
+                            console.log('updating face count! to ', res.data.post.faveCount);
+
+                            // $scope.$apply();
                         }
                     }
                 }
