@@ -52,40 +52,50 @@ DONE:
 * live count in feed
 * livemode should auto-close after a few hours
 * zoom in on images
+# SMS BOT
+    TEXT TOTS: (347) 273-8687
+    * Add and verify phone number
+    * send vcard
+    * ability to post via sms
+    * opt in to notifications for GO LIVES
+* as part of you creating an account,
+    * pick username
+    * TOS
 
 
-LIVE MODE
+# BUGS:
 
-* display current post to left of chat on bigger screens?
-* display all live posts to left of chat on bigger screens?
+* first time someone faves something it doesn't seem to update
+* ability to turn off go live notifications
+* css of user context menu
+* list item css in notifications/comments
 
+# LIVE MODE
 * header for roster
-* when livemode ends, post a notification with a summary.
-    -> maybe needs to capture start and end?
-    -> Live chat lasted 20 minutes, during which 5 people left 12 replies
-* in live mode put post to left of chat?
 
-* toggling live mode should not not make a revision
-* SOUNDS!!
 * handle failure to send message to socket
 * probably need to reload message history on reconnect or attempt some "since" sync
 * some amount of delay between marking a user offline
 
+* toggling live mode should not not make a revision
+* SOUNDS!!
+* display current post to left of chat on bigger screens?
+* display all live posts to left of chat on bigger screens?
+* when livemode ends, post a notification with a summary.
+    -> maybe needs to capture start and end?
+    -> Live chat lasted 20 minutes, during which 5 people left 12 replies
 
-SMS BOT
-TEXT TOTS: (347) 273-8687
-* Add and verify phone number
-* send vcard
-* ability to post via sms
-* opt in to notifications for GO LIVES
 
 
+# TODO:
 
-TODO:
-* as part of you creating an account,
-    * pick username
-    * add phone
-    * TOS
+* view followers
+* view following
+
+* invites / require invite to join?
+
+* avatar link to profile
+
 * ability to receive webhooks for notifications
 * ability to respond to webhooks with a reply
 * google analytics
@@ -102,8 +112,6 @@ TODO:
 * remove pics from post
 * change pics on post
 * last read marker
-* view followers
-* view following
 * capture / upload profile images on signup
 * blocking
 * reporting

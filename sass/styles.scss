@@ -96,6 +96,7 @@ nav {
             z-index: 2;
             box-shadow: 0px 10px 10px rgba(0,0,0,0.15);
             right: 0rem;
+            padding: 0;
             text-align: right;
 
             @media all and (min-width: 875px) {
@@ -721,7 +722,7 @@ footer.pagination {
 
 .anon {
   background: #FFF;
-  
+
     nav ul {
         font-weight: bold;
     }
