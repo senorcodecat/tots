@@ -859,6 +859,20 @@ app.controller('editprofile', ['$scope', '$routeParams', '$http', function($scop
 
     mixpanel.track("Edit profile");
 
+    $scope.updateNotification = function(name, value) {
+        console.log('SET NOTIFICATION', name, value);
+        $http.post('/actions/togglenotification',{
+            notification: name,
+            value: value
+        }).then(function(res) {
+            if (!res.data.ok) {
+                alert('Error updating notication preferences!');
+            }
+        }).catch(function(err) {
+            // alert('Error updating notication preferences!');
+        })
+    }
+
   $scope.updatePhone = function() {
       mixpanel.track("Add Phone");
 

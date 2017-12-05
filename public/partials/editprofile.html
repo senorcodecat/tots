@@ -61,7 +61,7 @@
         <h2>SMS Notifications</h2>
 
         <p>
-          <label for="friends_live"><input type="checkbox" ng-model="ui.user.notifications.friends_live" id="friends_live"> Txt me when a friend starts a live chat</label>
+          <label for="friends_live"><input type="checkbox" ng-click="updateNotification('friends_live', ui.user.notifications.friends_live)" ng-model="ui.user.notifications.friends_live" id="friends_live"> Txt me when a friend starts a live chat</label>
         </p>
 
       </div>

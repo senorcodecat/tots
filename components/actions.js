@@ -554,6 +554,41 @@ webserver.post('/actions/addphone', function(req, res) {
         }
 });
 
+webserver.post('/actions/togglenotification', function(req, res) {
+
+    var notification = req.body.notification;
+    var value = (req.body.value === true);
+    req.user_profile.notifications[notification] = value;
+    if (req.user_profile) {
+        // req.user_profile.markModified('notifications');
+        // req.user_profile.save(function(err,rez) {
+        db.users.update({
+            _id: req.user_profile._id,
+        }, {
+            $set: {
+                notifications: req.user_profile.notifications
+            }
+        }, function(err,rez) {
+            if (err) {
+                console.error('error updating notification pref', err);
+                res.json({
+                    ok: false,
+                    error: err
+                });
+            } else {
+                res.json({
+                    ok: true,
+                    data: req.user_profile
+                })
+            }
+        });
+    } else {
+        res.json({
+            ok:false
+        });
+    }
+
+});
 
 webserver.post('/actions/editprofile', function(req, res) {
 
