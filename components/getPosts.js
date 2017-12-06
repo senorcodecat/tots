@@ -140,7 +140,7 @@ module.exports = function(webserver, db) {
     if (!req.user) {
       return res.json([]);
     }
-    
+
         var limit = 25;
         var page = 1;
         var skip = 0;
@@ -277,6 +277,83 @@ module.exports = function(webserver, db) {
         }
       });
   });
+
+  webserver.get('/user/followers', function(req, res) {
+
+    var limit = 25;
+    var page = parseInt(req.query.page) || 1;
+    if (page < 1) {
+        page = 1;
+    }
+    if (req.query.limit) {
+      limit = parseInt(req.query.limit);
+    }
+
+    var skip = (page - 1) * limit;
+
+    db.users.findOne({username: req.query.username}, function(err, user_profile) {
+        if (err || !user_profile) {
+            return res.json({
+              ok: false,
+              error: 'user_not_found',
+            })
+        }
+
+        db.follow.find({following:  user_profile._id}).populate('user').exec(function(err, following) {
+
+            var users = following.map(function(f) { return f.user; });
+            res.json({
+                ok: true,
+                data: {
+                    posts: users, // weirdly has to be named posts
+                    user_profile: user_profile,
+                }
+            })
+
+        });
+    });
+  });
+
+
+  webserver.get('/user/following', function(req, res) {
+
+    var limit = 25;
+    var page = parseInt(req.query.page) || 1;
+    if (page < 1) {
+        page = 1;
+    }
+    if (req.query.limit) {
+      limit = parseInt(req.query.limit);
+    }
+
+    var skip = (page - 1) * limit;
+
+
+        db.users.findOne({username: req.query.username}, function(err, user_profile) {
+            if (err || !user_profile) {
+                return res.json({
+                  ok: false,
+                  error: 'user_not_found',
+                })
+            }
+
+
+            db.follow.find({user: user_profile._id}).populate('following').exec(function(err, following) {
+
+                var users = following.map(function(f) { return f.following; });
+                res.json({
+                    ok: true,
+                    data: {
+                        posts: users, // weirdly has to be named posts
+                        user_profile: user_profile,
+                    }
+                })
+
+            });
+        });
+  });
+
+
   webserver.get('/posts/user', function(req, res) {
 
     var limit = 25;

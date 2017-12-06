@@ -34,6 +34,12 @@ app.config(function($interpolateProvider) {
         .when('/@:username/tots/:post_id/revisions', {
             templateUrl: 'partials/revisions.html',
         })
+        .when('/@:username/followers', {
+            templateUrl: 'partials/followers.html',
+        })
+        .when('/@:username/following', {
+            templateUrl: 'partials/following.html',
+        })
         .when('/@:username/faves', {
             templateUrl: 'partials/faves.html',
         })
@@ -543,6 +549,61 @@ app.controller('profile', ['$scope', '$routeParams', function($scope, $routePara
 
 }])
 
+app.controller('following', ['$scope', '$routeParams', function($scope, $routeParams) {
+
+    mixpanel.track("View someone's following");
+    $scope.ui.page = 0;
+    $scope.ui.nav = 'profile';
+    $scope.ui.loaded = false;
+    $scope.ui.next = null;
+    $scope.ui.previous = null;
+
+    $scope.params = $routeParams;
+    if ($scope.params.page) {
+        $scope.ui.page = $scope.params.page;
+    }
+
+    var username = $scope.params.username;
+
+    $scope.ui.posts = [];
+    $scope.ui.profile = null;
+
+    $scope.getPosts('/user/following', ['username=' + encodeURIComponent(username)], $scope.ui.page).then(function(payload) {
+        console.log('GOT PAYLOAD',payload);
+        $scope.ui.people = payload.posts;
+        $scope.ui.profile = payload.user_profile;
+
+        $scope.$apply();
+    });
+}]);
+
+app.controller('followers', ['$scope', '$routeParams', function($scope, $routeParams) {
+
+    mixpanel.track("View someone's following");
+    $scope.ui.page = 0;
+    $scope.ui.nav = 'profile';
+    $scope.ui.loaded = false;
+    $scope.ui.next = null;
+    $scope.ui.previous = null;
+
+    $scope.params = $routeParams;
+    if ($scope.params.page) {
+        $scope.ui.page = $scope.params.page;
+    }
+
+    var username = $scope.params.username;
+
+    $scope.ui.posts = [];
+    $scope.ui.profile = null;
+
+    $scope.getPosts('/user/followers', ['username=' + encodeURIComponent(username)], $scope.ui.page).then(function(payload) {
+        console.log('GOT PAYLOAD',payload);
+        $scope.ui.people = payload.posts;
+        $scope.ui.profile = payload.user_profile;
+
+        $scope.$apply();
+    });
+}]);
 
 app.controller('faves', ['$scope', '$routeParams', function($scope, $routeParams) {
 

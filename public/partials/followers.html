@@ -1,0 +1,29 @@
+<div ng-controller="followers" class="wrapper">
+
+
+      <div class="profile">
+      <h1>{% ui.profile.displayName %}</h1>
+
+      <nav>
+        <ul>
+          <li><a ng-href="/@{% ui.profile.username %}/faves">Faves</a></li>
+          <li><a ng-href="/@{% ui.profile.username %}/following">Following</a></li>
+          <li><a ng-href="/@{% ui.profile.username %}/followers">Followers</a></li>
+        </ul>
+      </nav>
+
+
+          <a ng-click="follow(ui.profile._id)" class="button" ng-if="!ui.following">Follow</a>
+          <a ng-click="unfollow(ui.profile._id)"  class="button" ng-if="ui.following">Unfollow</a>
+          <span ng-if="ui.followback">
+            Follows you
+          </span>
+      </div>
+
+    <ul class="people_list">
+        <li ng-repeat="user in ui.people">
+            <a ng-href="/@{% user.username %}">{% user.displayName %}</a>
+        </li>
+    </ul>
+
+</div>

@@ -253,7 +253,7 @@ module.exports = function(webserver, db) {
     });
 
     function heartbeat() {
-        // this.isAlive = true;
+        this.isAlive = true;
     }
 
     function saveComment(message, ws, cb) {
@@ -292,16 +292,6 @@ module.exports = function(webserver, db) {
         ws.isAlive = true;
 
         ws.on('pong', heartbeat);
-        // search through all the convos, if a bot matches, update its ws
-
-        // var cookies = cookie.parse(req.headers.cookie);
-        // console.log('cookies', cookies);
-        // var sessionID = cookies['connect.sid'];
-        // console.log(sessionID);
-        // webserver.store.get(sessionID, function(err, sess) {
-        //     console.log('SESSION',err,sess);
-        // });
-
         ws.user = req.user_profile;
         ws.guid = guid();
 
@@ -341,7 +331,6 @@ module.exports = function(webserver, db) {
             if (ws.isAlive === false) {
                 return ws.terminate();
             }
-            //  if (ws.isAlive === false) return ws.terminate()
             ws.isAlive = false;
             ws.ping('', false, true);
         });

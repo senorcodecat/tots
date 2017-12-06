@@ -63,11 +63,11 @@ DONE:
     * TOS
 * fixed: css of user context menu
 * fixed: first time someone faves something it doesn't seem to update
+* fixed: ability to turn off go live notifications
 
 
 # BUGS:
 
-* ability to turn off go live notifications
 * list item css in notifications/comments
 
 # LIVE MODE
