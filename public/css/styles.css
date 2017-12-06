@@ -113,7 +113,9 @@ a {
   position: relative;
   /* for the nav */
   max-width: 600px;
-  margin: 0px auto; }
+  margin: 0px auto;
+  overflow-x: hidden;
+  hyphens: auto; }
   .wrapper:after {
     content: "";
     display: table;
