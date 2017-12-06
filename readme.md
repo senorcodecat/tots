@@ -64,6 +64,9 @@ DONE:
 * fixed: css of user context menu
 * fixed: first time someone faves something it doesn't seem to update
 * fixed: ability to turn off go live notifications
+* view followers
+* view following
+* avatar link to profile
 
 
 # BUGS:
@@ -89,12 +92,8 @@ DONE:
 
 # TODO:
 
-* view followers
-* view following
 
 * invites / require invite to join?
-
-* avatar link to profile
 
 * ability to receive webhooks for notifications
 * ability to respond to webhooks with a reply

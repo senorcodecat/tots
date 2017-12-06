@@ -5,7 +5,7 @@
     <ul class="posts">
             <li ng-repeat="post in ui.posts" class="post">
                 <div class="avatar" ng-if="post.user.avatar_url">
-                    <img ng-src="{% post.user.avatar_url %}" ng-if="post.user.avatar_url"/>
+                    <a ng-href="/@{% post.user.username %}"><img ng-src="{% post.user.avatar_url %}" ng-if="post.user.avatar_url"/></a>
                 </div>
                 <div class="content">
                     <div class="byline">
