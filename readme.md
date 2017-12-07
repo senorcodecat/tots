@@ -67,6 +67,7 @@ DONE:
 * view followers
 * view following
 * avatar link to profile
+* delete post
 
 
 # BUGS:
@@ -106,7 +107,6 @@ DONE:
 * edit posts on mobile is EVEN UGLIER
 * empty state for profile
 * empty state for search
-* delete post
 * square crop avatar images
 * remove pics from post
 * change pics on post
