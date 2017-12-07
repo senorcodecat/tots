@@ -74,7 +74,7 @@ module.exports = function(webserver, db) {
     controller.studio.beforeThread('post','posted', function(convo, next) {
 
         db.createPost(convo.vars.post_text, convo.vars.tots_user._id).then(function(post) {
-            var url = 'https://tots.glitch.me/@' + convo.vars.tots_user.username + '/tots/' + post._id;
+            var url = 'http://tots.cool/@' + convo.vars.tots_user.username + '/tots/' + post._id;
             convo.setVar('post_url', url);
             next();
 
