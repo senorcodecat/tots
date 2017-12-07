@@ -10,6 +10,7 @@ var client = s3.createClient({
         region: 'us-east-1'
     }
 });
+var request = require('request');
 
 module.exports = function(webserver, db, botkit) {
 
@@ -297,6 +298,31 @@ db.createPost = function(text, user) {
     });
 }
 
+db.createPicturePost = function(url, content_type, user) {
+
+    return new Promise(function(resolve, reject) {
+        var post = new db.posts();
+        db.acceptMMS(url, content_type, user, function(err, s3_file) {
+          if (err) {
+            return reject(err);
+          }
+          post.images.push(s3_file)
+          post.save();
+
+          // post.text = text;
+          post.user = user;
+          handleMentions(post, function(err,post) {
+
+              if (err) {  return reject(err); }
+              post.save(function(err) {
+                  if (err) {  return reject(err); }
+                  resolve(post);
+              });
+          });
+        });
+    });
+}
+
 webserver.post('/actions/post', function(req, res) {
 
     if (req.user && req.body.text && req.body.text != '') {
@@ -487,7 +513,55 @@ function acceptUpload(file, filename, user_id, cb) {
 
 }
 
+function acceptMMS(url, mime_type, user_id, cb) {
+  var ts = new Date().getTime();
+  var upload_path = '/tmp/' + user_id + '_' + ts;
+  request.get(url, function(err, response, body) {
+    if (err) {
+      console.error('Error retrieving MMS', err);
+      cb(err);
+    } else {
+      var file = fs.writeFile(upload_path, body, 'binary', function(err) {
+        if (err) {
+          console.error('Error accepting MMS', err);
+          cb(err);
+        } else {
+          autoRotate(upload_path, function(err) {
+              if (err) {
+                  cb(err);
+              } else {
+                  debug('File ready to upload');
+                  var ts = new Date().getTime();
+                  var uploader = client.uploadFile({
+                      localFile: upload_path,
+                      s3Params: {
+                          ContentType: mime_type,
+                          Bucket: 'tots',
+                          Key: 'images/' + user_id + '_' + ts,
+                      }
+                  });
+                  uploader.on('error', function(err) {
+                      console.error("unable to upload:", err.stack);
+                  });
+                  uploader.on('end', function() {
+
+                      cb(null, {
+                          name: filename,
+                          s3_key: 'images/' + user_id + '_' + ts,
+                          url: 'https://s3.amazonaws.com/tots/images/' + user_id + '_' + ts,
+                      })
+
+                  });
+              }
+          });
+        }
+      });
+    }
+  });
+}
+
 db.acceptUpload = acceptUpload;
+db.acceptMMS = acceptMMS;
 
 function generateCode() {
   var code = '';

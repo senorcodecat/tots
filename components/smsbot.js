@@ -35,11 +35,50 @@ module.exports = function(webserver, db) {
       next();
     })
 
+    controller.middleware.categorize.use(function(bot, message, next) {
+      if (message.NumMedia && parseInt(message.NumMedia) > 0) {
+        message.type = 'picture';
+      }
+      next();
+    })
 
     controller.middleware.format.use(function(bot, message, platform_message, next) {
       console.log('SENDING', platform_message);
       next();
     })
+
+    controller.on('picture', function(bot, message) {
+      // TODO: Handle multiple uploads?
+      // for now, just one
+
+      var number = message.user;
+      number = number.replace(/^\+\d/,'');
+
+      db.users.findOne({
+        phonenumber: number,
+        phonenumber_verified: true,
+      }, function(err, user) {
+
+        if (user) {
+          // bot.reply(message,'GOT IT.');
+          controller.studio.get(bot, 'post', message.user, message.channel, message).then(function(convo) {
+
+            convo.setVar('tots_user', user);
+            convo.setVar('post_url', message.MediaUrl0);
+            convo.setVar('post_content_type', message.MediaContentType0);
+            convo.gotoThread('post_picture');
+            convo.activate();
+
+          });
+        } else {
+            controller.studio.run(bot, 'login', message.user, message.channel, message).then(function(convo) {
+            });
+        }
+
+      })
+
+
+    });
 
 
     controller.hears(['.*'],'message_received', function(bot, message) {
@@ -71,8 +110,13 @@ module.exports = function(webserver, db) {
 
 
     controller.studio.beforeThread('post','posted', function(convo, next) {
-
-        db.createPost(convo.vars.post_text, convo.vars.tots_user._id).then(function(post) {
+        var makepost;
+        if (convo.vars.post_text) {
+           makepost = db.createPost(convo.vars.post_text, convo.vars.tots_user._id);
+        } else {
+           makepost = db.createPicturePost(convo.vars.post_url, convo.vars.post_content_type, convo.vars.tots_user._id);
+        }
+        makepost.then(function(post) {
             var url = 'http://tots.cool/@' + convo.vars.tots_user.username + '/tots/' + post._id;
             convo.setVar('post_url', url);
             next();
@@ -81,7 +125,6 @@ module.exports = function(webserver, db) {
             convo.setVar('error',err);
             convo.gotoThread('error');
             next();
-
         })
 
     })
