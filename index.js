@@ -11,6 +11,10 @@ var signup = require('./components/signup.js')(app,db,botkit);
 require('./components/chat.js')(app,db);
 
 var debug = require('debug')('tots:main');
+app.use(function(req, res, next) {
+console.log('> ', req.url);
+next();
+});
 
 // Get the user profile
 app.get('/', function(req, res, next) {
@@ -96,3 +100,4 @@ app.get('/editprofile', function(req, res, next) {
       });
     }
 });
+

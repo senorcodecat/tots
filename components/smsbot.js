@@ -25,6 +25,7 @@ module.exports = function(webserver, db) {
         // respond to Slack that the webhook has been received.
         res.status(200);
 
+	res.send('<?xml version="1.0" encoding="UTF-8"?><Response></Response>');
         // Now, pass the webhook into be processed
         controller.handleWebhookPayload(req, res, controller.spawn({}));
 
