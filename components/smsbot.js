@@ -118,16 +118,16 @@ module.exports = function(webserver, db) {
 
     controller.studio.beforeThread('post','posted', function(convo, next) {
         var makepost;
-        if (convo.vars.post_text) {
-           makepost = db.createPost(convo.vars.post_text, convo.vars.tots_user._id);
-        } else {
-            var text = '';
+        if (convo.vars.post_url) {
+           var text = '';
            if (convo.vars.post_text) {
              text = convo.vars.post_text;
            } else {
              text = convo.extractResponse('text');
            }
            makepost = db.createPicturePost(convo.vars.post_url, convo.vars.post_content_type, text, convo.vars.tots_user._id);
+        } else {
+          makepost = db.createPost(convo.vars.post_text, convo.vars.tots_user._id);
         }
         makepost.then(function(post) {
             var url = 'http://tots.cool/@' + convo.vars.tots_user.username + '/tots/' + post._id;
