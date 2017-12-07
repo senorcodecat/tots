@@ -115,7 +115,7 @@ module.exports = function(webserver, db) {
         if (convo.vars.post_text) {
            makepost = db.createPost(convo.vars.post_text, convo.vars.tots_user._id);
         } else {
-           makepost = db.createPicturePost(convo.vars.post_url, convo.vars.post_content_type, convo.vars.tots_user._id);
+           makepost = db.createPicturePost(convo.vars.post_url, convo.vars.post_content_type, convo.extractResponse('text'), convo.vars.tots_user._id);
         }
         makepost.then(function(post) {
             var url = 'http://tots.cool/@' + convo.vars.tots_user.username + '/tots/' + post._id;

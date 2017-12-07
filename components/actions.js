@@ -298,7 +298,7 @@ db.createPost = function(text, user) {
     });
 }
 
-db.createPicturePost = function(url, content_type, user) {
+db.createPicturePost = function(url, content_type, text, user) {
 
     return new Promise(function(resolve, reject) {
         var post = new db.posts();
@@ -309,7 +309,7 @@ db.createPicturePost = function(url, content_type, user) {
           post.images.push(s3_file)
           post.save();
 
-          // post.text = text;
+          post.text = text;
           post.user = user;
           handleMentions(post, function(err,post) {
 
@@ -516,7 +516,7 @@ function acceptUpload(file, filename, user_id, cb) {
 function acceptMMS(url, mime_type, user_id, cb) {
   var ts = new Date().getTime();
   var upload_path = '/tmp/' + user_id + '_' + ts;
-  request.get(url, function(err, response, body) {
+  request({url:url, method:'GET', encoding: null}, function(err, response, body) {
     if (err) {
       console.error('Error retrieving MMS', err);
       cb(err);
