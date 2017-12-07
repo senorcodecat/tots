@@ -57,6 +57,10 @@ module.exports = function() {
         notifications: {
           type: Object,
           default: {}
+        },
+        invitedBy: {
+          type: ObjectId,
+          ref: 'user',
         }
     });
 
@@ -118,6 +122,20 @@ module.exports = function() {
         },
         text: String,
         images: [{}],
+        date: {
+            type: Date,
+            default: Date.now
+        }
+    });
+
+
+    var inviteSchema = new Schema({
+        user: {
+            type: ObjectId,
+            ref: 'user',
+            index: true,
+        },
+        code: String,
         date: {
             type: Date,
             default: Date.now
@@ -224,6 +242,7 @@ module.exports = function() {
     return {
         users: mongoose.model('user', userSchema),
         posts: mongoose.model('post', postSchema),
+        invites: mongoose.model('invite', inviteSchema),
         revisions: mongoose.model('revision', revisionSchema),
         comments: mongoose.model('comment', commentSchema),
         faves: mongoose.model('fave', faveSchema),

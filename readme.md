@@ -95,11 +95,17 @@ DONE:
 
 
 * invites / require invite to join?
+  * get an invite code from settings
+  * leads to an invite page that says like "Hey @benbrown wants you to join tots click here"
+  * login/create/set invite code
+  * validate invite code and set invitedby upon registration
+  * reject signups without invite code
 
 * ability to receive webhooks for notifications
 * ability to respond to webhooks with a reply
 * google analytics
 
+* delete post
 
 * images in comments
 * edit comments
