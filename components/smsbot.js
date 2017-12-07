@@ -64,9 +64,17 @@ module.exports = function(webserver, db) {
           controller.studio.get(bot, 'post', message.user, message.channel, message).then(function(convo) {
 
             convo.setVar('tots_user', user);
+            convo.setVar('post_text', message.text);
             convo.setVar('post_url', message.MediaUrl0);
             convo.setVar('post_content_type', message.MediaContentType0);
-            convo.gotoThread('post_picture');
+
+            if (message.text) {
+              // straight to confirmation
+              convo.gotoThread('post_picture_confirm');
+            } else {
+              // ask if text should be added
+              convo.gotoThread('post_picture');
+            }
             convo.activate();
 
           });
@@ -114,7 +122,13 @@ module.exports = function(webserver, db) {
         if (convo.vars.post_text) {
            makepost = db.createPost(convo.vars.post_text, convo.vars.tots_user._id);
         } else {
-           makepost = db.createPicturePost(convo.vars.post_url, convo.vars.post_content_type, convo.extractResponse('text'), convo.vars.tots_user._id);
+            var text = '';
+           if (convo.vars.post_text) {
+             text = convo.vars.post_text;
+           } else {
+             text = convo.extractResponse('text');
+           }
+           makepost = db.createPicturePost(convo.vars.post_url, convo.vars.post_content_type, text, convo.vars.tots_user._id);
         }
         makepost.then(function(post) {
             var url = 'http://tots.cool/@' + convo.vars.tots_user.username + '/tots/' + post._id;

@@ -8,7 +8,7 @@ module.exports = function(webserver, db) {
       post.rendered_text = post.text;
       post.editable_text = post.text;
       var matches;
-      if (text) {
+      if (post.text) {
         matches = post.text.match(/\<\@(\w+)\>/igm);
       }
       if (matches) {
