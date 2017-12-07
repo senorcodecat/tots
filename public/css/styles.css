@@ -104,7 +104,8 @@ a {
   z-index: 3; }
   #header .wrapper {
     position: relative;
-    /* for the nav */ }
+    /* for the nav */
+    overflow-x: visible; }
 
 .body {
   margin-top: 3rem; }

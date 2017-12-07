@@ -165,6 +165,7 @@ a {
     z-index: 3;
     .wrapper {
       position: relative; /* for the nav */
+      overflow-x: visible;
     }
 }
 
