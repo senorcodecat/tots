@@ -105,7 +105,6 @@ DONE:
 * ability to respond to webhooks with a reply
 * google analytics
 
-* delete post
 
 * images in comments
 * edit comments

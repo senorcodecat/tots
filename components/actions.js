@@ -86,7 +86,7 @@ function sendLiveNotifications(post, fromuser) {
 
         var bot = botkit.spawn({});
         var text = fromuser.displayName + ' has started a live chat on tots.cool! Click below to join: \n';
-        text = text + 'https://tots.glitch.me/@' + fromuser.username + '/tots/' + post._id + '/live';
+        text = text + 'http://tots.cool/@' + fromuser.username + '/tots/' + post._id + '/live';
 
         async.each(alert_friends, function(friend, next) {
 
@@ -566,7 +566,7 @@ webserver.post('/actions/addphone', function(req, res) {
                   text: 'We are now connected! You can txt me updates! Add me to your contacts!',
                   user: req.user_profile.phonenumber,
                   channel: req.user_profile.phonenumber,
-                  mediaUrl: 'https://tots.glitch.me/tots.vcf'
+                  mediaUrl: 'http://tots.cool/tots.vcf'
                 } , function(err) {
                   if (err) {
                     console.error('ERROR SENDING SMS', err);
