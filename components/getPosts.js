@@ -7,9 +7,10 @@ module.exports = function(webserver, db) {
 
       post.rendered_text = post.text;
       post.editable_text = post.text;
-
-      var matches = post.text.match(/\<\@(\w+)\>/igm);
-
+      var matches;
+      if (text) {
+        matches = post.text.match(/\<\@(\w+)\>/igm);
+      }
       if (matches) {
 
           // remove dupes
