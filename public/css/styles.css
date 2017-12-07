@@ -115,7 +115,6 @@ a {
   /* for the nav */
   max-width: 600px;
   margin: 0px auto;
-  overflow-x: hidden;
   hyphens: auto; }
   .wrapper:after {
     content: "";
@@ -205,6 +204,7 @@ ul.posts {
     clear: both; }
 
 .post {
+  position: relative;
   margin: 1rem 0;
   border-top: 1px solid #CCC;
   padding: 0.5rem 1rem 0; }
@@ -212,6 +212,10 @@ ul.posts {
     content: "";
     display: table;
     clear: both; }
+  .post nav ul {
+    padding-top: 0.5rem; }
+    .post nav ul li {
+      padding-right: 0.5rem; }
   .post .avatar {
     float: left;
     padding-top: 3px; }
@@ -514,5 +518,10 @@ footer.pagination .next {
       .anon .signup p.checkbox input {
         width: auto;
         margin-left: -1.5rem; }
+
+.dangerbox {
+  margin-top: 2rem;
+  border: 2px solid red;
+  padding: 1rem; }
 
 /*# sourceMappingURL=styles.css.map */
