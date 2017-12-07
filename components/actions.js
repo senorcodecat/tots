@@ -546,7 +546,7 @@ function acceptMMS(url, mime_type, user_id, cb) {
                   uploader.on('end', function() {
 
                       cb(null, {
-                          name: filename,
+                          name: user_id + '_' + ts,
                           s3_key: 'images/' + user_id + '_' + ts,
                           url: 'https://s3.amazonaws.com/tots/images/' + user_id + '_' + ts,
                       })
