@@ -90,7 +90,7 @@ nav {
         ul {
             display: none;
             position: absolute;
-            top: 1rem;
+            top: 1.9rem;
             width: 200px;
             background: #fff;
             z-index: 2;
@@ -165,6 +165,7 @@ a {
     z-index: 3;
     .wrapper {
       position: relative; /* for the nav */
+      overflow-x: visible;
     }
 }
 
@@ -177,7 +178,7 @@ a {
     position: relative; /* for the nav */
     max-width: 600px;
     margin: 0px auto;
-    overflow-x: hidden;
+    // overflow-x: hidden;
     hyphens: auto;
 }
 
@@ -330,6 +331,17 @@ ul.posts {
 
 .post {
     @include clearfix;
+    position: relative;
+
+    nav {
+        ul {
+            padding-top: 0.5rem;
+                li {
+                // padding: 0;
+                padding-right: 0.5rem;
+            }
+        }
+    }
 
     .avatar {
         float: left;
@@ -784,4 +796,10 @@ footer.pagination {
 
     }
 
+}
+
+.dangerbox {
+    margin-top: 2rem;
+    border: 2px solid red;
+    padding: 1rem;
 }

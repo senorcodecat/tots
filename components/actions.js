@@ -109,6 +109,44 @@ function sendLiveNotifications(post, fromuser) {
   }
 }
 
+webserver.post('/actions/delete', function(req, res) {
+
+    if (req.user && req.body.post) {
+        db.posts.findOne({
+            user: req.user_profile._id,
+            _id: req.body.post
+        }, function(err, original_post) {
+            if (original_post) {
+                original_post.deleted = true;
+                original_post.updated = new Date();
+                original_post.save(function(err) {
+                    if (err) {
+                        res.json({
+                            ok: false,
+                            error: err,
+                        })
+                    } else {
+                        res.json({
+                            ok: true,
+                        })
+                    }
+                });
+            } else {
+                res.json({
+                    ok: false,
+                    error: 'Cannot delete this post',
+                })
+            }
+        });
+    } else {
+        // todo: better way to handle this
+        res.json({
+            ok: false,
+        })
+    }
+
+
+});
 
 webserver.post('/actions/edit', function(req, res) {
 

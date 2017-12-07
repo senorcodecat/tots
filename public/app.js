@@ -735,6 +735,18 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
       }
     }
 
+    $scope.deletePost = function(post) {
+        if (confirm('Are you sure? This post will no longer be available, and any comments or files will also be GONE!!!')) {
+            $http.post('/actions/delete', {post: post._id}).then(function(res) {
+                if (res.data.ok) {
+                    window.location = '/@' + $scope.ui.post.user.username;
+                } else {
+                    alert('SOFTWARE FAIL!')
+                }
+            })
+        }
+    }
+
 }])
 
 
@@ -1018,6 +1030,18 @@ app.controller('editpost', ['$scope', '$routeParams', '$http', function($scope, 
 
         }
         return false;
+    }
+
+    $scope.deletePost = function(post) {
+        if (confirm('Are you sure? This post will no longer be available, and any comments or files will also be GONE!!!')) {
+            $http.post('/actions/delete', {post: post._id}).then(function(res) {
+                if (res.data.ok) {
+                    window.location = '/@' + $scope.ui.post.user.username;
+                } else {
+                    alert('SOFTWARE FAIL!')
+                }
+            })
+        }
     }
 
 }])

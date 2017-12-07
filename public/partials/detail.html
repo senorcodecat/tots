@@ -1,5 +1,16 @@
 <div ng-controller="detail" class="wrapper">
     <div class="post detail_view">
+        <nav class="right" ng-if="ui.post.mine">
+            <ul>
+                <li class="menu">
+                    🍔
+                    <ul>
+                        <li><A href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}/edit">Edit</a></li>
+                        <li ng-click="deletePost(ui.post)">Delete</li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
         <div class="avatar">
               <a ng-href="/@{% ui.post.user.username %}"><img ng-src="{% ui.post.user.avatar_url %}" ng-if="ui.post.user.avatar_url"/></a>
         </div>
@@ -21,9 +32,7 @@
                 <li ng-if="ui.post.faved"><a ng-click="unfave(ui.post._id);">🌟</a><span class="faveCount" ng-if="ui.post.faveCount"> {% ui.post.faveCount %}</span></li>
                 <li ng-if="!ui.post.faved"><a ng-click="fave(ui.post._id);">⭐️</a><span class="faveCount" ng-if="ui.post.faveCount"> {% ui.post.faveCount %}</span></li>
                 <li>💬 <span class="replyCount" ng-if="ui.post.replyCount"> {% ui.post.replyCount %}</span></li>
-
-                <li ng-if="ui.post.mine"><A href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}/edit">Edit</a></li>
-                    <li ng-if="ui.post.live"><a href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}/live">🔴 LIVE!!!</a></li>
+                <li ng-if="ui.post.live"><a href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}/live">🔴 LIVE!!!</a></li>
             </ul>
         </div>
     </div>

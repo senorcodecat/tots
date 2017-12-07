@@ -104,7 +104,11 @@ module.exports = function() {
         updated: {
           type: Date,
           default: null,
-      },
+        },
+        deleted: {
+            type: Boolean,
+            default: false,
+        }
     });
 
     postSchema.index({user:1,date:1});
