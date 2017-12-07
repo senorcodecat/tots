@@ -93,6 +93,7 @@ DONE:
 
 # TODO:
 
+* receive photos over sms
 
 * invites / require invite to join?
   * get an invite code from settings
