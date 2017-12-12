@@ -76,6 +76,9 @@
                             <a ng-href="/@{% comment.user.username %}" class="username">{% comment.user.displayName %}</a> <a ng-href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}#comment-{% comment._id %}" class="date">{% comment.date | date : "MMM d, h:mm a" %}</a>
                         </div>
                         <div class="text" ng-bind-html="comment.rendered_text | renderPostText"></div>
+                        <div class="image" ng-repeat="image in comment.images">
+                            <img ng-src="{% image.url %}" alt="{% image.name %}" ng-click="lightbox(image.url)"/>
+                        </div>
                     </div>
                 </li>
             </ul>

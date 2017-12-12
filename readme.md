@@ -39,9 +39,15 @@ a cute little social network
   * validate invite code and set invitedby upon registration
   * reject signups without invite code
 
+* images in comments
+* update chat to use the wss.clients array and some more condition handling
+wss.clients.forEach(function each(client) {
+     if (client !== ws && client.readyState === WebSocket.OPEN) {
+       client.send(data);
+     }
+   });
 
 * resize images so camera uploads are not gigantor
-* images in comments
 * edit comments
 * edit profile on mobile is super ugly
 * edit posts on mobile is EVEN UGLIER
