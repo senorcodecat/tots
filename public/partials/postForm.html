@@ -1,4 +1,4 @@
-<form ng-if="ui.auth" method="post" encType="multipart/form-data" action="/actions/post" class="post_form" ng-controller="postForm" ng-submit="submit()">
+<form ng-if="ui.auth" name="postForm" method="post" encType="multipart/form-data" class="post_form" ng-controller="postForm" ng-submit="submit()">
     <div class="avatar" ng-if="ui.user.avatar_url">
         <img ng-src="{% ui.user.avatar_url %}" class="avatar" />
     </div>
@@ -24,14 +24,14 @@
         mentio-select="getPeopleTextRaw(item)"
 
      -->
-        <div class="img_preview" ng-if="ui.file && ui.img_preview">
-            <img ng-src='{% ui.img_preview %}' ng-click="removeFile()"/>
+        <div class="img_preview" ng-if="postForm.file.$valid && tot.file" >
+            <img  ngf-thumbnail="tot.file" ng-click="removeFile()"/>
         </div>
     </div>
     <div class="actions" ng-if="ui.focused">
-        <div class="upload-btn-wrapper" ng-show="!ui.file">
+        <div class="upload-btn-wrapper" ng-show="!tot.file">
           <label for="file" class="attachment">📷</label>
-          <input id="file" style="display: none;" ng-model="ui.file" ng-change="fileChange()" type="file" accept="image/*" name="image" />
+          <input id="file" style="display: none;" ng-model="tot.file" ngf-select type="file" accept="image/*" name="file" />
         </div>
         <button type="submit" name="live" value="true" ng-disabled="!tot.text.length">Post & Go Live</button>
         <button type="submit" ng-disabled="!tot.text.length">Post</button>

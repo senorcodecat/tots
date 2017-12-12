@@ -993,8 +993,8 @@ app.controller('editpost', ['$scope', '$routeParams', '$http', function($scope, 
 
     $scope.removeFile = function() {
         if (confirm('Remove the file from this post?')) {
-            $scope.ui.file = null;
-            $scope.ui.img_preview = null;
+            $scope.ui.post.file = null;
+            // $scope.ui.img_preview = null;
         }
     }
 
@@ -1046,7 +1046,7 @@ app.controller('editpost', ['$scope', '$routeParams', '$http', function($scope, 
 
 }])
 
-app.controller('postForm', ['$scope', '$http', function($scope, $http) {
+app.controller('postForm', ['$scope', '$http', 'Upload', function($scope, $http, Upload) {
 
     $scope.tot = {
         text: '',
@@ -1056,7 +1056,30 @@ app.controller('postForm', ['$scope', '$http', function($scope, $http) {
         if (!$scope.tot.text) {
             return false;
         } else {
-            mixpanel.track("Author a post");
+            // mixpanel.track("Author a post");
+            console.log($scope.tot.file);
+
+            // file.upload = Upload.upload({
+            //   url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+            //   data: {username: $scope.username, file: file},
+            // });
+            //
+            // file.upload.then(function (response) {
+            //   $timeout(function () {
+            //     file.result = response.data;
+            //   });
+            // }, function (response) {
+            //   if (response.status > 0)
+            //     $scope.errorMsg = response.status + ': ' + response.data;
+            // }, function (evt) {
+            //   // Math.min is to fix IE which reports 200% sometimes
+            //   file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            // });
+
+
+
+
+            return false;
         }
     }
 
@@ -1069,23 +1092,23 @@ app.controller('postForm', ['$scope', '$http', function($scope, $http) {
 
     $scope.removeFile = function() {
         if (confirm('Remove the file from this post?')) {
-            $scope.ui.file = null;
-            $scope.ui.img_preview = null;
+            $scope.tot.file = null;
+            // $scope.ui.img_preview = null;
         }
     }
 
-    $scope.fileChange = function() {
-        var img = document.createElement("img");
-        img.classList.add("obj");
-
-        var reader = new FileReader();
-        reader.onload = (function(aImg) {
-            return function(e) {
-                $scope.ui.img_preview = e.target.result;
-                $scope.$apply();
-            };
-        })(img);
-        var url = reader.readAsDataURL($scope.ui.file);
-    }
+    // $scope.fileChange = function() {
+    //     var img = document.createElement("img");
+    //     img.classList.add("obj");
+    //
+    //     var reader = new FileReader();
+    //     reader.onload = (function(aImg) {
+    //         return function(e) {
+    //             $scope.ui.img_preview = e.target.result;
+    //             $scope.$apply();
+    //         };
+    //     })(img);
+    //     var url = reader.readAsDataURL($scope.ui.file);
+    // }
 
 }]);
