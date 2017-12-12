@@ -1,4 +1,4 @@
-var app = angular.module('tots', ['mgcrea.pullToRefresh', 'angular-file-input', 'ngRoute', 'mentio', 'monospaced.elastic']);
+var app = angular.module('tots', ['ngFileUpload', 'ngRoute', 'mentio', 'monospaced.elastic']);
 //'monospaced.elastic'
 
 
