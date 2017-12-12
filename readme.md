@@ -13,6 +13,68 @@ a cute little social network
 
 
 
+# BUGS:
+
+* list item css in notifications/comments
+
+# TODO
+
+* handle failure to send message to socket
+* probably need to reload message history on reconnect or attempt some "since" sync
+* some amount of delay between marking a user offline
+
+* toggling live mode should not not make a revision
+* SOUNDS!!
+* display current post to left of chat on bigger screens?
+* display all live posts to left of chat on bigger screens?
+* when livemode ends, post a notification with a summary.
+    -> maybe needs to capture start and end?
+    -> Live chat lasted 20 minutes, during which 5 people left 12 replies
+
+
+* invites / require invite to join?
+  * get an invite code from settings
+  * leads to an invite page that says like "Hey @benbrown wants you to join tots click here"
+  * login/create/set invite code
+  * validate invite code and set invitedby upon registration
+  * reject signups without invite code
+
+
+* resize images so camera uploads are not gigantor
+* images in comments
+* edit comments
+* edit profile on mobile is super ugly
+* edit posts on mobile is EVEN UGLIER
+* empty state for profile
+* empty state for search
+* square crop avatar images
+* remove pics from post
+* change pics on post
+* last read marker
+* capture / upload profile images on signup
+* blocking
+* reporting
+* prevent abuse of SMS verification
+
+
+BORING:
+admin mode
+
+FAR OUT:
+
+
+* ability to receive webhooks for notifications
+* ability to respond to webhooks with a reply
+* google analytics
+personalized notification webhooks
+default signups OFF, enable with flag
+ability to federate / follow someone on a different instance
+identity verification - same username != same user
+[Deploy to Glitch]
+
+
+
+
 DONE:
 
 * Auth0 auth - free tier allows 7000 users
@@ -69,67 +131,6 @@ DONE:
 * avatar link to profile
 * delete post
 
-
-# BUGS:
-
-* list item css in notifications/comments
-
+* receive photos over sms
 # LIVE MODE
 * header for roster
-
-* handle failure to send message to socket
-* probably need to reload message history on reconnect or attempt some "since" sync
-* some amount of delay between marking a user offline
-
-* toggling live mode should not not make a revision
-* SOUNDS!!
-* display current post to left of chat on bigger screens?
-* display all live posts to left of chat on bigger screens?
-* when livemode ends, post a notification with a summary.
-    -> maybe needs to capture start and end?
-    -> Live chat lasted 20 minutes, during which 5 people left 12 replies
-
-
-
-# TODO:
-
-* receive photos over sms
-
-* invites / require invite to join?
-  * get an invite code from settings
-  * leads to an invite page that says like "Hey @benbrown wants you to join tots click here"
-  * login/create/set invite code
-  * validate invite code and set invitedby upon registration
-  * reject signups without invite code
-
-* ability to receive webhooks for notifications
-* ability to respond to webhooks with a reply
-* google analytics
-
-
-* images in comments
-* edit comments
-* edit profile on mobile is super ugly
-* edit posts on mobile is EVEN UGLIER
-* empty state for profile
-* empty state for search
-* square crop avatar images
-* remove pics from post
-* change pics on post
-* last read marker
-* capture / upload profile images on signup
-* blocking
-* reporting
-* prevent abuse of SMS verification
-
-
-BORING:
-admin mode
-
-FAR OUT:
-sms?
-personalized notification webhooks
-default signups OFF, enable with flag
-ability to federate / follow someone on a different instance
-identity verification - same username != same user
-[Deploy to Glitch]
