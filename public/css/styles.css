@@ -524,4 +524,10 @@ footer.pagination .next {
   border: 2px solid red;
   padding: 1rem; }
 
+.progress {
+  width: 100%; }
+  .progress .bar {
+    background: brown;
+    height: 1rem; }
+
 /*# sourceMappingURL=styles.css.map */
