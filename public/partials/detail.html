@@ -44,12 +44,16 @@
                         <a ng-href="/@{% comment.user.username %}" class="username">{% comment.user.displayName %}</a> <a ng-href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}#comment-{% comment._id %}" class="date">{% comment.date | date : "MMM d, h:mm a" %}</a>
                     </div>
                     <div class="text" ng-bind-html="comment.rendered_text | renderPostText"></div>
+                    <div class="image" ng-repeat="image in comment.images">
+                        <img ng-src="{% image.url %}" alt="{% image.name %}" ng-click="lightbox(image.url)"/>
+                    </div>
+
                 </div>
             </li>
 
         </ul>
         <div ng-if="ui.auth">
-            <form method="post" class="post_form" ng-submit="postComment()">
+            <form method="post" name="commentForm" class="post_form" ng-submit="postComment()">
                 <div class="avatar">
                     <img ng-src="{% ui.user.avatar_url %}" class="avatar" />
                 </div>
@@ -69,10 +73,25 @@
                     mentio-typed-term="ui.selected_mention"
                   >
                   </textarea>
+                  <div class="img_preview" ng-if="commentForm.file.$valid && ui.comment.file" >
+                      <img ngf-src="ui.comment.file" ng-click="removeFile()"/>
+                  </div>
                 </div>
-                <div class="actions">
+                <div class="actions" ng-if="ui.working">
+                    <div class="progress">
+                        <div style="width:{{ui.progress}}%"
+                        ng-bind="ui.progress + '%'" class="bar"></div>
+                    </div>
+                </div>
+                <div class="actions" ng-if="!ui.working">
+                    <div class="upload-btn-wrapper" ng-show="!ui.comment.file">
+                      <label for="file" class="attachment">📷</label>
+                      <input id="file" style="display: none;" ng-model="ui.comment.file" ngf-select type="file" accept="image/*" name="file" />
+                    </div>
+
                     <label for="post_to_feed"><input type="checkbox" ng-model="ui.comment.post_to_feed" id="post_to_feed"> Also post to feed</label>
-                    <button type="submit" ng-disabled="ui.working || !ui.comment.text.length">Post</button>
+
+                    <button type="submit" ng-disabled="ui.working || (!ui.comment.text.length && !ui.comment.file)">Post</button>
                 </div>
             </form>
         </div>

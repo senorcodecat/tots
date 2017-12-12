@@ -676,7 +676,7 @@ app.controller('notifications', ['$scope', '$routeParams', '$sce', function($sco
 }])
 
 
-app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
+app.controller('detail', ['$scope', '$routeParams', '$http', 'Upload', function($scope, $routeParams, $http, Upload) {
 
     $scope.params = $routeParams;
     var pid = $scope.params.post_id;
@@ -688,12 +688,21 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
     $scope.ui.comment = {
         post: pid,
         text: '',
+        file: null,
     }
 
     $scope.ui.working = false;
 
     delete($scope.ui.post);
     delete($scope.ui.comments);
+
+    $scope.removeFile = function() {
+        if (confirm('Remove the file from this post?')) {
+            $scope.ui.comment.file = null;
+            // $scope.ui.img_preview = null;
+        }
+    }
+
 
     $scope.getPosts('/posts/post', ['post=' + $scope.params.post_id, 'username=' + encodeURIComponent($scope.params.username)], 1).then(function(payload) {
         $scope.ui.post = payload;
@@ -725,13 +734,48 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
             mixpanel.track("Post reply");
 
             $scope.ui.working = true;
-            $http.post('/actions/comment/' + $scope.ui.comment.post, $scope.ui.comment).then(function(res) {
-                $scope.ui.comment.text = '';
-                $scope.ui.comment.post_to_feed = false;
-                document.getElementById('comment_composer').focus();
-                $scope.getComments();
-                $scope.ui.working = false;
-            });
+
+            if ($scope.ui.comment.file) {
+                $scope.ui.comment.file.upload = Upload.upload({
+                    url: '/actions/comment/' + $scope.ui.comment.post,
+                    data: {
+                        text: $scope.ui.comment.text,
+                        image: $scope.ui.comment.file,
+                        post_to_feed: $scope.ui.comment.post_to_feed,
+                    },
+                });
+
+                $scope.ui.comment.file.upload.then(function(response) {
+                    console.log('SUCCESSFULLY UPLOADED', response);
+                    if (response.data.ok) {
+                        // reset form
+                        $scope.ui.comment.text = null;
+                        $scope.ui.comment.file = null;
+
+                        document.getElementById('comment_composer').focus();
+                        $scope.getComments();
+                    } else {
+                        alert('Failed to post');
+                    }
+                    $scope.ui.working = false;
+                }, function(response) {
+                    if (response.status > 0)
+                        $scope.ui.errorMsg = response.status + ': ' + response.data;
+                }, function(evt) {
+                    // Math.min is to fix IE which reports 200% sometimes
+                    $scope.ui.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                    console.log('UPLOADING!!', $scope.ui.progress)
+
+                });
+            } else {
+                $http.post('/actions/comment/' + $scope.ui.comment.post, $scope.ui.comment).then(function(res) {
+                    $scope.ui.comment.text = '';
+                    $scope.ui.comment.post_to_feed = false;
+                    document.getElementById('comment_composer').focus();
+                    $scope.getComments();
+                    $scope.ui.working = false;
+                });
+            }
         }
     }
 

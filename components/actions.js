@@ -386,7 +386,7 @@ webserver.post('/actions/post', function(req, res) {
 
 webserver.post('/actions/comment/:post', function(req, res) {
 
-    if (req.user && req.body.text && req.body.text != '') {
+    if (req.user && ((req.body.text && req.body.text != '') || (req.files && req.files.image))) {
         db.posts.findOne({
             _id: req.params.post
         }, function(err, post) {
@@ -403,16 +403,57 @@ webserver.post('/actions/comment/:post', function(req, res) {
                         });
                     });
 
-                    if (req.body.post_to_feed == true) {
-                        var repost = new db.posts();
-                        repost.text = comment.text;
-                        repost.user = req.user_profile._id;
-                        repost.replyTo = post._id;
-                        repost.save(function(saved_post) {
-                            comment.post = repost._id;
-                            comment.save();
-                        });
+
+                    if (req.files && req.files.image) {
+                        debug('Got a file upload', req.files.image);
+                        acceptUpload(req.files.image, req.files.image.name, req.user_profile._id, function(err, s3_file) {
+                            if (err) {
+                                res.json({ok: false, error: err});
+                            } else {
+                                comment.images.push(s3_file)
+                                comment.save();
+
+                                debug('NEW POST', post);
+                                res.json({
+                                    ok: true,
+                                    data: comment,
+                                })
+
+                                if (req.body.post_to_feed == true) {
+                                    var repost = new db.posts();
+                                    repost.text = comment.text;
+                                    repost.user = req.user_profile._id;
+                                    repost.replyTo = post._id;
+                                    repost.images = comment.images;
+                                    repost.save(function(saved_post) {
+                                        comment.post = repost._id;
+                                        comment.save();
+                                    });
+                                }
+                            }
+                        })
+                    } else {
+
+
+                        res.json({
+                            ok: true,
+                            data: comment,
+                        })
+
+                        if (req.body.post_to_feed == true) {
+                            var repost = new db.posts();
+                            repost.text = comment.text;
+                            repost.user = req.user_profile._id;
+                            repost.replyTo = post._id;
+                            repost.save(function(saved_post) {
+                                comment.post = repost._id;
+                                comment.save();
+                            });
+                        }
+
                     }
+
+
 
                     if (String(req.user_profile._id) != String(post.user)) {
                         var pattern = new RegExp("<@" + post.user + ">");
@@ -429,10 +470,6 @@ webserver.post('/actions/comment/:post', function(req, res) {
                         }
                     }
 
-                    res.json({
-                        ok: true,
-                        data: comment,
-                    })
 
 
                 });
