@@ -803,3 +803,12 @@ footer.pagination {
     border: 2px solid red;
     padding: 1rem;
 }
+
+.progress {
+    width: 100%;
+
+    .bar {
+        background: $color;
+        height: 1rem;
+    }
+}

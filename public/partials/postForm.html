@@ -9,6 +9,8 @@
             ng-model="tot.text"
             placeholder="Share a tot"
 
+            ng-disabled="ui.working"
+
             mentio
             mentio-trigger-char="'@'"
             mentio-items="ui.people"
@@ -18,17 +20,17 @@
 
             rows="1" msd-elastic
         ></textarea>
-
-        <!--
-        mentio-search="searchPeople(term)"
-        mentio-select="getPeopleTextRaw(item)"
-
-     -->
         <div class="img_preview" ng-if="postForm.file.$valid && tot.file" >
-            <img  ngf-thumbnail="tot.file" ng-click="removeFile()"/>
+            <img ngf-src="tot.file" ng-click="removeFile()"/>
         </div>
     </div>
-    <div class="actions" ng-if="ui.focused">
+    <div class="actions" ng-if="ui.focused && ui.working">
+        <div class="progress">
+            <div style="width:{{ui.progress}}%"
+            ng-bind="ui.progress + '%'" class="bar"></div>
+        </div>
+    </div>
+    <div class="actions" ng-if="ui.focused && !ui.working">
         <div class="upload-btn-wrapper" ng-show="!tot.file">
           <label for="file" class="attachment">📷</label>
           <input id="file" style="display: none;" ng-model="tot.file" ngf-select type="file" accept="image/*" name="file" />

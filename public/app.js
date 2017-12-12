@@ -93,7 +93,7 @@ app.filter('renderPostText', ['$sce', function($sce) {
         if (text) {
 
 
-//            text = text.replace(/(^|\W)\#(\w+)(\W|$)/img, '$1<a href="/search?query=%23$2">#$2</a>$3');
+            //            text = text.replace(/(^|\W)\#(\w+)(\W|$)/img, '$1<a href="/search?query=%23$2">#$2</a>$3');
 
             text = text.replace(/((http|https)\:\/\/(.*?))(\s|$)/img, '<a href="$1" target="_blank">$1</a>$4');
 
@@ -122,7 +122,7 @@ app.filter('curseFilter', ['$sce', function($sce) {
     };
 }])
 
-app.controller('app', ['$scope', '$http','$location', function($scope, $http, $location) {
+app.controller('app', ['$scope', '$http', '$location', function($scope, $http, $location) {
 
     $scope.ui = {}
 
@@ -133,19 +133,19 @@ app.controller('app', ['$scope', '$http','$location', function($scope, $http, $l
         $scope.ui.user = auth.user_profile;
         mixpanel.identify($scope.ui.user._id);
         mixpanel.people.set({
-        "User name": $scope.ui.user.username,
-        "$name": $scope.ui.user.displayName,
-        "$phone": $scope.ui.user.phonenumber,
+            "User name": $scope.ui.user.username,
+            "$name": $scope.ui.user.displayName,
+            "$phone": $scope.ui.user.phonenumber,
         });
 
     }
 
-    $scope.$on('$routeChangeSuccess', function($event,  current, previous) {
+    $scope.$on('$routeChangeSuccess', function($event, current, previous) {
         console.log('ROUTE CHANGED', location.href);
 
         // reset some stuff
         $scope.ui.post = null;
-     });
+    });
 
     $scope.linkToPost = function(post) {
         var url = '/@' + post.user.username + '/tots/' + post._id;
@@ -163,15 +163,15 @@ app.controller('app', ['$scope', '$http','$location', function($scope, $http, $l
     }
 
     $scope.randomGif = function() {
-      var gifs = [
-        '/img/doggy.gif',
-        '/img/mouse.gif',
-        '/img/panda.gif',
-        '/img/pug.gif',
-      ]
+        var gifs = [
+            '/img/doggy.gif',
+            '/img/mouse.gif',
+            '/img/panda.gif',
+            '/img/pug.gif',
+        ]
 
-      var gif = gifs[Math.floor(Math.random() * gifs.length)];
-      return gif;
+        var gif = gifs[Math.floor(Math.random() * gifs.length)];
+        return gif;
 
     }
     $scope.ui.gif = $scope.randomGif();
@@ -366,25 +366,25 @@ app.controller('app', ['$scope', '$http','$location', function($scope, $http, $l
         if (!$scope.ui.history) {
             $scope.resetHistory();
         }
-        if (!$scope.ui.history.length || $scope.ui.history[$scope.ui.history.length-1].url != url) {
+        if (!$scope.ui.history.length || $scope.ui.history[$scope.ui.history.length - 1].url != url) {
             $scope.ui.history.push({
                 url: url,
                 title: title
             });
         }
 
-        console.log('HISTORY',$scope.ui.history);
+        console.log('HISTORY', $scope.ui.history);
     }
 
     $scope.backTitle = function() {
-        return $scope.ui.history[$scope.ui.history.length-2].title;
+        return $scope.ui.history[$scope.ui.history.length - 2].title;
     }
     $scope.popHistory = function() {
         // get rid of most recent
         $scope.ui.history.pop();
         // this leaves previous
-        var back = $scope.ui.history[$scope.ui.history.length-1];
-        console.log('POP TO ',back);
+        var back = $scope.ui.history[$scope.ui.history.length - 1];
+        console.log('POP TO ', back);
         // return false;
         $location.url(back.url);
         // window.location = back.url;
@@ -397,7 +397,7 @@ app.controller('app', ['$scope', '$http','$location', function($scope, $http, $l
 
 app.controller('feed', ['$scope', '$routeParams', function($scope, $routeParams) {
 
-    $scope.resetHistory('/feed','Feed');
+    $scope.resetHistory('/feed', 'Feed');
     mixpanel.track("View Feed");
 
     if (!$scope.ui.auth) {
@@ -436,7 +436,7 @@ app.controller('feed', ['$scope', '$routeParams', function($scope, $routeParams)
 
 app.controller('public', ['$scope', '$routeParams', function($scope, $routeParams) {
 
-    $scope.resetHistory('/public','Public Feed');
+    $scope.resetHistory('/public', 'Public Feed');
     mixpanel.track("View Public");
 
     $scope.ui.page = 0;
@@ -470,7 +470,7 @@ app.controller('public', ['$scope', '$routeParams', function($scope, $routeParam
 
 app.controller('search', ['$scope', '$routeParams', function($scope, $routeParams) {
 
-    $scope.resetHistory('/search','Search Tots');
+    $scope.resetHistory('/search', 'Search Tots');
     mixpanel.track("View Search");
 
     $scope.ui.page = 0;
@@ -504,9 +504,9 @@ app.controller('search', ['$scope', '$routeParams', function($scope, $routeParam
     }
 
     if ($scope.ui.query) {
-      $scope.search();
+        $scope.search();
     } else {
-      $scope.ui.loaded = true;
+        $scope.ui.loaded = true;
     }
 
 }])
@@ -569,7 +569,7 @@ app.controller('following', ['$scope', '$routeParams', function($scope, $routePa
     $scope.ui.profile = null;
 
     $scope.getPosts('/user/following', ['username=' + encodeURIComponent(username)], $scope.ui.page).then(function(payload) {
-        console.log('GOT PAYLOAD',payload);
+        console.log('GOT PAYLOAD', payload);
         $scope.ui.people = payload.posts;
         $scope.ui.profile = payload.user_profile;
 
@@ -597,7 +597,7 @@ app.controller('followers', ['$scope', '$routeParams', function($scope, $routePa
     $scope.ui.profile = null;
 
     $scope.getPosts('/user/followers', ['username=' + encodeURIComponent(username)], $scope.ui.page).then(function(payload) {
-        console.log('GOT PAYLOAD',payload);
+        console.log('GOT PAYLOAD', payload);
         $scope.ui.people = payload.posts;
         $scope.ui.profile = payload.user_profile;
 
@@ -646,7 +646,7 @@ app.controller('faves', ['$scope', '$routeParams', function($scope, $routeParams
 
 app.controller('notifications', ['$scope', '$routeParams', '$sce', function($scope, $routeParams, $sce) {
 
-    $scope.resetHistory('/notifications','Notifications');
+    $scope.resetHistory('/notifications', 'Notifications');
 
     mixpanel.track("View notifications");
 
@@ -721,23 +721,25 @@ app.controller('detail', ['$scope', '$routeParams', '$http', function($scope, $r
     }
 
     $scope.postComment = function() {
-      if (!$scope.ui.working) {
-        mixpanel.track("Post reply");
+        if (!$scope.ui.working) {
+            mixpanel.track("Post reply");
 
-        $scope.ui.working = true;
-        $http.post('/actions/comment/' + $scope.ui.comment.post, $scope.ui.comment).then(function(res) {
-            $scope.ui.comment.text = '';
-            $scope.ui.comment.post_to_feed = false;
-            document.getElementById('comment_composer').focus();
-            $scope.getComments();
-            $scope.ui.working = false;
-        });
-      }
+            $scope.ui.working = true;
+            $http.post('/actions/comment/' + $scope.ui.comment.post, $scope.ui.comment).then(function(res) {
+                $scope.ui.comment.text = '';
+                $scope.ui.comment.post_to_feed = false;
+                document.getElementById('comment_composer').focus();
+                $scope.getComments();
+                $scope.ui.working = false;
+            });
+        }
     }
 
     $scope.deletePost = function(post) {
         if (confirm('Are you sure? This post will no longer be available, and any comments or files will also be GONE!!!')) {
-            $http.post('/actions/delete', {post: post._id}).then(function(res) {
+            $http.post('/actions/delete', {
+                post: post._id
+            }).then(function(res) {
                 if (res.data.ok) {
                     window.location = '/@' + $scope.ui.post.user.username;
                 } else {
@@ -775,27 +777,27 @@ app.controller('live', ['$scope', '$routeParams', '$http', function($scope, $rou
     })
 
     $scope.$on('connected', function() {
-      $scope.ui.connected = true;
-      $scope.ui.offline = false;
-      $scope.$apply();
+        $scope.ui.connected = true;
+        $scope.ui.offline = false;
+        $scope.$apply();
     })
 
     $scope.$on('disconnected', function() {
-      $scope.ui.connected = false;
-      $scope.$apply();
+        $scope.ui.connected = false;
+        $scope.$apply();
 
     });
 
     $scope.$on('offline', function() {
-      $scope.ui.connected = false;
-      $scope.ui.offline = true;
-      $scope.$apply();
+        $scope.ui.connected = false;
+        $scope.ui.offline = true;
+        $scope.$apply();
 
     });
 
     $scope.reconnect = function() {
-      console.log('ATTEMPT RECONNECT');
-      messenger.reconnect();
+        console.log('ATTEMPT RECONNECT');
+        messenger.reconnect();
     }
 
     $scope.sendLive = function() {
@@ -934,7 +936,7 @@ app.controller('editprofile', ['$scope', '$routeParams', '$http', function($scop
 
     $scope.updateNotification = function(name, value) {
         console.log('SET NOTIFICATION', name, value);
-        $http.post('/actions/togglenotification',{
+        $http.post('/actions/togglenotification', {
             notification: name,
             value: value
         }).then(function(res) {
@@ -946,25 +948,25 @@ app.controller('editprofile', ['$scope', '$routeParams', '$http', function($scop
         })
     }
 
-  $scope.updatePhone = function() {
-      mixpanel.track("Add Phone");
+    $scope.updatePhone = function() {
+        mixpanel.track("Add Phone");
 
-    $http.post('/actions/addphone', {
-      phonenumber: $scope.ui.user.phonenumber,
-      verification: $scope.ui.verification_test,
-    }).then(function(res) {
-      if (res.data.ok) {
-        if (res.data.data.verification_sent) {
-          $scope.ui.verification_sent = true;
-        } else if (res.data.data.phonenumber_verified) {
-          $scope.ui.user.phonenumber_verified = true;
-        }
-      } else {
-          alert('ERROR ADDING PHONE!', res.data.error);
-      }
-    });
+        $http.post('/actions/addphone', {
+            phonenumber: $scope.ui.user.phonenumber,
+            verification: $scope.ui.verification_test,
+        }).then(function(res) {
+            if (res.data.ok) {
+                if (res.data.data.verification_sent) {
+                    $scope.ui.verification_sent = true;
+                } else if (res.data.data.phonenumber_verified) {
+                    $scope.ui.user.phonenumber_verified = true;
+                }
+            } else {
+                alert('ERROR ADDING PHONE!', res.data.error);
+            }
+        });
 
-  }
+    }
 
 }]);
 
@@ -1034,7 +1036,9 @@ app.controller('editpost', ['$scope', '$routeParams', '$http', function($scope, 
 
     $scope.deletePost = function(post) {
         if (confirm('Are you sure? This post will no longer be available, and any comments or files will also be GONE!!!')) {
-            $http.post('/actions/delete', {post: post._id}).then(function(res) {
+            $http.post('/actions/delete', {
+                post: post._id
+            }).then(function(res) {
                 if (res.data.ok) {
                     window.location = '/@' + $scope.ui.post.user.username;
                 } else {
@@ -1051,33 +1055,65 @@ app.controller('postForm', ['$scope', '$http', 'Upload', function($scope, $http,
     $scope.tot = {
         text: '',
     }
-    $scope.submit = function() {
+    $scope.submit = function(file) {
 
         if (!$scope.tot.text) {
             return false;
         } else {
             // mixpanel.track("Author a post");
-            console.log($scope.tot.file);
+            // console.log($scope.tot.file);
 
-            // file.upload = Upload.upload({
-            //   url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
-            //   data: {username: $scope.username, file: file},
-            // });
-            //
-            // file.upload.then(function (response) {
-            //   $timeout(function () {
-            //     file.result = response.data;
-            //   });
-            // }, function (response) {
-            //   if (response.status > 0)
-            //     $scope.errorMsg = response.status + ': ' + response.data;
-            // }, function (evt) {
-            //   // Math.min is to fix IE which reports 200% sometimes
-            //   file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-            // });
+            $scope.ui.working = true;
 
+            if ($scope.tot.file) {
+                $scope.tot.file.upload = Upload.upload({
+                    url: '/actions/post',
+                    data: {
+                        text: $scope.tot.text,
+                        image: $scope.tot.file
+                    },
+                });
 
+                $scope.tot.file.upload.then(function(response) {
+                    console.log('SUCCESSFULLY UPLOADED', response);
+                    if (response.data.ok) {
+                        // reset form
+                        $scope.tot.text = null;
+                        $scope.tot.file = null;
 
+                        var post = response.data.data;
+                        window.location = '/@' + $scope.ui.user.username + '/tots/' + post._id;
+                    } else {
+                        alert('Failed to post');
+                    }
+                    $scope.ui.working = false;
+                }, function(response) {
+                    if (response.status > 0)
+                        $scope.ui.errorMsg = response.status + ': ' + response.data;
+                }, function(evt) {
+                    // Math.min is to fix IE which reports 200% sometimes
+                    $scope.ui.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                    console.log('UPLOADING!!', $scope.ui.progress)
+
+                });
+            } else {
+
+                $http.post('/actions/post',$scope.tot).then(function(response) {
+                    console.log('SUCCESSFULLY UPLOADED', response);
+                    if (response.data.ok) {
+                        // reset form
+                        $scope.tot.text = null;
+                        $scope.tot.file = null;
+
+                        var post = response.data.data;
+                        window.location = '/@' + $scope.ui.user.username + '/tots/' + post._id;
+                    } else {
+                        alert('Failed to post');
+                    }
+                    $scope.ui.working = false;
+                });
+
+            }
 
             return false;
         }

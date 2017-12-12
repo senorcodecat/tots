@@ -363,13 +363,19 @@ webserver.post('/actions/post', function(req, res) {
                         post.save();
 
                         debug('NEW POST', post);
-                        res.redirect('/me');
+                        res.json({
+                            ok: true,
+                            data: post
+                        });
                     }
 
                 })
             } else {
                 debug('NEW POST', post);
-                res.redirect('/@' + req.user_profile.username + '/tots/' + post._id);
+                res.json({
+                    ok: true,
+                    data: post
+                });
             }
         });
     } else {
