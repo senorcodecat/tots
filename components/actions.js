@@ -406,6 +406,7 @@ webserver.post('/actions/comment/:post', function(req, res) {
 
                     if (req.files && req.files.image) {
                         debug('Got a file upload', req.files.image);
+                        console.log('posting a comment.', req.body)
                         acceptUpload(req.files.image, req.files.image.name, req.user_profile._id, function(err, s3_file) {
                             if (err) {
                                 res.json({ok: false, error: err});
@@ -419,7 +420,7 @@ webserver.post('/actions/comment/:post', function(req, res) {
                                     data: comment,
                                 })
 
-                                if (req.body.post_to_feed == true) {
+                                if (req.body.post_to_feed == true || req.body.post_to_feed == 'true') {
                                     var repost = new db.posts();
                                     repost.text = comment.text;
                                     repost.user = req.user_profile._id;
