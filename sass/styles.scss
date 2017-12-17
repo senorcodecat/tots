@@ -406,6 +406,22 @@ ul.posts {
     }
 }
 
+
+
+.image.hero {
+    max-width: 100% !important;
+    display: block;
+    img {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+.image.hero+.post {
+    margin-top: 0;
+}
+
+
 .byline {
     .username {
         font-weight: bold;

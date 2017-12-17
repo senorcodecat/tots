@@ -39,7 +39,6 @@ a cute little social network
   * validate invite code and set invitedby upon registration
   * reject signups without invite code
 
-* images in comments
 * update chat to use the wss.clients array and some more condition handling
 wss.clients.forEach(function each(client) {
      if (client !== ws && client.readyState === WebSocket.OPEN) {
@@ -47,8 +46,9 @@ wss.clients.forEach(function each(client) {
      }
    });
 
+* javascript upload profile image + square crop!
 * resize images so camera uploads are not gigantor
-* edit comments
+* edit comments?
 * edit profile on mobile is super ugly
 * edit posts on mobile is EVEN UGLIER
 * empty state for profile
@@ -120,6 +120,8 @@ DONE:
 * live count in feed
 * livemode should auto-close after a few hours
 * zoom in on images
+* images in comments
+
 # SMS BOT
     TEXT TOTS: (347) 273-8687
     * Add and verify phone number

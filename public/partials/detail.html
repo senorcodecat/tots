@@ -1,4 +1,7 @@
 <div ng-controller="detail" class="wrapper">
+    <div class="image hero" ng-repeat="image in ui.post.images">
+        <img ng-src="{% image.url %}" alt="{% image.name %}" ng-click="lightbox(image.url)"/>
+    </div>
     <div class="post detail_view">
         <nav class="right" ng-if="ui.post.mine">
             <ul>
@@ -24,9 +27,6 @@
             <div class="text" ng-bind-html="ui.post.rendered_text | renderPostText"></div>
             <div class="revisionLine" ng-if="ui.post.updated">
                 updated <a ng-href="/@{% ui.post.user.username %}/tots/{% ui.post._id %}/revisions" class="date">{% ui.post.updated | date : "MMM d, h:mm a" %}</a>
-            </div>
-            <div class="image" ng-repeat="image in ui.post.images">
-                <img ng-src="{% image.url %}" alt="{% image.name %}" ng-click="lightbox(image.url)"/>
             </div>
             <ul class="actions">
                 <li ng-if="ui.post.faved"><a ng-click="unfave(ui.post._id);">🌟</a><span class="faveCount" ng-if="ui.post.faveCount"> {% ui.post.faveCount %}</span></li>
