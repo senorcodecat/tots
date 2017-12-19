@@ -334,6 +334,10 @@ ul.posts {
     @include clearfix;
     position: relative;
 
+    &:first-child {
+        margin-top: 0;
+    }
+
     nav {
         ul {
             padding-top: 0.5rem;
@@ -453,6 +457,7 @@ ul.posts {
 .profile {
 
   padding-top: 2rem;
+  padding-bottom: 1rem;
 
   h1 { margin: 0; }
   text-align: center;

@@ -213,6 +213,8 @@ ul.posts {
     content: "";
     display: table;
     clear: both; }
+  .post:first-child {
+    margin-top: 0; }
   .post nav ul {
     padding-top: 0.5rem; }
     .post nav ul li {
@@ -284,6 +286,7 @@ ul.posts {
 
 .profile {
   padding-top: 2rem;
+  padding-bottom: 1rem;
   text-align: center; }
   .profile h1 {
     margin: 0; }
