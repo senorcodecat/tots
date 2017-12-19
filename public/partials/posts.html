@@ -21,6 +21,13 @@
                     <div class="image" ng-repeat="image in post.images">
                         <img ng-src="{% image.url %}" alt="{% image.name %}" ng-click="lightbox(image.url)" />
                     </div>
+                    <div ng-repeat="attachment in post.attachments" class="attached_link">
+                        <a class="thumbnail" ng-href="{% attachment.url %}" ng-if="attachment.thumbnail"><img ng-src="{% attachment.thumbnail %}"></a>
+                        <div class="summary">
+                            <a ng-href="{% attachment.url %}">{% attachment.title %}</a>
+                            <p ng-if="attachment.description">{% attachment.description %}</p>
+                        </div>
+                    </div>
                     <ul class="actions">
                         <li ng-if="post.faved"><a ng-click="unfave(post._id);">🌟<span class="faveCount" ng-if="post.faveCount"> {% post.faveCount %}</span></a></li>
                         <li ng-if="!post.faved"><a ng-click="fave(post._id);">⭐️<span class="faveCount" ng-if="post.faveCount"> {% post.faveCount %}</span></a></li>

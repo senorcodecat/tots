@@ -105,6 +105,7 @@ module.exports = function() {
           type: Date,
           default: null,
         },
+        attachments: [{}],
         deleted: {
             type: Boolean,
             default: false,
@@ -165,6 +166,7 @@ module.exports = function() {
             default: 0,
         },
         images: [{}],
+        attachments: [],
         date: {
             type: Date,
             default: Date.now

@@ -828,3 +828,30 @@ footer.pagination {
         height: 1rem;
     }
 }
+
+.attached_link {
+    display: flex;
+    background: #FFF;
+    border: 1px solid #CCC;
+    // margin-top: -1rem;
+    .thumbnail {
+        flex-grow: 0;
+        margin: 1rem;
+        display: block;
+        img {
+        max-width: 125px;
+        }
+    }
+    .summary {
+        margin: 1rem;
+        font-size: 0.8rem;
+
+        p {
+            margin-bottom: 0;
+        }
+    }
+
+    .thumbnail+.summary {
+        margin-left: 0;
+    }
+}

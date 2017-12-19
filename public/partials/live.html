@@ -59,6 +59,13 @@
                         <div class="image" ng-repeat="image in ui.post.images">
                             <img ng-src="{% image.url %}" alt="{% image.name %}" />
                         </div>
+                        <div ng-repeat="attachment in ui.post.attachments" class="attached_link">
+                            <a class="thumbnail" ng-href="{% attachment.url %}" ng-if="attachment.thumbnail"><img ng-src="{% attachment.thumbnail %}"></a>
+                            <div class="summary">
+                                <a ng-href="{% attachment.url %}">{% attachment.title %}</a>
+                                <p ng-if="attachment.description">{% attachment.description %}</p>
+                            </div>
+                        </div>
                         <ul class="actions">
                             <li ng-if="ui.post.faved"><a ng-click="unfave(ui.post._id);">🌟</a><span class="faveCount" ng-if="ui.post.faveCount"> {% ui.post.faveCount %}</span></li>
                             <li ng-if="!ui.post.faved"><a ng-click="fave(ui.post._id);">⭐️</a><span class="faveCount" ng-if="ui.post.faveCount"> {% ui.post.faveCount %}</span></li>
@@ -78,6 +85,13 @@
                         <div class="text" ng-bind-html="comment.rendered_text | renderPostText"></div>
                         <div class="image" ng-repeat="image in comment.images">
                             <img ng-src="{% image.url %}" alt="{% image.name %}" ng-click="lightbox(image.url)"/>
+                        </div>
+                        <div ng-repeat="attachment in comment.attachments" class="attached_link">
+                            <a class="thumbnail" ng-href="{% attachment.url %}" ng-if="attachment.thumbnail"><img ng-src="{% attachment.thumbnail %}"></a>
+                            <div class="summary">
+                                <a ng-href="{% attachment.url %}">{% attachment.title %}</a>
+                                <p ng-if="attachment.description">{% attachment.description %}</p>
+                            </div>
                         </div>
                     </div>
                 </li>

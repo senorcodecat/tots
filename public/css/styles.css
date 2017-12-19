@@ -540,4 +540,22 @@ footer.pagination .next {
     background: brown;
     height: 1rem; }
 
+.attached_link {
+  display: flex;
+  background: #FFF;
+  border: 1px solid #CCC; }
+  .attached_link .thumbnail {
+    flex-grow: 0;
+    margin: 1rem;
+    display: block; }
+    .attached_link .thumbnail img {
+      max-width: 125px; }
+  .attached_link .summary {
+    margin: 1rem;
+    font-size: 0.8rem; }
+    .attached_link .summary p {
+      margin-bottom: 0; }
+  .attached_link .thumbnail + .summary {
+    margin-left: 0; }
+
 /*# sourceMappingURL=styles.css.map */
