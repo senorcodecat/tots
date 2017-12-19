@@ -893,3 +893,7 @@ footer.pagination {
     }
 // }
 }
+
+.attached_link+.attached_link {
+    border-top:0;
+}

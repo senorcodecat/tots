@@ -582,4 +582,7 @@ footer.pagination .next {
   .attached_link .thumbnail + .summary {
     margin-left: 0.75rem; }
 
+.attached_link + .attached_link {
+  border-top: 0; }
+
 /*# sourceMappingURL=styles.css.map */
