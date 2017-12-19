@@ -19,7 +19,7 @@
                         updated <a ng-href="{% linkToPost(post) %}/revisions" class="date">{% post.updated | date : "MMM d, h:mm a" %}</a>
                     </div>
                     <div class="image" ng-repeat="image in post.images">
-                        <img ng-src="{% image.url %}" alt="{% image.name %}" ng-click="lightbox(image.url)" />
+                        <img ng-src="//d3u8hlyfcwmgkr.cloudfront.net/{% image.s3_key %}" alt="{% image.name %}" ng-click="lightbox('//d3u8hlyfcwmgkr.cloudfront.net/' + image.s3_key)" />
                     </div>
                     <div ng-repeat="attachment in post.attachments" class="attached_link">
                         <a class="thumbnail" ng-href="{% attachment.url %}" ng-if="attachment.thumbnail"><img ng-src="{% attachment.thumbnail %}"></a>
