@@ -19,6 +19,10 @@ a cute little social network
 
 # TODO
 
+* serve images out of cloudfront instead of directly from s3
+* resize images so camera uploads are not gigantor
+
+
 * handle failure to send message to socket
 * probably need to reload message history on reconnect or attempt some "since" sync
 * some amount of delay between marking a user offline
@@ -47,7 +51,6 @@ wss.clients.forEach(function each(client) {
    });
 
 * javascript upload profile image + square crop!
-* resize images so camera uploads are not gigantor
 * edit comments?
 * edit profile on mobile is super ugly
 * edit posts on mobile is EVEN UGLIER

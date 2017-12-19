@@ -1,3 +1,4 @@
+var jimp = require('jimp');
 var debug = require('debug')('tots:actions');
 var generateAttachments = require('./generateAttachments');
 var jo = require('jpeg-autorotate');
@@ -531,13 +532,32 @@ webserver.post('/actions/comment/:post', function(req, res) {
     }
 });
 
+function autoResize(file) {
+    return new Promise(function(resolve, reject) {
+        jimp.read(file).then(function(image) {
+            if (image.bitmap.width > 1000) {
+                image.resize(1000,jimp.AUTO).write(file, function(err) {
+                    resolve();
+                });
+            } else {
+                resolve();
+            }
+        }).catch(function(err){
+            console.error('FILE RESIZE ERR', err);
+            resolve()
+        });
+    });
+}
+
 function autoRotate(file, cb) {
 
     if (file.match(/\.jpg$/i) || file.match(/\.jpeg$/i)) {
         var options = {
             quality: 85,
         };
-        jo.rotate(file, options, function(error, buffer, orientation) {
+
+        autoResize(file).then(function() {
+            jo.rotate(file, options, function(error, buffer, orientation) {
             if (error) {
                 console.error('JPG ROTATE ERROR', error);
                 cb(null, file);
@@ -553,6 +573,7 @@ function autoRotate(file, cb) {
                 });
             }
         });
+          });
     } else {
         cb(null, file);
     }
