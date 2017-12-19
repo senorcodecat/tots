@@ -197,7 +197,8 @@ ul.posts {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  background: #FFF; }
+  background: #FFF;
+  overflow: hidden; }
   ul.posts li:after {
     content: "";
     display: table;
@@ -233,6 +234,8 @@ ul.posts {
     list-style-type: none;
     margin: 0;
     padding: 0; }
+    .post .actions a {
+      text-decoration: none; }
     .post .actions li {
       display: inline-block;
       margin: 0;
@@ -542,20 +545,41 @@ footer.pagination .next {
 
 .attached_link {
   display: flex;
+  align-items: center;
   background: #FFF;
   border: 1px solid #CCC; }
+  @media all and (min-width: 600px) {
+    .attached_link {
+      align-items: flex-start; } }
   .attached_link .thumbnail {
     flex-grow: 0;
-    margin: 1rem;
+    margin: 0.25rem;
     display: block; }
+    @media all and (min-width: 600px) {
+      .attached_link .thumbnail {
+        margin: 0.5rem; } }
     .attached_link .thumbnail img {
-      max-width: 125px; }
+      max-width: 85px; }
+      @media all and (min-width: 600px) {
+        .attached_link .thumbnail img {
+          max-width: 125px; } }
   .attached_link .summary {
-    margin: 1rem;
+    display: block;
+    margin: 0.25rem;
     font-size: 0.8rem; }
+    @media all and (min-width: 600px) {
+      .attached_link .summary {
+        margin: 0.5rem; } }
+    .attached_link .summary a {
+      font-weight: bold;
+      color: #333; }
     .attached_link .summary p {
-      margin-bottom: 0; }
+      display: none; }
+    @media all and (min-width: 600px) {
+      .attached_link .summary p {
+        margin: 0;
+        display: block; } }
   .attached_link .thumbnail + .summary {
-    margin-left: 0; }
+    margin-left: 0.75rem; }
 
 /*# sourceMappingURL=styles.css.map */

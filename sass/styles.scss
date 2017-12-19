@@ -319,6 +319,7 @@ ul.posts {
     margin: 0;
     padding: 0;
     background: #FFF;
+    overflow: hidden;
 
     li {
 
@@ -374,6 +375,10 @@ ul.posts {
         list-style-type: none;
         margin: 0;
         padding: 0;
+
+        a {
+            text-decoration: none;
+        }
 
         li {
             display: inline-block;
@@ -831,27 +836,60 @@ footer.pagination {
 
 .attached_link {
     display: flex;
+    align-items: center;
+    @media all and (min-width: 600px) {
+        align-items: flex-start;
+    }
+
     background: #FFF;
     border: 1px solid #CCC;
     // margin-top: -1rem;
     .thumbnail {
         flex-grow: 0;
-        margin: 1rem;
+        margin: 0.25rem;
+        @media all and (min-width: 600px) {
+            margin: 0.5rem;
+        }
+
         display: block;
         img {
-        max-width: 125px;
+            max-width: 85px;
+            @media all and (min-width: 600px) {
+                max-width: 125px;
+            }
         }
     }
-    .summary {
-        margin: 1rem;
-        font-size: 0.8rem;
 
-        p {
-            margin-bottom: 0;
+        .summary {
+            display: block;
+            margin: 0.25rem;
+
+            @media all and (min-width: 600px) {
+                margin: 0.5rem;
+            }
+
+            font-size: 0.8rem;
+
+            a {
+                font-weight: bold;
+                color: #333;
+            }
+
+            p {
+                display: none;
+            }
+
+            @media all and (min-width: 600px) {
+                p {
+                    margin: 0;
+                    display: block;
+                }
+            }
         }
-    }
+        // @media all and (min-width: 600px) {
 
     .thumbnail+.summary {
-        margin-left: 0;
+        margin-left: 0.75rem;
     }
+// }
 }
