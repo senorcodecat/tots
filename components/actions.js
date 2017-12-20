@@ -833,6 +833,15 @@ webserver.post('/actions/editprofile', function(req, res) {
             }
             req.user_profile.displayName = req.body.displayName;
             req.user_profile.bio = req.body.bio;
+
+            if (req.body.nightmode) {
+              req.user_profile.settings.nightmode = true;
+            } else {
+              req.user_profile.settings.nightmode = false;
+            }
+
+            req.user_profile.markModified('settings');
+
             req.user_profile.save();
 
             if (req.files && req.files.image) {

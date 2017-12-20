@@ -4,9 +4,43 @@
 html, body {
   font-size: 18px;
   font-family: 'ibm plex sans','helvetica',sans-serif;
-  background: #f0f0f0;
   padding: 0;
   margin: 0; }
+
+body {
+  background: #F0F0F0; }
+
+.nightmode {
+  background: #001d3e;
+  color: #FFF; }
+  .nightmode button, .nightmode a.button {
+    color: #FFF;
+    background-color: #00aeef; }
+  .nightmode .post_form,
+  .nightmode .sidebar,
+  .nightmode .loading,
+  .nightmode ul.posts,
+  .nightmode ul.notifications,
+  .nightmode .dialog,
+  .nightmode .post.detail_view,
+  .nightmode #header {
+    background-color: #003471; }
+  .nightmode .post.detail_view {
+    border: 1px solid #000; }
+  .nightmode ul.posts li {
+    border-top-color: #000; }
+  .nightmode ul.notifications li {
+    border-top-color: #000; }
+  .nightmode ul.replies {
+    background-color: #003471; }
+    .nightmode ul.replies li {
+      border-bottom: 1px solid #000; }
+  .nightmode .attached_link .summary a {
+    color: #00aeef; }
+  .nightmode a {
+    color: #00aeef; }
+  .nightmode nav ul li.active {
+    border-bottom: 2px solid #00aeef; }
 
 img {
   max-width: 100%; }
@@ -549,7 +583,6 @@ footer.pagination .next {
 .attached_link {
   display: flex;
   align-items: center;
-  background: #FFF;
   border: 1px solid #CCC; }
   @media all and (min-width: 600px) {
     .attached_link {

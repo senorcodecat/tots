@@ -77,7 +77,10 @@
     mixpanel.init("9202fdf1bacd8b67a8188dfeda471462");</script><!-- end Mixpanel -->
 
 </head>
-<body ng-app="tots" ng-controller="app">
+
+<body ng-app="tots" ng-controller="app" {{#if @user_profile.settings.nightmode}}class="nightmode"{{/if}}>
+
+
     <header id="header">
         <div class="wrapper">
             <nav ng-if="ui.history.length>1">

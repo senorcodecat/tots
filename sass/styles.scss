@@ -14,11 +14,66 @@ $color: brown;
 html, body {
     font-size: 18px;
     font-family: 'ibm plex sans','helvetica',sans-serif;
-    background: #f0f0f0;
     padding: 0;
     margin: 0;
 }
 
+body {
+  background: #F0F0F0;
+}
+
+.nightmode {
+  background: darken(#003471, 10%);
+  color: #FFF;
+
+  button, a.button {
+    color: #FFF;
+    background-color: #00aeef;
+  }
+
+  .post_form,
+  .sidebar,
+  .loading,
+  ul.posts,
+  ul.notifications,
+  .dialog,
+  .post.detail_view,
+  #header {
+    background-color: #003471;
+  }
+
+  .post.detail_view {
+    border: 1px solid #000;
+  }
+
+  ul.posts li {
+    border-top-color: #000;
+  }
+  ul.notifications li {
+    border-top-color: #000;
+  }
+
+  ul.replies {
+    background-color: #003471;
+
+    li {
+      border-bottom: 1px solid #000;
+    }
+  }
+
+  .attached_link .summary a {
+    color: #00aeef;
+  }
+
+  a {
+    color: #00aeef;
+  }
+
+  nav ul li.active {
+    border-bottom: 2px solid #00aeef;
+  }
+
+}
 
 img {
   max-width: 100%;
@@ -846,7 +901,7 @@ footer.pagination {
         align-items: flex-start;
     }
 
-    background: #FFF;
+    // background: #FFF;
     border: 1px solid #CCC;
     // margin-top: -1rem;
     .thumbnail {
