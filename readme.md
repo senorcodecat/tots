@@ -19,19 +19,8 @@ a cute little social network
 
 # TODO
 
-
-* handle failure to send message to socket
-* probably need to reload message history on reconnect or attempt some "since" sync
-* some amount of delay between marking a user offline
-
-* toggling live mode should not not make a revision
-* SOUNDS!!
-* display current post to left of chat on bigger screens?
-* display all live posts to left of chat on bigger screens?
-* when livemode ends, post a notification with a summary.
-    -> maybe needs to capture start and end?
-    -> Live chat lasted 20 minutes, during which 5 people left 12 replies
-
+<<<<<<< HEAD
+=======
 
 * invites / require invite to join?
   * get an invite code from settings
@@ -40,6 +29,20 @@ a cute little social network
   * validate invite code and set invitedby upon registration
   * reject signups without invite code
 
+>>>>>>> 42af841408e6ff5de891533ce24ba8f8c5d180a3
+
+-- LIVE STUFF
+* support for unfurls during live
+* handle failure to send message to socket
+* probably need to reload message history on reconnect or attempt some "since" sync
+* some amount of delay between marking a user offline
+* toggling live mode should not not make a revision
+* SOUNDS!!
+* display current post to left of chat on bigger screens?
+* display all live posts to left of chat on bigger screens?
+* when livemode ends, post a notification with a summary.
+    -> maybe needs to capture start and end?
+    -> Live chat lasted 20 minutes, during which 5 people left 12 replies
 * update chat to use the wss.clients array and some more condition handling
 wss.clients.forEach(function each(client) {
      if (client !== ws && client.readyState === WebSocket.OPEN) {
@@ -145,3 +148,6 @@ DONE:
 * receive photos over sms
 # LIVE MODE
 * header for roster
+
+* serve images out of cloudfront instead of directly from s3
+* resize images so camera uploads are not gigantor

@@ -162,6 +162,22 @@ app.controller('app', ['$scope', '$http', '$location', function($scope, $http, $
         // $scope.$apply();
     }
 
+    $scope.activateMenu = function() {
+        $scope.ui.menu_overlay = true;
+        setTimeout(function() {
+            $scope.ui.menu = true;
+            $scope.$apply();
+        },10);
+    }
+
+    $scope.deactivateMenu = function() {
+        $scope.ui.menu = false;
+        setTimeout(function() {
+            $scope.ui.menu_overlay = false;
+            $scope.$apply();
+        },300);
+    }
+
     $scope.randomGif = function() {
         var gifs = [
             '/img/doggy.gif',

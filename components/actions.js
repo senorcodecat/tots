@@ -393,7 +393,7 @@ webserver.post('/actions/post', function(req, res) {
 
                 if (req.files && req.files.image) {
                     debug('Got a file upload', req.files.image);
-                    acceptUpload(req.files.image, req.files.image.name, req.user_profile._id, function(err, s3_file) {
+                    acceptUpload(req.files.image, req.files.image.name, req.user_profile._id, false, function(err, s3_file) {
                         if (err) {
                             res.json({
                                 ok: false,
@@ -451,7 +451,7 @@ webserver.post('/actions/comment/:post', function(req, res) {
                         if (req.files && req.files.image) {
                             debug('Got a file upload', req.files.image);
                             console.log('posting a comment.', req.body)
-                            acceptUpload(req.files.image, req.files.image.name, req.user_profile._id, function(err, s3_file) {
+                            acceptUpload(req.files.image, req.files.image.name, req.user_profile._id, false, function(err, s3_file) {
                                 if (err) {
                                     res.json({
                                         ok: false,
@@ -532,10 +532,14 @@ webserver.post('/actions/comment/:post', function(req, res) {
     }
 });
 
-function autoResize(file) {
+function autoResize(file, is_avatar) {
     return new Promise(function(resolve, reject) {
         jimp.read(file).then(function(image) {
-            if (image.bitmap.width > 1000) {
+            if (is_avatar) {
+                image.cover(100,100,jimp.HORIZONTAL_ALIGN_CENTER | jimp.VERTICAL_ALIGN_MIDDLE).write(file, function(err) {
+                    resolve();
+                });
+            } else if (image.bitmap.width > 1000) {
                 image.resize(1000,jimp.AUTO).write(file, function(err) {
                     resolve();
                 });
@@ -549,14 +553,14 @@ function autoResize(file) {
     });
 }
 
-function autoRotate(file, cb) {
+function autoRotate(file, is_avatar, cb) {
 
     if (file.match(/\.jpg$/i) || file.match(/\.jpeg$/i)) {
         var options = {
             quality: 85,
         };
 
-        autoResize(file).then(function() {
+        autoResize(file, is_avatar).then(function() {
             jo.rotate(file, options, function(error, buffer, orientation) {
             if (error) {
                 console.error('JPG ROTATE ERROR', error);
@@ -580,7 +584,7 @@ function autoRotate(file, cb) {
 
 }
 
-function acceptUpload(file, filename, user_id, cb) {
+function acceptUpload(file, filename, user_id, is_avatar, cb) {
 
     var upload_path = '/tmp/' + user_id + '_' + filename;
     file.mv(upload_path, function(err) {
@@ -591,7 +595,7 @@ function acceptUpload(file, filename, user_id, cb) {
             res.redirect('/me');
 
         } else {
-            autoRotate(upload_path, function(err) {
+            autoRotate(upload_path, is_avatar, function(err) {
                 if (err) {
                     cb(err);
                 } else {
@@ -641,7 +645,7 @@ function acceptMMS(url, mime_type, user_id, cb) {
                     console.error('Error accepting MMS', err);
                     cb(err);
                 } else {
-                    autoRotate(upload_path, function(err) {
+                    autoRotate(upload_path, false, function(err) {
                         if (err) {
                             cb(err);
                         } else {
@@ -833,11 +837,20 @@ webserver.post('/actions/editprofile', function(req, res) {
             }
             req.user_profile.displayName = req.body.displayName;
             req.user_profile.bio = req.body.bio;
+
+            if (req.body.nightmode) {
+              req.user_profile.settings.nightmode = true;
+            } else {
+              req.user_profile.settings.nightmode = false;
+            }
+
+            req.user_profile.markModified('settings');
+
             req.user_profile.save();
 
             if (req.files && req.files.image) {
                 debug('Got a file upload', req.files.image);
-                acceptUpload(req.files.image, req.files.image.name, req.user_profile._id, function(err, s3_file) {
+                acceptUpload(req.files.image, req.files.image.name, req.user_profile._id, true, function(err, s3_file) {
                     if (err) {
                         res.json({
                             ok: false,

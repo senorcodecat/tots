@@ -77,7 +77,10 @@
     mixpanel.init("9202fdf1bacd8b67a8188dfeda471462");</script><!-- end Mixpanel -->
 
 </head>
-<body ng-app="tots" ng-controller="app">
+
+<body ng-app="tots" ng-controller="app" {{#if @user_profile.settings.nightmode}}class="nightmode"{{/if}}>
+
+
     <header id="header">
         <div class="wrapper">
             <nav ng-if="ui.history.length>1">
@@ -105,14 +108,17 @@
             <nav class="right" ng-if="!ui.history || ui.history.length<=1">
                 <ul>
                     <li class="big_screen_only"><form method="get" action="/search"><input type="search" name="query" placeholder="Search" /></form></li>
-                    {{#@loggedin}}<li class="menu">
-                        <a href="/me" target="_self">Me</a>
+                    {{#@loggedin}}
+                    <li ng-click="activateMenu()"><a href="#">Me</a></li>
+                    {{/@loggedin}}
+                    <!-- {{#@loggedin}}<li class="menu">
+                        <a href="#" target="_self">Me</a>
                         <ul>
                             <li><A href="/me" target="_self">My Profile</a></li>
                             <li><a href="/editprofile">Edit Profile</a></li>
                             <li><a href="/logout" target="_self">Logout</a></li>
                         </ul>
-                    </li>{{/@loggedin}}
+                    </li>{{/@loggedin}} -->
                     {{^@loggedin}}<li><a href="/login" target="_self">Login</a></li>{{/@loggedin}}
                 </ul>
             </nav>
@@ -124,9 +130,18 @@
         </div>
         {{{body}}}
     </div>
-    <div class="ng-class:{active: ui.overlay}; overlay" ng-click="ui.overlay=false">
+    <div class="ng-class:{active: ui.overlay};  overlay" ng-click="ui.overlay=false">
         <div class="lightbox" style="background-image: url('{% ui.lightbox_img %}')"></div>
     </div>
+
+    <div class="ng-class: {active: ui.menu_overlay}; light overlay" ng-click="deactivateMenu()">
+            <ul class="ng-class: {active: ui.menu}; menu">
+                <li><A href="/me" target="_self">My Profile</a></li>
+                <li><a href="/editprofile">Edit Profile</a></li>
+                <li><a href="/logout" target="_self">Logout</a></li>
+            </ul>
+    </div>
+
 
       <script type="text/ng-template" id="/people-mentions.tpl">
           <ul class="list-group user-search">

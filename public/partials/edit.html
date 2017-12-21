@@ -1,43 +1,25 @@
 <div ng-controller="editpost" class="wrapper">
-      <!-- <h1>OH YOU THINK YOU SHOULD BE ABLE TO EDIT YOUR POSTS DO YOU?</h1>
 
-      <h2>Yeah that's fine. We'll even track revision history for you.</h2> -->
+    <div class="panel post_form">
+        <h1>Edit Post</h1>
+        <form method="post" encType="multipart/form-data" ng-submit="saveEdit()">
+            <input type="hidden" name="_id" ng-value="ui.post._id" />
+            <div class="avatar" ng-if="ui.user.avatar_url">
+                <img ng-src="{% ui.user.avatar_url %}" class="avatar" />
+            </div>
+            <div class="composer">
+                <textarea name="text" ng-model="ui.post.editable_text" rows="1" msd-elastic mentio mentio-trigger-char="'@'" mentio-items="ui.people" mentio-search="searchPeople(term)" mentio-template-url="/people-mentions.tpl" mentio-typed-term="ui.selected_mention"></textarea>
+            </div>
+            <div class="actions">
 
-      <h2>Edit Post</h2>
-      <form method="post" encType="multipart/form-data"  class="post_form"  ng-submit="saveEdit()">
-        <input type="hidden" name="_id" ng-value="ui.post._id" />
-        <div class="composer">
-          <textarea
-            name="text"
-            ng-model="ui.post.editable_text"
+                <div class="upload-btn-wrapper">
+                    <label for="live"><input type="checkbox" id="live" ng-model="ui.post.live" /> Live Replies</label>
 
-            rows="1" msd-elastic
+                </div>
 
-            mentio
-            mentio-trigger-char="'@'"
-            mentio-items="ui.people"
-            mentio-search="searchPeople(term)"
-            mentio-template-url="/people-mentions.tpl"
-            mentio-typed-term="ui.selected_mention"
-
-            ></textarea>
-          <!-- <div class="img_preview" ng-if="ui.img_preview">
-              <img ng-src='{% ui.img_preview %}' ng-click="removeFile()"/>
-          </div> -->
-        </div>
-        <div class="actions">
-          <!-- <div class="upload-btn-wrapper" ng-show="!ui.file">
-            <label for="file" class="attachment">📷</label>
-            <input id="file" style="display: none;" ng-model="ui.file" ng-change="fileChange()" type="file" accept="image/*" name="image" />
-          </div> -->
-
-          <div class="upload-btn-wrapper">
-              <label for="live"><input type="checkbox" id="live" ng-model="ui.post.live" /> Live Replies</label>
-
-          </div>
-
-          <button type="submit" ng-disabled="!ui.post.editable_text">Update Post</button>
-        </div>
-      </form>
+                <button type="submit" ng-disabled="!ui.post.editable_text">Update Post</button>
+            </div>
+        </form>
+    </div>
 
 </div>

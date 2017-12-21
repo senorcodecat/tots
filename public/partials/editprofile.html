@@ -1,17 +1,17 @@
 <div class="wrapper" ng-controller="editprofile">
-    <div class="editprofile">
+    <div class="panel">
         <h1>Edit Profile</h1>
         <form method="post" action="/actions/editprofile" encType="multipart/form-data">
 
             <p>
-                <label>Username: (no spaces)</label> @
-                <input name="username" ng-model="ui.user.username" pattern="[\w]+" placeholder="slartibartfast" required/>
+                <label>Username: (no spaces)</label>
+                <input type="text" name="username" ng-model="ui.user.username" pattern="[\w]+" placeholder="slartibartfast" required/>
                 <!-- your profile: http://tots.cool/@{% ui.user.username %} -->
             </p>
 
             <p>
                 <label>Display Name:</label>
-                <input name="displayName" ng-model="ui.user.displayName" placeholder="U. Surname" required />
+                <input type="text" name="displayName" ng-model="ui.user.displayName" placeholder="U. Surname" required />
             </p>
 
             <p>
@@ -19,18 +19,24 @@
                 <textarea name="bio" ng-model="ui.user.bio"></textarea>
             </p>
 
-            <p>
-                <label>Avatar:</label>
-                <input type="file" name="image" />
-            </p>
+            <div class="avatar_control">
+                <img ng-src="{% ui.user.avatar_url %}" ng-if="ui.user.avatar_url" />
+
+                <p>
+                    <label>Upload Avatar:</label>
+                    <input type="file" name="image" />
+                </p>
+            </div>
+
+            <h2>Options</h2>
+
+            <p><label for="nightmode"><input type="checkbox" name="nightmode" value="true" ng-model="ui.user.settings.nightmode" id="nightmode"> Enable "Night Mode"</label></p>
 
             <button type="submit">Save</button>
         </form>
-
-
-
-
-        <h1>Add Phone Number</h1>
+    </div>
+    <div class="panel">
+        <h1>TXT with TOTS</h1>
 
         <form ng-submit="updatePhone()">
 
@@ -41,7 +47,7 @@
             <div ng-if="ui.user.phonenumber_verified==false">
                 <p>
                     <label>Phone Number:</label>
-                    <input ng-model="ui.user.phonenumber" pattern="\d\d\d\d\d\d\d\d\d\d">
+                    <input ng-model="ui.user.phonenumber" pattern="\d\d\d\d\d\d\d\d\d\d" maxlength="10" length="10">
                 </p>
 
                 <p ng-if="ui.verification_sent">
