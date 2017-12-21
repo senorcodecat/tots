@@ -1,73 +1,71 @@
-<div class="editprofile wrapper" ng-controller="editprofile">
-    <h1>Edit Profile</h1>
-    <form method="post" action="/actions/editprofile" encType="multipart/form-data">
+<div class="wrapper" ng-controller="editprofile">
+    <div class="editprofile">
+        <h1>Edit Profile</h1>
+        <form method="post" action="/actions/editprofile" encType="multipart/form-data">
 
-    <p>
-      <label>Username: (no spaces)</label>
-      @<input name="username" ng-model="ui.user.username" pattern="[\w]+" placeholder="slartibartfast" required/>
-      <!-- your profile: http://tots.cool/@{% ui.user.username %} -->
-    </p>
+            <p>
+                <label>Username: (no spaces)</label> @
+                <input name="username" ng-model="ui.user.username" pattern="[\w]+" placeholder="slartibartfast" required/>
+                <!-- your profile: http://tots.cool/@{% ui.user.username %} -->
+            </p>
 
-    <p>
-      <label>Display Name:</label>
-      <input name="displayName" ng-model="ui.user.displayName" placeholder="U. Surname" required />
-    </p>
+            <p>
+                <label>Display Name:</label>
+                <input name="displayName" ng-model="ui.user.displayName" placeholder="U. Surname" required />
+            </p>
 
-    <p>
-      <label>Bio:</label>
-      <textarea name="bio" ng-model="ui.user.bio"></textarea>
-    </p>
+            <p>
+                <label>Bio:</label>
+                <textarea name="bio" ng-model="ui.user.bio"></textarea>
+            </p>
 
-    <p>
-      <label>Avatar:</label>
-      <input type="file" name="image" />
-    </p>
+            <p>
+                <label>Avatar:</label>
+                <input type="file" name="image" />
+            </p>
 
-    <button type="submit">Save</button>
-    </form>
-
-
-
-
-    <h1>Add Phone Number</h1>
-
-    <form ng-submit="updatePhone()">
-
-      <p>
-        If you add a phone number to your account, you can post by texting!
-        You can also receive some special alerts.
-      </p>
-
-      <div ng-if="ui.user.phonenumber_verified==false">
-        <p>
-          <label>Phone Number:</label>
-          <input ng-model="ui.user.phonenumber" pattern="\d\d\d\d\d\d\d\d\d\d">
-        </p>
-
-        <p ng-if="ui.verification_sent">
-          <label>Enter the verification code we sent</label>
-          <input ng-model="ui.verification_test">
-        </p>
-
-        <button type="submit">Add Phone Number</button>
-      </div>
-      <div ng-if="ui.user.phonenumber_verified==true">
-        <p>
-          <label>Phone Number:</label>
-          <input ng-model="ui.user.phonenumber" readonly>
-        </p>
-        <button ng-click="ui.user.phonenumber_verified=false;">Change Number</button>
-
-        <h2>SMS Notifications</h2>
-
-        <p>
-          <label for="friends_live"><input type="checkbox" ng-click="updateNotification('friends_live', ui.user.notifications.friends_live)" ng-model="ui.user.notifications.friends_live" id="friends_live"> Txt me when a friend starts a live chat</label>
-        </p>
-
-      </div>
+            <button type="submit">Save</button>
+        </form>
 
 
-    </form>
 
+
+        <h1>Add Phone Number</h1>
+
+        <form ng-submit="updatePhone()">
+
+            <p>
+                If you add a phone number to your account, you can post by texting! You can also receive some special alerts.
+            </p>
+
+            <div ng-if="ui.user.phonenumber_verified==false">
+                <p>
+                    <label>Phone Number:</label>
+                    <input ng-model="ui.user.phonenumber" pattern="\d\d\d\d\d\d\d\d\d\d">
+                </p>
+
+                <p ng-if="ui.verification_sent">
+                    <label>Enter the verification code we sent</label>
+                    <input ng-model="ui.verification_test">
+                </p>
+
+                <button type="submit">Add Phone Number</button>
+            </div>
+            <div ng-if="ui.user.phonenumber_verified==true">
+                <p>
+                    <label>Phone Number:</label>
+                    <input ng-model="ui.user.phonenumber" readonly>
+                </p>
+                <button ng-click="ui.user.phonenumber_verified=false;">Change Number</button>
+
+                <h2>SMS Notifications</h2>
+
+                <p>
+                    <label for="friends_live"><input type="checkbox" ng-click="updateNotification('friends_live', ui.user.notifications.friends_live)" ng-model="ui.user.notifications.friends_live" id="friends_live"> Txt me when a friend starts a live chat</label>
+                </p>
+
+            </div>
+        </form>
+    </div>
 
 </div>

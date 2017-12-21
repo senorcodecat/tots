@@ -19,9 +19,6 @@ a cute little social network
 
 # TODO
 
-* serve images out of cloudfront instead of directly from s3
-* resize images so camera uploads are not gigantor
-
 
 * handle failure to send message to socket
 * probably need to reload message history on reconnect or attempt some "since" sync
@@ -124,6 +121,9 @@ DONE:
 * livemode should auto-close after a few hours
 * zoom in on images
 * images in comments
+
+* serve images out of cloudfront instead of directly from s3
+* resize images so camera uploads are not gigantor
 
 # SMS BOT
     TEXT TOTS: (347) 273-8687
