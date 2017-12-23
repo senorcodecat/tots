@@ -7,7 +7,7 @@ module.exports = function(webserver, db, botkit) {
             res.redirect('/login');
         } else if (req.user_profile) {
             // is already fully logged in
-            res.redirect('/me');
+            res.redirect('/feed');
         } else {
             res.render('signup', {
               layout: 'layouts/anon',

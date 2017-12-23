@@ -510,6 +510,15 @@ ul.posts {
     padding-top: 2rem;
     padding-bottom: 1rem;
 
+    .avatar {
+        width: 100px;
+        height: 100px;
+        margin: 0px auto 1rem;
+        img {
+            border-radius: 50%;
+        }
+    }
+
     h1 {
         margin: 0;
     }

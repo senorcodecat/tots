@@ -1,6 +1,10 @@
 <div ng-controller="profile" class="wrapper">
 
   <div class="profile">
+      <div class="avatar" ng-if="ui.profile.avatar_url">
+          <img ng-src="{% ui.profile.avatar_url %}" />
+      </div>
+
   <h1>{% ui.profile.displayName %}</h1>
 
   <nav>
