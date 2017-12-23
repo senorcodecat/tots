@@ -182,7 +182,7 @@ module.exports = function(db) {
         failureRedirect: '/'
       }),
       function(req, res) {
-        res.redirect(req.session.returnTo || '/me');
+        res.redirect(req.session.returnTo || '/feed');
       }
     );
 
