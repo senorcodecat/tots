@@ -116,6 +116,31 @@ module.exports = function(webserver, db, botkit) {
                       user.invitedBy = invite.user;
                       user.save();
 
+                      // Send follow in both directions, and send notifications.
+                      var follow = new db.follow();
+                      follow.user = user._id;
+                      follow.following = invite.user;
+                      follow.save();
+
+                      var notification = new db.notifications();
+                      notification.user = invite.user;
+                      notification.actor = user._id;
+                      notification.type = 'follow';
+                      notification.text = '<@' + user._id + '> accepted your invite! You are now connected.';
+                      notification.save();
+
+                      var follow = new db.follow();
+                      follow.user = invite.user;
+                      follow.following = user._id;
+                      follow.save();
+
+                      var notification = new db.notifications();
+                      notification.user = user._id;
+                      notification.actor = invite.user;
+                      notification.type = 'follow';
+                      notification.text = '<@' + invite.user + '> invited you to join! You are now connected.';
+                      notification.save();
+
                       db.markInviteUsed(invite);
 
                       if (req.files && req.files.image) {
