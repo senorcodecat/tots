@@ -1037,3 +1037,15 @@ footer.pagination {
 .attached_link+.attached_link {
     border-top: 0;
 }
+
+.copypaste {
+    width: 100%;
+    display: flex;
+    button {
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+    input {
+        flex-grow: 1;
+    }
+}

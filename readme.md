@@ -19,17 +19,9 @@ a cute little social network
 
 # TODO
 
-<<<<<<< HEAD
-=======
+* last read marker especially in notifications
+* blocking
 
-* invites / require invite to join?
-  * get an invite code from settings
-  * leads to an invite page that says like "Hey @benbrown wants you to join tots click here"
-  * login/create/set invite code
-  * validate invite code and set invitedby upon registration
-  * reject signups without invite code
-
->>>>>>> 42af841408e6ff5de891533ce24ba8f8c5d180a3
 
 -- LIVE STUFF
 * support for unfurls during live
@@ -50,17 +42,14 @@ wss.clients.forEach(function each(client) {
      }
    });
 
-* javascript upload profile image + square crop!
 * edit comments?
-* edit profile on mobile is super ugly
-* edit posts on mobile is EVEN UGLIER
 * empty state for profile
 * empty state for search
 * square crop avatar images
 * remove pics from post
 * change pics on post
-* last read marker
 * capture / upload profile images on signup
+* last read marker
 * blocking
 * reporting
 * prevent abuse of SMS verification
@@ -151,3 +140,6 @@ DONE:
 
 * serve images out of cloudfront instead of directly from s3
 * resize images so camera uploads are not gigantor
+* javascript upload profile image + square crop!
+* edit profile on mobile is super ugly
+* edit posts on mobile is EVEN UGLIER

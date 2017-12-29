@@ -34,6 +34,9 @@ app.config(function($interpolateProvider) {
         .when('/@:username/tots/:post_id/revisions', {
             templateUrl: 'partials/revisions.html',
         })
+        .when('/@:username/invite/:code', {
+            templateUrl: 'partials/invite.html',
+        })
         .when('/@:username/followers', {
             templateUrl: 'partials/followers.html',
         })
@@ -72,6 +75,9 @@ app.config(function($interpolateProvider) {
         })
         .when('/editprofile', {
             templateUrl: 'partials/editprofile.html',
+        })
+        .when('/invite', {
+            templateUrl: 'partials/invites.html',
         })
         .otherwise('/feed');
 
@@ -153,6 +159,12 @@ app.controller('app', ['$scope', '$http', '$location', function($scope, $http, $
             url = url + '/live';
         }
         return url;
+    }
+
+    $scope.clipboard = function(element) {
+        var copyText = document.getElementById(element);
+        copyText.select();
+        document.execCommand("Copy");
     }
 
     $scope.lightbox = function(url) {
@@ -246,6 +258,24 @@ app.controller('app', ['$scope', '$http', '$location', function($scope, $http, $
 
     }
 
+
+    $scope.callAPI = function(url, method, options) {
+
+        return new Promise(function(resolve, reject) {
+            if (method=='GET') {
+                url = url + "?" + options.join("&");
+            }
+            console.log('FETCH DATA', url);
+            $http({method: method, url: url}).then(function(res) {
+                if (res.data.ok) {
+                    resolve(res.data.data);
+                } else {
+                    reject('bad response');
+                }
+            });
+        });
+
+    }
     $scope.fave = function(post_id) {
 
         mixpanel.track("Add Fave");
@@ -1027,6 +1057,53 @@ app.controller('editprofile', ['$scope', '$routeParams', '$http', function($scop
         });
 
     }
+
+}]);
+
+app.controller('invite', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
+
+    mixpanel.track("View Invite");
+    $scope.params = $routeParams;
+
+    $scope.callAPI('/get/invite', 'GET', ['code=' + $scope.params.code, 'username=' + $scope.params.username]).then(function(profile) {
+        $scope.ui.profile = profile;
+        $scope.$apply();
+    }).catch(function(err) {
+        $scope.ui.error = err;
+        $scope.$apply();
+    });
+
+}]);
+
+
+app.controller('invites', ['$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
+
+    mixpanel.track("Get Invite");
+
+    $scope.callAPI('/me/invitees','GET',[]).then(function(people) {
+        console.log('GOT INVITEES', people);
+        $scope.ui.people = people;
+        $scope.$apply();
+    });
+
+    $scope.callAPI('/me/invite','GET',[]).then(function(invites) {
+        console.log('VALID INVITES', invites);
+        if (invites.length) {
+            $scope.ui.invite = invites[0];
+            $scope.ui.invite.usesLeft = $scope.ui.invite.validFor - $scope.ui.invite.timesUsed;
+            $scope.$apply();
+        }
+    });
+
+    $scope.generateInvite = function() {
+        $scope.callAPI('/me/invite','POST',[]).then(function(invite) {
+            console.log('INVITE', invite);
+            $scope.ui.invite = invite;
+            $scope.ui.invite.usesLeft = $scope.ui.invite.validFor - $scope.ui.invite.timesUsed;
+            $scope.$apply();
+        });
+    }
+
 
 }]);
 

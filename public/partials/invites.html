@@ -1,0 +1,70 @@
+<div class="wrapper" ng-controller="invites">
+    <div class="panel">
+        <h1>Invite a Friend</h1>
+
+        <div ng-if="ui.invite && ui.invite.usesLeft > 0">
+            <p>
+                You can invite people to tots.cool by sending them
+                your personal invite link.
+            </p>
+
+            <div class="copypaste">
+            <input ng-value="'http://tots.cool/@' + ui.user.username + '/invite/' + ui.invite.code" id="copypaste" readonly />
+            <button ng-click="clipboard('copypaste')">Copy</button>
+            </div>
+
+            <p>
+                This invite link can be used <strong>{% ui.invite.usesLeft %} more time<span ng-if="ui.invite.usesLeft > 1">s</span></strong>.
+            </p>
+
+            <p>
+                Everyone you invite will be permanently affiliated
+                with your account. Only invite people you share to
+                spend your internet time with!
+            </p>
+
+        </div>
+        <div ng-if="ui.invite && ui.invite.usesLeft == 0">
+
+            <p>
+                All the juice in your current invite link has been used up,
+                and <strong>{% ui.invite.timesUsed %} new people</strong> have
+                joined Tots.cool thanks to you.
+            </p>
+
+            <p>
+                To invite more people, you'll need to generate
+                a new invite link using the button below.
+            </p>
+
+            <button ng-click="generateInvite()">Generate New Invite Link</button>
+
+        </div>
+        <div ng-if="!ui.invite">
+            <p>
+                You can invite people to tots.cool by sending them
+                your personal invite link.
+            </p>
+
+            <p>
+                Each link can be used to invite 10 new people.
+                After that, you will need to generate a new link.
+            </p>
+
+            <p>
+                Everyone you invite will be permanently affiliated
+                with your account. Only invite people you share to
+                spend your internet time with!
+            </p>
+
+            <button ng-click="generateInvite()">Generate My Invite Link</button>
+        </div>
+
+
+    </div>
+
+    <div class="panel">
+        <h2>People You Invited</h2>
+
+    </div>
+</div>

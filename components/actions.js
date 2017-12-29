@@ -691,6 +691,7 @@ function generateCode() {
 
 }
 
+db.generateCode = generateCode;
 
 webserver.post('/actions/addphone', function(req, res) {
 

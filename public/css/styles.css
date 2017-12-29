@@ -682,4 +682,13 @@ footer.pagination .next {
 .attached_link + .attached_link {
   border-top: 0; }
 
+.copypaste {
+  width: 100%;
+  display: flex; }
+  .copypaste button {
+    flex-grow: 0;
+    flex-shrink: 0; }
+  .copypaste input {
+    flex-grow: 1; }
+
 /*# sourceMappingURL=styles.css.map */

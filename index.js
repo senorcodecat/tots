@@ -54,6 +54,11 @@ app.get('/@:username/faves/:page?', function(req, res, next) {
     layout: 'layouts/default',
   });
 });
+app.get('/@:username/invite/:code?', function(req, res, next) {
+  res.render('home', {
+    layout: 'layouts/default',
+  });
+});
 app.get('/@:username/tots/:post?', function(req, res, next) {
     db.posts.findOne({_id: req.params.post}).populate('user').populate({path: 'replyTo', populate: { path: 'user'}}).exec(function(err, post) {
       res.render('home', {
@@ -101,3 +106,14 @@ app.get('/editprofile', function(req, res, next) {
     }
 });
 
+
+// Get the user profile
+app.get('/invite', function(req, res, next) {
+    if (!req.user) {
+        return res.redirect('/login');
+    } else {
+      res.render('home', {
+        layout: 'layouts/default',
+      });
+    }
+});

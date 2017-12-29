@@ -140,6 +140,18 @@ module.exports = function() {
         date: {
             type: Date,
             default: Date.now
+        },
+        validFor: {
+            type: Number,
+            default: 10,
+        },
+        timesUsed: {
+            type: Number,
+            default: 0,
+        },
+        valid: {
+            type: Boolean,
+            default: true,
         }
     });
 

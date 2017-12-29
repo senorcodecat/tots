@@ -1,0 +1,39 @@
+<div class="wrapper" ng-controller="invite">
+    <div class="panel" ng-if="ui.profile">
+
+          <div class="profile">
+              <div class="avatar" ng-if="ui.profile.avatar_url">
+                  <img ng-src="{% ui.profile.avatar_url %}" />
+              </div>
+
+              <p>
+                  <strong>{% ui.profile.displayName %}</strong>
+                  wants YOU on Tots.cool!
+              </p>
+
+              <button>🎁 Accept Invite</button>
+
+        </div>
+
+    </div>
+    <div class="panel" ng-if="ui.error">
+        <h1>(╯°□°)╯︵ ┻━┻</h1>
+        <p>Looks like this invite link expired.</p>
+    </div>
+
+    <div class="panel">
+        <h1>What is Tots?</h1>
+
+        <ul>
+            <li>A fun place to put your 💬 and 📷</li>
+            <li>Follow 😎 and ⭐️ things</li>
+            <li>💯 Your feed is only stuff from people you follow</li>
+            <li>Live chat, if you want!</li>
+            <li>🚫 No Nazis!</li>
+            <li>✅ Edit your posts like a grownup</li>
+        </ul>
+
+    </div>
+
+
+</div>
