@@ -910,12 +910,6 @@ footer.pagination {
     }
 
     .signup {
-        background: #FFF;
-        padding: 1rem;
-
-        h1 {
-            margin: 0;
-        }
 
         .avatar {
             width: 50px;
@@ -1048,4 +1042,9 @@ footer.pagination {
     input {
         flex-grow: 1;
     }
+}
+
+.invited_by {
+  padding: 1rem;
+  background: #FFFFCC;
 }

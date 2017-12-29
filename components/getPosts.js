@@ -368,7 +368,10 @@ module.exports = function(webserver, db) {
                     if (invite) {
                         res.json({
                             ok: true,
-                            data: profile,
+                            data: {
+                              profile: profile,
+                              invite_id: invite._id
+                            }
                         });
                     } else {
                         res.json({
@@ -450,6 +453,21 @@ module.exports = function(webserver, db) {
             })
         }
     });
+
+    db.markInviteUsed = function(invite) {
+
+      invite.timesUsed++;
+
+      if (invite.timesUsed >= invite.validFor) {
+        invite.valid = false;
+
+        // TODO: send notification to user that invite is no longer valid.
+
+      }
+
+      invite.save();
+
+    }
 
 
     webserver.get('/user/followers', function(req, res) {

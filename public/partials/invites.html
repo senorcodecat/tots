@@ -63,8 +63,13 @@
 
     </div>
 
-    <div class="panel">
+    <div class="panel" ng-if="ui.people.length">
         <h2>People You Invited</h2>
 
+        <ul class="people">
+          <li ng-repeat="person in ui.people">
+            <a ng-href="/@{% person.username %}">{% person.displayName %}</a>
+          </li>
+        </ul>
     </div>
 </div>

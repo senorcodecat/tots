@@ -1,4 +1,4 @@
-var app = angular.module('signup', ['angular-file-input', 'monospaced.elastic']);
+var app = angular.module('signup', ['ngFileUpload', 'monospaced.elastic']);
 //'monospaced.elastic'
 
 

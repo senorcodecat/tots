@@ -1065,13 +1065,23 @@ app.controller('invite', ['$scope', '$routeParams', '$http', function($scope, $r
     mixpanel.track("View Invite");
     $scope.params = $routeParams;
 
-    $scope.callAPI('/get/invite', 'GET', ['code=' + $scope.params.code, 'username=' + $scope.params.username]).then(function(profile) {
-        $scope.ui.profile = profile;
+    $scope.callAPI('/get/invite', 'GET', ['code=' + $scope.params.code, 'username=' + $scope.params.username]).then(function(data) {
+        $scope.ui.profile = data.profile;
+        $scope.ui.invite_id = data.invite_id;
         $scope.$apply();
     }).catch(function(err) {
         $scope.ui.error = err;
         $scope.$apply();
     });
+
+
+    $scope.acceptInvite = function() {
+
+      setCookie('accept_invite', $scope.ui.invite_id, 1);
+      window.location = '/login';
+
+    }
+
 
 }]);
 
@@ -1285,3 +1295,11 @@ app.controller('postForm', ['$scope', '$http', 'Upload', function($scope, $http,
     // }
 
 }]);
+
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}

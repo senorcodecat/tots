@@ -599,36 +599,31 @@ footer.pagination .next {
   background: #FFF; }
   .anon nav ul {
     font-weight: bold; }
-  .anon .signup {
-    background: #FFF;
-    padding: 1rem; }
-    .anon .signup h1 {
-      margin: 0; }
-    .anon .signup .avatar {
-      width: 50px;
-      height: 50px;
-      display: block; }
-    .anon .signup label {
-      display: block;
-      font-weight: bold; }
-    .anon .signup .checkbox label {
-      font-weight: normal; }
-    .anon .signup p input[type=text],
-    .anon .signup p textarea {
-      font-size: 1.2rem;
-      width: 100%;
-      padding: 0.25em;
-      border: 1px solid brown; }
-    .anon .signup p textarea {
-      width: 100%; }
-    .anon .signup p .tip {
-      display: block;
-      font-size: 0.8rem; }
-    .anon .signup p.checkbox {
-      padding-left: 2rem; }
-      .anon .signup p.checkbox input {
-        width: auto;
-        margin-left: -1.5rem; }
+  .anon .signup .avatar {
+    width: 50px;
+    height: 50px;
+    display: block; }
+  .anon .signup label {
+    display: block;
+    font-weight: bold; }
+  .anon .signup .checkbox label {
+    font-weight: normal; }
+  .anon .signup p input[type=text],
+  .anon .signup p textarea {
+    font-size: 1.2rem;
+    width: 100%;
+    padding: 0.25em;
+    border: 1px solid brown; }
+  .anon .signup p textarea {
+    width: 100%; }
+  .anon .signup p .tip {
+    display: block;
+    font-size: 0.8rem; }
+  .anon .signup p.checkbox {
+    padding-left: 2rem; }
+    .anon .signup p.checkbox input {
+      width: auto;
+      margin-left: -1.5rem; }
 
 .dangerbox {
   margin-top: 2rem;
@@ -690,5 +685,9 @@ footer.pagination .next {
     flex-shrink: 0; }
   .copypaste input {
     flex-grow: 1; }
+
+.invited_by {
+  padding: 1rem;
+  background: #FFFFCC; }
 
 /*# sourceMappingURL=styles.css.map */
