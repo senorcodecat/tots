@@ -94,14 +94,55 @@ app.filter('striptags', ['$sce', function($sce) {
     }
 }]);
 
+
+
 app.filter('renderPostText', ['$sce', function($sce) {
+
+    function shortUrl(url, l) {
+        var l = typeof(l) != "undefined" ? l : 50;
+        var chunk_l = (l / 2);
+        var url = url.replace("http://", "").replace("https://", "");
+
+        if (url.length <= l) {
+            return url;
+        }
+
+        var start_chunk = shortString(url, chunk_l, false);
+        var end_chunk = shortString(url, chunk_l, true);
+        return start_chunk + ".." + end_chunk;
+    }
+
+    function shortString(s, l, reverse) {
+        var stop_chars = [' ', '/', '&'];
+        var acceptable_shortness = l * 0.80; // When to start looking for stop characters
+        var reverse = typeof(reverse) != "undefined" ? reverse : false;
+        var s = reverse ? s.split("").reverse().join("") : s;
+        var short_s = "";
+
+        for (var i = 0; i < l - 1; i++) {
+            short_s += s[i];
+            if (i >= acceptable_shortness && stop_chars.indexOf(s[i]) >= 0) {
+                break;
+            }
+        }
+        if (reverse) {
+            return short_s.split("").reverse().join("");
+        }
+        return short_s;
+    }
+
     return function(text) {
         if (text) {
 
 
             //            text = text.replace(/(^|\W)\#(\w+)(\W|$)/img, '$1<a href="/search?query=%23$2">#$2</a>$3');
 
-            text = text.replace(/((http|https)\:\/\/(.*?))(\s|$)/img, '<a href="$1" target="_blank">$1</a>$4');
+            // text = text.replace(/((http|https)\:\/\/(.*?))(\s|$)/img, '<a href="$1" target="_blank">' + shortUrl($1) + '</a>$4');
+            text = text.replace(/((http|https)\:\/\/(.*?))(\s|$)/img, function(match, contents, offset, input_string) {
+                console.log('match',match, 'contents',contents);
+                return '<a href="' + match + '" target="_blank" title="' + match + '" class="url">' + shortUrl(match) + '</a>';
+            //'<a href="$1" target="_blank">' + shortUrl($1) + '</a>$4'
+            });
 
             text = text.replace(/#(\w+)/img, '<a href="/search?query=%23$1">#$1</a>');
 
@@ -179,7 +220,7 @@ app.controller('app', ['$scope', '$http', '$location', function($scope, $http, $
         setTimeout(function() {
             $scope.ui.menu = true;
             $scope.$apply();
-        },10);
+        }, 10);
     }
 
     $scope.deactivateMenu = function() {
@@ -187,7 +228,7 @@ app.controller('app', ['$scope', '$http', '$location', function($scope, $http, $
         setTimeout(function() {
             $scope.ui.menu_overlay = false;
             $scope.$apply();
-        },300);
+        }, 300);
     }
 
     $scope.randomGif = function() {
@@ -262,11 +303,14 @@ app.controller('app', ['$scope', '$http', '$location', function($scope, $http, $
     $scope.callAPI = function(url, method, options) {
 
         return new Promise(function(resolve, reject) {
-            if (method=='GET') {
+            if (method == 'GET') {
                 url = url + "?" + options.join("&");
             }
             console.log('FETCH DATA', url);
-            $http({method: method, url: url}).then(function(res) {
+            $http({
+                method: method,
+                url: url
+            }).then(function(res) {
                 if (res.data.ok) {
                     resolve(res.data.data);
                 } else {
@@ -1077,8 +1121,8 @@ app.controller('invite', ['$scope', '$routeParams', '$http', function($scope, $r
 
     $scope.acceptInvite = function() {
 
-      setCookie('accept_invite', $scope.ui.invite_id, 1);
-      window.location = '/login';
+        setCookie('accept_invite', $scope.ui.invite_id, 1);
+        window.location = '/login';
 
     }
 
@@ -1090,13 +1134,13 @@ app.controller('invites', ['$scope', '$routeParams', '$http', function($scope, $
 
     mixpanel.track("Get Invite");
 
-    $scope.callAPI('/me/invitees','GET',[]).then(function(people) {
+    $scope.callAPI('/me/invitees', 'GET', []).then(function(people) {
         console.log('GOT INVITEES', people);
         $scope.ui.people = people;
         $scope.$apply();
     });
 
-    $scope.callAPI('/me/invite','GET',[]).then(function(invites) {
+    $scope.callAPI('/me/invite', 'GET', []).then(function(invites) {
         console.log('VALID INVITES', invites);
         if (invites.length) {
             $scope.ui.invite = invites[0];
@@ -1106,7 +1150,7 @@ app.controller('invites', ['$scope', '$routeParams', '$http', function($scope, $
     });
 
     $scope.generateInvite = function() {
-        $scope.callAPI('/me/invite','POST',[]).then(function(invite) {
+        $scope.callAPI('/me/invite', 'POST', []).then(function(invite) {
             console.log('INVITE', invite);
             $scope.ui.invite = invite;
             $scope.ui.invite.usesLeft = $scope.ui.invite.validFor - $scope.ui.invite.timesUsed;
@@ -1245,7 +1289,7 @@ app.controller('postForm', ['$scope', '$http', 'Upload', function($scope, $http,
                 });
             } else {
 
-                $http.post('/actions/post',$scope.tot).then(function(response) {
+                $http.post('/actions/post', $scope.tot).then(function(response) {
                     console.log('SUCCESSFULLY UPLOADED', response);
                     if (response.data.ok) {
                         // reset form
@@ -1299,7 +1343,7 @@ app.controller('postForm', ['$scope', '$http', 'Upload', function($scope, $http,
 
 function setCookie(cname, cvalue, exdays) {
     var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+ d.toUTCString();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }

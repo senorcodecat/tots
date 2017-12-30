@@ -1,33 +1,38 @@
 <div ng-controller="profile" class="wrapper">
 
-  <div class="profile">
-      <div class="avatar" ng-if="ui.profile.avatar_url">
-          <img ng-src="{% ui.profile.avatar_url %}" />
-      </div>
+    <div class="profile">
+        <div class="avatar" ng-if="ui.profile.avatar_url">
+            <img ng-src="{% ui.profile.avatar_url %}" />
+        </div>
 
-  <h1>{% ui.profile.displayName %}</h1>
+        <h1>{% ui.profile.displayName %}</h1>
+        <p class="invitedBy" ng-if="ui.profile.invitedBy">
+            (Invited by <a ng-href="/@{% ui.profile.invitedBy.username %}">{% ui.profile.invitedBy.displayName %}</a>)
+        </p>
 
-  <nav>
-    <ul>
-      <li><a ng-href="/@{% ui.profile.username %}/faves">Faves</a></li>
-      <li><a ng-href="/@{% ui.profile.username %}/following">Following</a></li>
-      <li><a ng-href="/@{% ui.profile.username %}/followers">Followers</a></li>
-    </ul>
-  </nav>
+        <nav>
+            <ul>
+                <li><a ng-href="/@{% ui.profile.username %}/faves">Faves</a></li>
+                <li><a ng-href="/@{% ui.profile.username %}/following">Following</a></li>
+                <li><a ng-href="/@{% ui.profile.username %}/followers">Followers</a></li>
+            </ul>
+        </nav>
 
 
-      <a ng-click="follow(ui.profile._id)" class="button" ng-if="!ui.following">Follow</a>
-      <a ng-click="unfollow(ui.profile._id)"  class="button" ng-if="ui.following">Unfollow</a>
-      <span ng-if="ui.followback">
+        <a ng-click="follow(ui.profile._id)" class="button" ng-if="!ui.following">Follow</a>
+        <a ng-click="unfollow(ui.profile._id)" class="button" ng-if="ui.following">Unfollow</a>
+        <span ng-if="ui.followback">
         Follows you
       </span>
-  </div>
 
-  <div  ng-include="'/partials/posts.html'"></div>
 
-  <footer class="pagination" ng-if="ui.loaded">
-    <a ng-if="ui.previous" class="previous" ng-href="/@{% ui.profile.username %}/{% ui.previous %}">PREVIOUS PAGE</a>
-    <a ng-if="ui.next" class="next" ng-href="/@{% ui.profile.username %}/{% ui.next %}">NEXT PAGE</a>
-  </footer>
+    </div>
+
+    <div ng-include="'/partials/posts.html'"></div>
+
+    <footer class="pagination" ng-if="ui.loaded">
+        <a ng-if="ui.previous" class="previous" ng-href="/@{% ui.profile.username %}/{% ui.previous %}">PREVIOUS PAGE</a>
+        <a ng-if="ui.next" class="next" ng-href="/@{% ui.profile.username %}/{% ui.next %}">NEXT PAGE</a>
+    </footer>
 
 </div>

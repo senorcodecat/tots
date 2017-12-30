@@ -1,0 +1,11 @@
+<ul class="people_list">
+    <li ng-repeat="person in ui.people" class="person">
+        <div class="avatar">
+            <a ng-href="/@{% person.username %}" ng-if="person.avatar_url"><img ng-src="{% person.avatar_url %}" /></a>
+        </div>
+        <div class="content">
+            <a ng-href="/@{% person.username %}" class="username">{% person.displayName %}</a>
+            <p class="bio" ng-if="person.bio">{% person.bio %}</p>
+        </div>
+    </li>
+</ul>

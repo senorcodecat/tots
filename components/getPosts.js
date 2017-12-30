@@ -441,7 +441,7 @@ module.exports = function(webserver, db) {
         if (req.user_profile) {
             db.users.find({
                 invitedBy: req.user_profile._id
-            }).exec(function(err, people) {
+            }).sort({created: -1}).exec(function(err, people) {
                 res.json({
                     ok: true,
                     data: people,
@@ -572,7 +572,7 @@ module.exports = function(webserver, db) {
         var skip = (page - 1) * limit;
         db.users.findOne({
             username: req.query.username
-        }, function(err, user_profile) {
+        }).populate('invitedBy').exec(function(err, user_profile) {
             if (err || !user_profile) {
                 return res.json({
                     ok: false,

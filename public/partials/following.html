@@ -7,7 +7,7 @@
       <nav>
         <ul>
           <li><a ng-href="/@{% ui.profile.username %}/faves">Faves</a></li>
-          <li><a ng-href="/@{% ui.profile.username %}/following">Following</a></li>
+          <li>Following</li>
           <li><a ng-href="/@{% ui.profile.username %}/followers">Followers</a></li>
         </ul>
       </nav>
@@ -19,11 +19,8 @@
             Follows you
           </span>
       </div>
-      
-    <ul class="people_list">
-        <li ng-repeat="user in ui.people">
-            <a ng-href="/@{% user.username %}">{% user.displayName %}</a>
-        </li>
-    </ul>
+
+      <div ng-include="'/partials/people_list.html'"></div>
+
 
 </div>
