@@ -424,6 +424,7 @@ ul.posts {
 
     .content {
         margin-left: 70px;
+
     }
 
     .text {
@@ -570,6 +571,13 @@ ul.replies {
 
         .content {
             margin-left: 70px;
+
+            li {
+                padding: 0;
+                border: none;
+                margin-bottom: 0.5rem;
+            }
+
         }
     }
 }

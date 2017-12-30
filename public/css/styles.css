@@ -367,6 +367,10 @@ ul.replies {
     border-bottom: 1px solid #CCC; }
     ul.replies li .content {
       margin-left: 70px; }
+      ul.replies li .content li {
+        padding: 0;
+        border: none;
+        margin-bottom: 0.5rem; }
 
 h1 {
   /* used at top of profile page */ }
