@@ -845,6 +845,13 @@ webserver.post('/actions/editprofile', function(req, res) {
               req.user_profile.settings.nightmode = false;
             }
 
+            if (req.body.darknightmode) {
+              req.user_profile.settings.darknightmode = true;
+            } else {
+              req.user_profile.settings.darknightmode = false;
+            }
+
+
             req.user_profile.markModified('settings');
 
             req.user_profile.save();

@@ -45,6 +45,40 @@ body {
   .nightmode nav ul li.active {
     border-bottom: 2px solid #00aeef; }
 
+.darknightmode {
+  background: #06080b;
+  color: #FFF; }
+  .darknightmode a.button,
+  .darknightmode button {
+    color: #FFF;
+    background-color: #1E74A0; }
+  .darknightmode #header,
+  .darknightmode .dialog,
+  .darknightmode .loading,
+  .darknightmode .panel,
+  .darknightmode .post.detail_view,
+  .darknightmode .post_form,
+  .darknightmode .sidebar,
+  .darknightmode ul.notifications,
+  .darknightmode ul.posts {
+    background-color: #181F2C; }
+  .darknightmode .post.detail_view {
+    border: 1px solid #111; }
+  .darknightmode ul.posts li {
+    border-top-color: #111; }
+  .darknightmode ul.notifications li {
+    border-top-color: #111; }
+  .darknightmode ul.replies {
+    background-color: #181F2C; }
+    .darknightmode ul.replies li {
+      border-bottom: 1px solid #111; }
+  .darknightmode .attached_link .summary a {
+    color: #FDE311; }
+  .darknightmode a {
+    color: #FDE311; }
+  .darknightmode nav ul li.active {
+    border-bottom: 2px solid #FDE311; }
+
 img {
   max-width: 100%; }
 
@@ -238,10 +272,12 @@ ul.posts {
   padding: 0;
   background: #FFF;
   overflow: hidden; }
-  ul.posts li:after {
-    content: "";
-    display: table;
-    clear: both; }
+  ul.posts li {
+    margin-bottom: 1rem; }
+    ul.posts li:after {
+      content: "";
+      display: table;
+      clear: both; }
 
 .post {
   position: relative;
@@ -692,7 +728,8 @@ footer.pagination .next {
   display: flex; }
   .copypaste button {
     flex-grow: 0;
-    flex-shrink: 0; }
+    flex-shrink: 0;
+    border-radius: 0; }
   .copypaste input {
     flex-grow: 1; }
 

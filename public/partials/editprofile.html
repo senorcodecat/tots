@@ -30,7 +30,8 @@
 
             <h2>Options</h2>
 
-            <p><label for="nightmode"><input type="checkbox" name="nightmode" value="true" ng-model="ui.user.settings.nightmode" id="nightmode"> Enable "Night Mode"</label></p>
+            <p><label for="nightmode"><input type="checkbox" name="nightmode" value="true" ng-click="ui.user.settings.darknightmode=false" ng-model="ui.user.settings.nightmode" id="nightmode"> Enable "Night Mode"</label></p>
+            <p><label for="darknightmode"><input type="checkbox" name="darknightmode" ng-click="ui.user.settings.nightmode=false" value="true" ng-model="ui.user.settings.darknightmode" id="darknightmode"> Enable "Dark Knight Mode"</label></p>
 
             <button type="submit">Save</button>
         </form>

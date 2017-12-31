@@ -5,6 +5,14 @@ $night_color: #00aeef;
 $night_background: #003471;
 $night_lines: #000;
 
+
+$darknight_light: #DFE9F9;
+$darknight_button: #1E74A0;
+$darknight_color: #FDE311;
+$darknight_background: #181F2C;
+$darknight_lines: #111;
+
+
 @mixin clearfix {
     &:after {
         content: "";
@@ -81,6 +89,64 @@ body {
 
     nav ul li.active {
         border-bottom: 2px solid $night_color;
+    }
+}
+
+.darknightmode {
+    background: darken($darknight_background, 10%);
+    color: #FFF;
+
+    a.button,
+    button {
+        color: #FFF;
+        background-color: $darknight_button;
+    }
+
+    #header,
+    .dialog,
+    .loading,
+    .panel,
+    .post.detail_view,
+    .post_form,
+    .sidebar,
+    ul.notifications,
+    ul.posts {
+        background-color: $darknight_background;
+    }
+
+    .post.detail_view {
+        border: 1px solid  $darknight_lines;
+    }
+
+    ul.posts li {
+        border-top-color:  $darknight_lines;
+    }
+
+    ul.notifications li {
+        border-top-color:  $darknight_lines;
+    }
+
+    ul.replies {
+        background-color: $darknight_background;
+
+        li {
+            border-bottom: 1px solid $darknight_lines;
+        }
+    }
+
+    .attached_link .summary a {
+        color: $darknight_color;
+    }
+
+    a {
+        color: $darknight_color;
+        // &:hover {
+        //     color: $darknight_button;
+        // }
+    }
+
+    nav ul li.active {
+        border-bottom: 2px solid $darknight_color;
     }
 }
 
@@ -383,6 +449,7 @@ ul.posts {
 
     li {
         @include clearfix;
+        margin-bottom:1rem;
     }
 }
 
@@ -825,6 +892,15 @@ footer.pagination {
     }
 }
 
+// .darknightmode {
+//     .loading {
+//         img {
+//             width: 100%;
+//             max-width: 100%;
+//         }
+//     }
+// }
+
 .overlay {
 
     display: none;
@@ -1060,6 +1136,7 @@ footer.pagination {
     button {
         flex-grow: 0;
         flex-shrink: 0;
+        border-radius: 0;
     }
     input {
         flex-grow: 1;

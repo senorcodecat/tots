@@ -29,7 +29,7 @@ module.exports = function(webserver, db) {
                     _id: uid
                 }, function(err, user) {
                     if (user) {
-                        var profile_link = '<a href="/@' + user.username + '">@' + user.displayName + '</a>';
+                        var profile_link = '<a href="/@' + user.username + '" class="username" title="View @' + user.username + ' on Tots">' + user.displayName + '</a>';
                         var pattern = new RegExp('<@' + uid + '>', 'g');
                         post.rendered_text = post.rendered_text.replace(pattern, profile_link);
                         // console.log('RENDERED MENTION', text);

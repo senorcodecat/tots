@@ -239,6 +239,10 @@ app.controller('app', ['$scope', '$http', '$location', function($scope, $http, $
             '/img/pug.gif',
         ]
 
+        // if ($scope.ui.user && $scope.ui.user.settings.darknightmode) {
+        //     gifs = ['/img/batman_logo.png']
+        // }
+
         var gif = gifs[Math.floor(Math.random() * gifs.length)];
         return gif;
 
