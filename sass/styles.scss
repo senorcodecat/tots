@@ -119,7 +119,8 @@ body {
     }
 
     ul.posts li {
-        border-top-color:  $darknight_lines;
+        border-top-color:  $darknight_light;
+        // border-top-width: 3px;
     }
 
     ul.notifications li {
