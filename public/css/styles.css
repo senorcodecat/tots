@@ -312,7 +312,8 @@ ul.posts {
     margin: 0;
     padding: 0; }
     .post .actions a {
-      text-decoration: none; }
+      text-decoration: none;
+      cursor: pointer; }
     .post .actions li {
       display: inline-block;
       margin: 0;

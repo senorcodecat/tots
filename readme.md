@@ -15,6 +15,7 @@ a cute little social network
 
 # BUGS:
 
+* need to look into client side image resizing as some large ones crash the app!
 * list item css in notifications/comments
 
 # TODO

@@ -395,6 +395,7 @@ webserver.post('/actions/post', function(req, res) {
                     debug('Got a file upload', req.files.image);
                     acceptUpload(req.files.image, req.files.image.name, req.user_profile._id, false, function(err, s3_file) {
                         if (err) {
+                            console.error('FAILED TO ACCEPT UPLOAD', err);
                             res.json({
                                 ok: false,
                                 error: err
@@ -453,6 +454,8 @@ webserver.post('/actions/comment/:post', function(req, res) {
                             console.log('posting a comment.', req.body)
                             acceptUpload(req.files.image, req.files.image.name, req.user_profile._id, false, function(err, s3_file) {
                                 if (err) {
+                                    console.error('FAILED TO ACCEPT UPLOAD', err);
+
                                     res.json({
                                         ok: false,
                                         error: err
