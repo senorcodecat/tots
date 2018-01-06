@@ -15,10 +15,13 @@ a cute little social network
 
 # BUGS:
 
-* need to look into client side image resizing as some large ones crash the app!
 * list item css in notifications/comments
 
 # TODO
+
+* fave comments
+
+* view follow/unfollow from people lists
 
 * last read marker especially in notifications
 * blocking
@@ -46,7 +49,6 @@ wss.clients.forEach(function each(client) {
 * edit comments?
 * empty state for profile
 * empty state for search
-* square crop avatar images
 * remove pics from post
 * change pics on post
 * capture / upload profile images on signup
@@ -144,3 +146,5 @@ DONE:
 * javascript upload profile image + square crop!
 * edit profile on mobile is super ugly
 * edit posts on mobile is EVEN UGLIER
+* need to look into client side image resizing as some large ones crash the app!
+* square crop avatar images
