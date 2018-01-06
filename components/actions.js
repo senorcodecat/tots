@@ -565,12 +565,12 @@ function autoRotate(file, is_avatar, cb) {
         if (is_avatar) {
             gm(file).autoOrient().resize('100', '100', '^')
              .gravity('Center')
-             .crop('100', '100')
+             .crop('100', '100').quality(85)
              .write(file, function (err) {
                  cb(err, file);
              });
         } else {
-            gm(file).autoOrient().resize(1000).write(file, function (err) {
+            gm(file).autoOrient().resize(1000)..quality(85).write(file, function (err) {
                 cb(err, file);
              });
          }
