@@ -1291,7 +1291,7 @@ app.controller('postForm', ['$scope', '$http', 'Upload', function($scope, $http,
                     console.log('SUCCESSFULLY UPLOADED', response);
                     if (response.data.ok) {
                         // reset form
-                        $scope.tot.text = null;
+                        $scope.tot.text = '';
                         $scope.tot.file = null;
 
                         var post = response.data.data;
@@ -1315,7 +1315,7 @@ app.controller('postForm', ['$scope', '$http', 'Upload', function($scope, $http,
                     console.log('SUCCESSFULLY UPLOADED', response);
                     if (response.data.ok) {
                         // reset form
-                        $scope.tot.text = null;
+                        $scope.tot.text = '';
                         $scope.tot.file = null;
 
                         var post = response.data.data;
