@@ -99,7 +99,7 @@
                 <div class="actions" ng-if="!ui.working">
                     <div class="upload-btn-wrapper" ng-show="!ui.comment.file">
                       <label for="file" class="attachment">📷</label>
-                      <input id="file" style="display: none;" ng-model="ui.comment.file" ngf-select type="file" accept="image/*" name="file" />
+                      <input id="file" style="display: none;" ng-model="ui.comment.file" ngf-select ngf-fix-orientation="true" ngf-resize="{width: 1000}" ngf-resize-if="$width > 1000" type="file" accept="image/*" name="file" />
                     </div>
 
                     <label for="post_to_feed"><input type="checkbox" ng-model="ui.comment.post_to_feed" id="post_to_feed"> Also post to feed</label>

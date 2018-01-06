@@ -33,7 +33,7 @@
     <div class="actions" ng-if="ui.focused && !ui.working">
         <div class="upload-btn-wrapper" ng-show="!tot.file">
           <label for="file" class="attachment">📷</label>
-          <input id="file" style="display: none;" ng-model="tot.file" ngf-select type="file" accept="image/*" name="file" />
+          <input id="file" style="display: none;" ng-model="tot.file" ngf-select ngf-fix-orientation="true" ngf-resize="{width: 1000}" ngf-resize-if="$width > 1000" type="file" accept="image/*" name="file" />
         </div>
         <button type="submit" name="live" value="true" ng-click="tot.live = true" ng-disabled="!tot.text.length">Post & Go Live</button>
         <button type="submit" ng-disabled="!tot.text.length">Post</button>
