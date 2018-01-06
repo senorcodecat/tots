@@ -14,6 +14,8 @@ var client = s3.createClient({
 });
 var request = require('request');
 
+var gm = require('gm');
+
 module.exports = function(webserver, db, botkit) {
 
     function updateFaveCount(post) {
@@ -557,6 +559,29 @@ function autoResize(file, is_avatar) {
 }
 
 function autoRotate(file, is_avatar, cb) {
+
+    if (file.match(/\.jpg$/i) || file.match(/\.jpeg$/i)) {
+
+        if (is_avatar) {
+            gm(file).autoOrient().resize('100', '100', '^')
+             .gravity('Center')
+             .crop('100', '100')
+             .write(file, function (err) {
+                 cb(err, file);
+             });
+        } else {
+            gm(file).autoOrient().resize(1000).write(file, function (err) {
+                cb(err, file);
+             });
+         }
+
+    } else {
+        cb(null, file);
+    }
+
+}
+
+function autoRotateold(file, is_avatar, cb) {
 
     if (file.match(/\.jpg$/i) || file.match(/\.jpeg$/i)) {
         var options = {

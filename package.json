@@ -24,6 +24,7 @@
     "express-fileupload": "^0.3.0",
     "express-hbs": "^1.0.4",
     "express-session": "^1.15.6",
+    "gm": "^1.23.1",
     "handlebars-dateformat": "^1.1.1",
     "hbs": "^4.0.1",
     "jimp": "^0.2.28",

@@ -830,6 +830,9 @@ app.controller('detail', ['$scope', '$routeParams', '$http', 'Upload', function(
             $scope.ui.working = true;
 
             if ($scope.ui.comment.file) {
+
+
+
                 $scope.ui.comment.file.upload = Upload.upload({
                     url: '/actions/comment/' + $scope.ui.comment.post,
                     data: {
@@ -1250,6 +1253,21 @@ app.controller('postForm', ['$scope', '$http', 'Upload', function($scope, $http,
     $scope.tot = {
         text: '',
     }
+
+
+    $scope.upload = function(opts) {
+        return new Promise(function(resolve, reject) {
+
+                Upload.resize(opts.data.image, {width:1000}).then(function(file) {
+                        console.log('SUCCESSFULLY RESIZED!');
+
+                        opts.data.image = file;
+                        Upload.upload(opts).then(resolve).catch(reject);
+                }).catch(reject);
+
+        });
+    }
+
     $scope.submit = function(file) {
 
         if (!$scope.tot.text) {
