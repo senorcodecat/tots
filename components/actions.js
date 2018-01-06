@@ -570,7 +570,7 @@ function autoRotate(file, is_avatar, cb) {
                  cb(err, file);
              });
         } else {
-            gm(file).autoOrient().resize(1000)..quality(85).write(file, function (err) {
+            gm(file).autoOrient().resize(1000).quality(85).write(file, function (err) {
                 cb(err, file);
              });
          }
