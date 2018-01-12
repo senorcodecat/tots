@@ -762,4 +762,11 @@ footer.pagination .next {
 .url {
   overflow-wrap: break-word; }
 
+.totmoji {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  position: relative;
+  top: 5px; }
+
 /*# sourceMappingURL=styles.css.map */

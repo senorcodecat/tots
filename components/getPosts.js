@@ -35,7 +35,6 @@ module.exports = function(webserver, db) {
                         // console.log('RENDERED MENTION', text);
 
                         var username_only = '@' + user.username;
-                        pattern = new RegExp('<@' + uid + '>', 'g');
 
                         post.editable_text = post.editable_text.replace(pattern, username_only);
 

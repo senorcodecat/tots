@@ -146,6 +146,8 @@ app.filter('renderPostText', ['$sce', function($sce) {
 
             text = text.replace(/#(\w+)/img, '<a href="/search?query=%23$1">#$1</a>');
 
+            text = text.replace(/\:tot\:/img, '<img src="/mojis/tot.png" class="totmoji" alt="tot">');
+
             // ban some words from appearing
             text = text.replace(/(fuck|bitch|nigger)/ig, '████');
 
